@@ -11,22 +11,27 @@ import {demoScenario,demoHistory} from './demo.js';
 import {mapProviderEvents} from './adapter.js';
 import {sessionAuth,verifyPassword,validHash,hashPassword} from './auth.js';
 const root=fileURLToPath(new URL('../public/',import.meta.url));
-export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=process.env.ADMIN_TOKEN,passwordHash=process.env.APP_PASSWORD_HASH,password=process.env.APP_PASSWORD,username=process.env.APP_USERNAME||'admin',production=process.env.NODE_ENV==='production'}={}) {
+export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=process.env.ADMIN_TOKEN,passwordHash=process.env.APP_PASSWORD_HASH,password=process.env.APP_PASSWORD,username=process.env.APP_USERNAME||'admin',production=process.env.NODE_ENV==='production',basePath=''}={}) {
+ if(!/^(?:\/[a-zA-Z0-9_-]+)*$/.test(basePath))throw new Error('Invalid base path');
+ const renderFile=async name=>{let data=await readFile(resolve(root,name));if(name.endsWith('.html'))data=Buffer.from(data.toString().replace('<html ',`<html data-base="${basePath}" `).replace(/(href|src)="\//g,`$1="${basePath}/`));return data;};
  if(production&&(!adminToken||adminToken.length<24))throw new Error('Production ADMIN_TOKEN must be at least 24 characters');
  if(!passwordHash&&password){if(typeof password!=='string'||password.length<24||password.length>1024)throw new Error('APP_PASSWORD must contain 24–1024 characters');passwordHash=hashPassword(password);}
  if(production&&!validHash(passwordHash))throw new Error('Production APP_PASSWORD_HASH must be a valid scrypt hash');
  const store=openStore(dataDir);if(!store.scenarios().length)store.saveScenario(demoScenario());let busy=false;
- const counters=new Map(),loginAttempts=new Map(),auth=sessionAuth(store.db,passwordHash,production);
+ const counters=new Map(),loginAttempts=new Map(),auth=sessionAuth(store.db,passwordHash,production,basePath);
  const work=(data)=>new Promise((resolve,reject)=>{if(busy){const e=new Error('A calculation is running. Try again shortly.');e.status=429;reject(e);return;}busy=true;const w=new Worker(new URL('./worker.js',import.meta.url),{workerData:data});const timer=setTimeout(()=>{w.terminate();},60000);w.once('message',m=>m.error?reject(Object.assign(new Error(m.error),{status:400})):resolve(m.result));w.once('error',reject);w.once('exit',code=>{clearTimeout(timer);busy=false;if(code)reject(new Error('Calculation interrupted'));});});
  const send=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const server=http.createServer(async(req,res)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'");
  try {
-  const url=new URL(req.url,'http://localhost'),path=url.pathname;
+  const url=new URL(req.url,'http://localhost');
+  if(basePath&&url.pathname===basePath){res.writeHead(308,{Location:basePath+'/'});res.end();return;}
+  if(basePath&&!url.pathname.startsWith(basePath+'/')){send(res,404,{error:'Not found'});return;}
+  const path=url.pathname.slice(basePath.length)||'/';
   if(production)res.setHeader('Strict-Transport-Security','max-age=31536000');
   const loggedIn=auth.get(req);
   const publicFiles={'/login':'login.html','/login.js':'login.js','/style.css':'style.css'};
-  if(req.method==='GET'&&publicFiles[path]){const data=await readFile(resolve(root,publicFiles[path]));res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html','Cache-Control':'no-store'});res.end(data);return;}
-  if(req.method==='GET'&&passwordHash&&!loggedIn&&path!=='/api/health'){if(path.startsWith('/api/'))send(res,401,{error:'Sign in required'});else{res.writeHead(302,{Location:'/login','Cache-Control':'no-store'});res.end();}return;}
+  if(req.method==='GET'&&publicFiles[path]){const data=await renderFile(publicFiles[path]);res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html','Cache-Control':'no-store'});res.end(data);return;}
+  if(req.method==='GET'&&passwordHash&&!loggedIn&&path!=='/api/health'){if(path.startsWith('/api/'))send(res,401,{error:'Sign in required'});else{res.writeHead(302,{Location:basePath+'/login','Cache-Control':'no-store'});res.end();}return;}
   if(req.method==='POST'){
    if(req.headers.origin&&new URL(req.headers.origin).host!==req.headers.host){send(res,403,{error:'Cross-origin writes rejected'});return;}
    const ip=req.socket.remoteAddress,now=Date.now();let rate=counters.get(ip);if(!rate||now-rate.at>60000){rate={at:now,n:0};counters.set(ip,rate);}if(++rate.n>30){send(res,429,{error:'Rate limit: 30 writes per minute'});return;}if(counters.size>10000)counters.clear();
@@ -49,7 +54,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
    if(path==='/api/backtest'){send(res,200,store.latestReport());return;}
    const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css'};
-   if(files[path]){const data=await readFile(resolve(root,files[path]));res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html'});res.end(data);return;}
+   if(files[path]){const data=await renderFile(files[path]);res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html'});res.end(data);return;}
   }
   send(res,404,{error:'Not found'});
  }catch(e){send(res,e.status||500,{error:e.status?e.message:'Operation failed. Check server configuration or imported data.'});if(!e.status)console.error('Request failed',e.name);}
