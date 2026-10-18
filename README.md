@@ -23,7 +23,7 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 - Private username/password sign-in, salted scrypt password verification, opaque server-side sessions, 12-hour expiry, HttpOnly/SameSite cookies and Secure cookies in production. Production fails closed without secrets.
 - Authenticated scenario, odds and mapping imports; atomic and idempotent quote persistence; precise decimal prices, UTC timestamps displayed in Australia/Sydney, stale quote and input flags.
 - Moneyline, spread, total, points, rebounds, assists and PRA normalization; explicit reviewed provider mappings, unmatched-event quarantine, pregame/full-game/overtime restrictions, DNP void and push handling, model fair prices, synchronized two-sided no-vig probabilities and EV.
-- Disabled-by-default documented aggregator adapter for Sportsbet **game markets**, with contract approval/key gates. NBA prop mapping code accepts provider-shaped data, but actual Sportsbet NBA prop access is unverified.
+- Disabled-by-default documented aggregator adapter for Sportsbet **game markets**, with contract approval/key gates. NBA prop mapping' code accepts provider-shaped data, but actual Sportsbet NBA prop access is unverified.
 - Walk-forward calibration/evaluation of frozen pregame forecast records: expanding prior-settled calibration set, 24-hour embargo, regularized logistic calibration, Brier/log loss/accuracy, expanding home-win baseline, reliability bins, monthly folds, score/margin MAE and day-cluster bootstrap interval.
 - Render Blueprint, persistent disk, health check, GitHub Actions CI, secret placeholders, tests and deployment/runbook documentation.
 
@@ -43,4 +43,3 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 - [Validation protocol](docs/VALIDATION.md)
 
 All durable runtime data stays on the server disk, outside Git. Only source, schemas/example fixtures and deployment configuration belong in the repository.
-

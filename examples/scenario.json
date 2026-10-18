@@ -1,0 +1,209 @@
+{
+  "id": "demo:celtics-knicks",
+  "source": "synthetic fixture; not current NBA rosters",
+  "demo": true,
+  "asOf": "2026-10-13T10:00:00Z",
+  "start": "2026-10-22T23:30:00Z",
+  "teams": [
+    {
+      "id": "demo:BOS",
+      "name": "Boston Celtics",
+      "pace": 99,
+      "offense": 119,
+      "defense": 111,
+      "restDays": 2,
+      "players": [
+        {
+          "id": "demo:demo:BOS:0",
+          "name": "Boston • Guard 1",
+          "minutes": 36,
+          "availability": 1,
+          "impact": 5,
+          "points": 0.82,
+          "rebounds": 0.2,
+          "assists": 0.2
+        },
+        {
+          "id": "demo:demo:BOS:1",
+          "name": "Boston • Wing 1",
+          "minutes": 34,
+          "availability": 1,
+          "impact": 3,
+          "points": 0.64,
+          "rebounds": 0.13,
+          "assists": 0.17
+        },
+        {
+          "id": "demo:demo:BOS:2",
+          "name": "Boston • Forward 1",
+          "minutes": 32,
+          "availability": 1,
+          "impact": 2,
+          "points": 0.5,
+          "rebounds": 0.25,
+          "assists": 0.1
+        },
+        {
+          "id": "demo:demo:BOS:3",
+          "name": "Boston • Guard 2",
+          "minutes": 30,
+          "availability": 1,
+          "impact": 1,
+          "points": 0.45,
+          "rebounds": 0.16,
+          "assists": 0.1
+        },
+        {
+          "id": "demo:demo:BOS:4",
+          "name": "Boston • Centre",
+          "minutes": 28,
+          "availability": 1,
+          "impact": 0,
+          "points": 0.4,
+          "rebounds": 0.23,
+          "assists": 0.07
+        },
+        {
+          "id": "demo:demo:BOS:5",
+          "name": "Boston • Reserve 1",
+          "minutes": 26,
+          "availability": 1,
+          "impact": 0,
+          "points": 0.35,
+          "rebounds": 0.1,
+          "assists": 0.11
+        },
+        {
+          "id": "demo:demo:BOS:6",
+          "name": "Boston • Reserve 2",
+          "minutes": 24,
+          "availability": 1,
+          "impact": -1,
+          "points": 0.3,
+          "rebounds": 0.15,
+          "assists": 0.09
+        },
+        {
+          "id": "demo:demo:BOS:7",
+          "name": "Boston • Reserve 3",
+          "minutes": 18,
+          "availability": 1,
+          "impact": -1,
+          "points": 0.25,
+          "rebounds": 0.1,
+          "assists": 0.06
+        },
+        {
+          "id": "demo:demo:BOS:8",
+          "name": "Boston • Reserve 4",
+          "minutes": 12,
+          "availability": 1,
+          "impact": -2,
+          "points": 0.2,
+          "rebounds": 0.1,
+          "assists": 0.04
+        }
+      ]
+    },
+    {
+      "id": "demo:NYK",
+      "name": "New York Knicks",
+      "pace": 99,
+      "offense": 116,
+      "defense": 113,
+      "restDays": 2,
+      "players": [
+        {
+          "id": "demo:demo:NYK:0",
+          "name": "New York • Guard 1",
+          "minutes": 36,
+          "availability": 1,
+          "impact": 5,
+          "points": 0.82,
+          "rebounds": 0.2,
+          "assists": 0.2
+        },
+        {
+          "id": "demo:demo:NYK:1",
+          "name": "New York • Wing 1",
+          "minutes": 34,
+          "availability": 1,
+          "impact": 3,
+          "points": 0.64,
+          "rebounds": 0.13,
+          "assists": 0.17
+        },
+        {
+          "id": "demo:demo:NYK:2",
+          "name": "New York • Forward 1",
+          "minutes": 32,
+          "availability": 1,
+          "impact": 2,
+          "points": 0.5,
+          "rebounds": 0.25,
+          "assists": 0.1
+        },
+        {
+          "id": "demo:demo:NYK:3",
+          "name": "New York • Guard 2",
+          "minutes": 30,
+          "availability": 1,
+          "impact": 1,
+          "points": 0.45,
+          "rebounds": 0.16,
+          "assists": 0.1
+        },
+        {
+          "id": "demo:demo:NYK:4",
+          "name": "New York • Centre",
+          "minutes": 28,
+          "availability": 1,
+          "impact": 0,
+          "points": 0.4,
+          "rebounds": 0.23,
+          "assists": 0.07
+        },
+        {
+          "id": "demo:demo:NYK:5",
+          "name": "New York • Reserve 1",
+          "minutes": 26,
+          "availability": 1,
+          "impact": 0,
+          "points": 0.35,
+          "rebounds": 0.1,
+          "assists": 0.11
+        },
+        {
+          "id": "demo:demo:NYK:6",
+          "name": "New York • Reserve 2",
+          "minutes": 24,
+          "availability": 1,
+          "impact": -1,
+          "points": 0.3,
+          "rebounds": 0.15,
+          "assists": 0.09
+        },
+        {
+          "id": "demo:demo:NYK:7",
+          "name": "New York • Reserve 3",
+          "minutes": 18,
+          "availability": 1,
+          "impact": -1,
+          "points": 0.25,
+          "rebounds": 0.1,
+          "assists": 0.06
+        },
+        {
+          "id": "demo:demo:NYK:8",
+          "name": "New York • Reserve 4",
+          "minutes": 12,
+          "availability": 1,
+          "impact": -2,
+          "points": 0.2,
+          "rebounds": 0.1,
+          "assists": 0.04
+        }
+      ]
+    }
+  ]
+}

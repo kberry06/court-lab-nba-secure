@@ -1,0 +1,1323 @@
+{
+  "createdAt": "2026-10-13T12:26:59.163Z",
+  "kind": "frozen-prediction walk-forward calibration audit",
+  "synthetic": true,
+  "count": 149,
+  "skipped": 31,
+  "embargoHours": 24,
+  "raw": {
+    "brier": 0.19584423638434093,
+    "logLoss": 0.5771629912725423,
+    "accuracy": 0.7114093959731543
+  },
+  "calibrated": {
+    "brier": 0.2004868494149584,
+    "logLoss": 0.5871351627099484,
+    "accuracy": 0.6912751677852349
+  },
+  "baseline": {
+    "brier": 0.2518399893110684,
+    "logLoss": 0.6969192751399154,
+    "accuracy": 0.5436241610738255
+  },
+  "brier95": [
+    0.17591005340457475,
+    0.22169097652451705
+  ],
+  "teamMAE": 7.868426305775675,
+  "marginMAE": 9.499219326404917,
+  "bins": [
+    {
+      "lower": 0,
+      "count": 0,
+      "predicted": null,
+      "observed": null
+    },
+    {
+      "lower": 0.1,
+      "count": 0,
+      "predicted": null,
+      "observed": null
+    },
+    {
+      "lower": 0.2,
+      "count": 7,
+      "predicted": 0.26200673309617123,
+      "observed": 0
+    },
+    {
+      "lower": 0.3,
+      "count": 25,
+      "predicted": 0.34671510937985794,
+      "observed": 0.28
+    },
+    {
+      "lower": 0.4,
+      "count": 28,
+      "predicted": 0.45314416298489374,
+      "observed": 0.42857142857142855
+    },
+    {
+      "lower": 0.5,
+      "count": 24,
+      "predicted": 0.5519040138758834,
+      "observed": 0.5416666666666666
+    },
+    {
+      "lower": 0.6,
+      "count": 22,
+      "predicted": 0.6560134012989094,
+      "observed": 0.7272727272727273
+    },
+    {
+      "lower": 0.7,
+      "count": 35,
+      "predicted": 0.7531713333250986,
+      "observed": 0.7428571428571429
+    },
+    {
+      "lower": 0.8,
+      "count": 8,
+      "predicted": 0.8247300399802973,
+      "observed": 0.875
+    },
+    {
+      "lower": 0.9,
+      "count": 0,
+      "predicted": null,
+      "observed": null
+    }
+  ],
+  "folds": [
+    {
+      "month": "2025-02",
+      "count": 28,
+      "brier": 0.2397397037830031,
+      "logLoss": 0.6731415008799548,
+      "accuracy": 0.6071428571428571
+    },
+    {
+      "month": "2025-03",
+      "count": 31,
+      "brier": 0.21098354615541692,
+      "logLoss": 0.6098630141325618,
+      "accuracy": 0.6129032258064516
+    },
+    {
+      "month": "2025-04",
+      "count": 30,
+      "brier": 0.1925835533275987,
+      "logLoss": 0.5696506402887945,
+      "accuracy": 0.7
+    },
+    {
+      "month": "2025-05",
+      "count": 31,
+      "brier": 0.1851792725604839,
+      "logLoss": 0.5578047657797452,
+      "accuracy": 0.7741935483870968
+    },
+    {
+      "month": "2025-06",
+      "count": 29,
+      "brier": 0.17590603023737358,
+      "logLoss": 0.5292398907999403,
+      "accuracy": 0.7586206896551724
+    }
+  ],
+  "predictions": [
+    {
+      "eventId": "synthetic:31",
+      "raw": 0.3996924077160656,
+      "calibrated": 0.5581738602971195,
+      "y": 0,
+      "trainCount": 30,
+      "calibrationCutoff": "2025-01-30T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:32",
+      "raw": 0.6478249293752014,
+      "calibrated": 0.6926524072382432,
+      "y": 1,
+      "trainCount": 31,
+      "calibrationCutoff": "2025-01-31T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:33",
+      "raw": 0.4449140207376331,
+      "calibrated": 0.5728108972363339,
+      "y": 0,
+      "trainCount": 32,
+      "calibrationCutoff": "2025-02-01T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:34",
+      "raw": 0.4941877166274935,
+      "calibrated": 0.6098931921757752,
+      "y": 0,
+      "trainCount": 33,
+      "calibrationCutoff": "2025-02-02T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:35",
+      "raw": 0.6972880879882724,
+      "calibrated": 0.7168903887382213,
+      "y": 1,
+      "trainCount": 34,
+      "calibrationCutoff": "2025-02-03T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:36",
+      "raw": 0.7365005879197271,
+      "calibrated": 0.727117307002525,
+      "y": 1,
+      "trainCount": 35,
+      "calibrationCutoff": "2025-02-04T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:37",
+      "raw": 0.21887835627421737,
+      "calibrated": 0.37507279982392444,
+      "y": 0,
+      "trainCount": 36,
+      "calibrationCutoff": "2025-02-05T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:38",
+      "raw": 0.39853543825447557,
+      "calibrated": 0.5221332996122071,
+      "y": 0,
+      "trainCount": 37,
+      "calibrationCutoff": "2025-02-06T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:39",
+      "raw": 0.22047779285348953,
+      "calibrated": 0.3400679669286915,
+      "y": 0,
+      "trainCount": 38,
+      "calibrationCutoff": "2025-02-07T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:40",
+      "raw": 0.46215919670648875,
+      "calibrated": 0.546256358225426,
+      "y": 1,
+      "trainCount": 39,
+      "calibrationCutoff": "2025-02-08T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:41",
+      "raw": 0.6849163266830146,
+      "calibrated": 0.7279933941631352,
+      "y": 0,
+      "trainCount": 40,
+      "calibrationCutoff": "2025-02-09T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:42",
+      "raw": 0.3291066031903028,
+      "calibrated": 0.4239064142174433,
+      "y": 0,
+      "trainCount": 41,
+      "calibrationCutoff": "2025-02-10T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:43",
+      "raw": 0.38367302822880445,
+      "calibrated": 0.46837092107139255,
+      "y": 0,
+      "trainCount": 42,
+      "calibrationCutoff": "2025-02-11T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:44",
+      "raw": 0.4741429358255118,
+      "calibrated": 0.5324094619112305,
+      "y": 1,
+      "trainCount": 43,
+      "calibrationCutoff": "2025-02-12T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:45",
+      "raw": 0.699466046039015,
+      "calibrated": 0.7122320921209723,
+      "y": 0,
+      "trainCount": 44,
+      "calibrationCutoff": "2025-02-13T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:46",
+      "raw": 0.3223259691614658,
+      "calibrated": 0.39612057188779626,
+      "y": 0,
+      "trainCount": 45,
+      "calibrationCutoff": "2025-02-14T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:47",
+      "raw": 0.5468467608094215,
+      "calibrated": 0.5728393590895805,
+      "y": 1,
+      "trainCount": 46,
+      "calibrationCutoff": "2025-02-15T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:48",
+      "raw": 0.7116488489322363,
+      "calibrated": 0.6998954450545648,
+      "y": 1,
+      "trainCount": 47,
+      "calibrationCutoff": "2025-02-16T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:49",
+      "raw": 0.6538963528349995,
+      "calibrated": 0.663718602739593,
+      "y": 0,
+      "trainCount": 48,
+      "calibrationCutoff": "2025-02-17T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:50",
+      "raw": 0.4170018468983472,
+      "calibrated": 0.47329171630418926,
+      "y": 1,
+      "trainCount": 49,
+      "calibrationCutoff": "2025-02-18T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:51",
+      "raw": 0.5091451204381883,
+      "calibrated": 0.5383739631584941,
+      "y": 1,
+      "trainCount": 50,
+      "calibrationCutoff": "2025-02-19T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:52",
+      "raw": 0.24540872015058995,
+      "calibrated": 0.3282940452024134,
+      "y": 0,
+      "trainCount": 51,
+      "calibrationCutoff": "2025-02-20T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:53",
+      "raw": 0.7901778705883771,
+      "calibrated": 0.7769246430035529,
+      "y": 1,
+      "trainCount": 52,
+      "calibrationCutoff": "2025-02-21T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:54",
+      "raw": 0.5203726829495281,
+      "calibrated": 0.5610548672359228,
+      "y": 1,
+      "trainCount": 53,
+      "calibrationCutoff": "2025-02-22T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:55",
+      "raw": 0.5467346306424588,
+      "calibrated": 0.5887155593137934,
+      "y": 0,
+      "trainCount": 54,
+      "calibrationCutoff": "2025-02-23T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:56",
+      "raw": 0.5022657195106148,
+      "calibrated": 0.5584098555619893,
+      "y": 0,
+      "trainCount": 55,
+      "calibrationCutoff": "2025-02-24T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:57",
+      "raw": 0.7198014532681554,
+      "calibrated": 0.7306453070726312,
+      "y": 0,
+      "trainCount": 56,
+      "calibrationCutoff": "2025-02-25T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:58",
+      "raw": 0.34433585684746504,
+      "calibrated": 0.39907056326471874,
+      "y": 0,
+      "trainCount": 57,
+      "calibrationCutoff": "2025-02-26T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:59",
+      "raw": 0.48258669339120386,
+      "calibrated": 0.5094425060052771,
+      "y": 0,
+      "trainCount": 58,
+      "calibrationCutoff": "2025-02-27T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:60",
+      "raw": 0.715566829033196,
+      "calibrated": 0.6925359468034594,
+      "y": 1,
+      "trainCount": 59,
+      "calibrationCutoff": "2025-02-28T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:61",
+      "raw": 0.4775766686536372,
+      "calibrated": 0.4904298968320219,
+      "y": 1,
+      "trainCount": 60,
+      "calibrationCutoff": "2025-03-01T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:62",
+      "raw": 0.6626561985351145,
+      "calibrated": 0.651299724647663,
+      "y": 1,
+      "trainCount": 61,
+      "calibrationCutoff": "2025-03-02T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:63",
+      "raw": 0.2972664859611541,
+      "calibrated": 0.34591003032622486,
+      "y": 0,
+      "trainCount": 62,
+      "calibrationCutoff": "2025-03-03T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:64",
+      "raw": 0.7987851329613478,
+      "calibrated": 0.7868008917988925,
+      "y": 1,
+      "trainCount": 63,
+      "calibrationCutoff": "2025-03-04T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:65",
+      "raw": 0.35851555736735463,
+      "calibrated": 0.3931104335936031,
+      "y": 1,
+      "trainCount": 64,
+      "calibrationCutoff": "2025-03-05T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:66",
+      "raw": 0.7705652894917876,
+      "calibrated": 0.7733573953895225,
+      "y": 1,
+      "trainCount": 65,
+      "calibrationCutoff": "2025-03-06T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:67",
+      "raw": 0.7019681852310895,
+      "calibrated": 0.7118039284036529,
+      "y": 0,
+      "trainCount": 66,
+      "calibrationCutoff": "2025-03-07T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:68",
+      "raw": 0.6484374130610376,
+      "calibrated": 0.6718451252399674,
+      "y": 1,
+      "trainCount": 67,
+      "calibrationCutoff": "2025-03-08T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:69",
+      "raw": 0.6707198514603079,
+      "calibrated": 0.6730378621091582,
+      "y": 1,
+      "trainCount": 68,
+      "calibrationCutoff": "2025-03-09T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:70",
+      "raw": 0.2751553746405989,
+      "calibrated": 0.3252931130990243,
+      "y": 1,
+      "trainCount": 69,
+      "calibrationCutoff": "2025-03-10T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:71",
+      "raw": 0.2369716734159738,
+      "calibrated": 0.28594367844259744,
+      "y": 0,
+      "trainCount": 70,
+      "calibrationCutoff": "2025-03-11T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:72",
+      "raw": 0.4088408807758242,
+      "calibrated": 0.4674610260906695,
+      "y": 1,
+      "trainCount": 71,
+      "calibrationCutoff": "2025-03-12T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:73",
+      "raw": 0.28376054363325237,
+      "calibrated": 0.3435856804403687,
+      "y": 1,
+      "trainCount": 72,
+      "calibrationCutoff": "2025-03-13T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:74",
+      "raw": 0.6270626712124795,
+      "calibrated": 0.6554268462545012,
+      "y": 1,
+      "trainCount": 73,
+      "calibrationCutoff": "2025-03-14T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:75",
+      "raw": 0.3472676107659936,
+      "calibrated": 0.42891490797524456,
+      "y": 0,
+      "trainCount": 74,
+      "calibrationCutoff": "2025-03-15T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:76",
+      "raw": 0.2604038038291037,
+      "calibrated": 0.3493518431727773,
+      "y": 1,
+      "trainCount": 75,
+      "calibrationCutoff": "2025-03-16T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:77",
+      "raw": 0.7465633677784353,
+      "calibrated": 0.7585301346779689,
+      "y": 1,
+      "trainCount": 76,
+      "calibrationCutoff": "2025-03-17T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:78",
+      "raw": 0.21156925330869855,
+      "calibrated": 0.3110093757567325,
+      "y": 1,
+      "trainCount": 77,
+      "calibrationCutoff": "2025-03-18T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:79",
+      "raw": 0.5132567331194877,
+      "calibrated": 0.5771442709166834,
+      "y": 1,
+      "trainCount": 78,
+      "calibrationCutoff": "2025-03-19T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:80",
+      "raw": 0.28806617655791344,
+      "calibrated": 0.4052699747804888,
+      "y": 0,
+      "trainCount": 79,
+      "calibrationCutoff": "2025-03-20T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:81",
+      "raw": 0.4640560125932097,
+      "calibrated": 0.5519874836405996,
+      "y": 0,
+      "trainCount": 80,
+      "calibrationCutoff": "2025-03-21T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:82",
+      "raw": 0.6987517884466796,
+      "calibrated": 0.7229474894473982,
+      "y": 1,
+      "trainCount": 81,
+      "calibrationCutoff": "2025-03-22T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:83",
+      "raw": 0.7903099311050028,
+      "calibrated": 0.7888825964863486,
+      "y": 1,
+      "trainCount": 82,
+      "calibrationCutoff": "2025-03-23T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:84",
+      "raw": 0.2296143201645464,
+      "calibrated": 0.3340296093714771,
+      "y": 0,
+      "trainCount": 83,
+      "calibrationCutoff": "2025-03-24T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:85",
+      "raw": 0.6731340661644936,
+      "calibrated": 0.7104056507324473,
+      "y": 0,
+      "trainCount": 84,
+      "calibrationCutoff": "2025-03-25T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:86",
+      "raw": 0.22819632259197534,
+      "calibrated": 0.31879637748261297,
+      "y": 0,
+      "trainCount": 85,
+      "calibrationCutoff": "2025-03-26T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:87",
+      "raw": 0.2190953953191638,
+      "calibrated": 0.31218577145075377,
+      "y": 0,
+      "trainCount": 86,
+      "calibrationCutoff": "2025-03-27T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:88",
+      "raw": 0.26454183417372407,
+      "calibrated": 0.3483447511757287,
+      "y": 0,
+      "trainCount": 87,
+      "calibrationCutoff": "2025-03-28T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:89",
+      "raw": 0.40024108975194395,
+      "calibrated": 0.46817144684064316,
+      "y": 1,
+      "trainCount": 88,
+      "calibrationCutoff": "2025-03-29T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:90",
+      "raw": 0.5132677902467548,
+      "calibrated": 0.5638632174975095,
+      "y": 1,
+      "trainCount": 89,
+      "calibrationCutoff": "2025-03-30T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:91",
+      "raw": 0.3277099054306746,
+      "calibrated": 0.40174357053781373,
+      "y": 0,
+      "trainCount": 90,
+      "calibrationCutoff": "2025-03-31T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:92",
+      "raw": 0.4369436881504953,
+      "calibrated": 0.506961924097714,
+      "y": 0,
+      "trainCount": 91,
+      "calibrationCutoff": "2025-04-01T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:93",
+      "raw": 0.5371996470727026,
+      "calibrated": 0.5912954740354147,
+      "y": 0,
+      "trainCount": 92,
+      "calibrationCutoff": "2025-04-02T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:94",
+      "raw": 0.5819177221506834,
+      "calibrated": 0.6255531091945205,
+      "y": 1,
+      "trainCount": 93,
+      "calibrationCutoff": "2025-04-03T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:95",
+      "raw": 0.6801600412931292,
+      "calibrated": 0.7035487039827525,
+      "y": 0,
+      "trainCount": 94,
+      "calibrationCutoff": "2025-04-04T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:96",
+      "raw": 0.2680421690456569,
+      "calibrated": 0.330332156676501,
+      "y": 0,
+      "trainCount": 95,
+      "calibrationCutoff": "2025-04-05T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:97",
+      "raw": 0.41874961284920575,
+      "calibrated": 0.47180201566605706,
+      "y": 0,
+      "trainCount": 96,
+      "calibrationCutoff": "2025-04-06T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:98",
+      "raw": 0.415537845948711,
+      "calibrated": 0.46422368140024656,
+      "y": 1,
+      "trainCount": 97,
+      "calibrationCutoff": "2025-04-07T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:99",
+      "raw": 0.7795198027975858,
+      "calibrated": 0.7814443620475596,
+      "y": 1,
+      "trainCount": 98,
+      "calibrationCutoff": "2025-04-08T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:100",
+      "raw": 0.590990510256961,
+      "calibrated": 0.6199285527939151,
+      "y": 1,
+      "trainCount": 99,
+      "calibrationCutoff": "2025-04-09T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:101",
+      "raw": 0.557192433392629,
+      "calibrated": 0.5939727983310892,
+      "y": 1,
+      "trainCount": 100,
+      "calibrationCutoff": "2025-04-10T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:102",
+      "raw": 0.3418753368780017,
+      "calibrated": 0.39814851416872427,
+      "y": 1,
+      "trainCount": 101,
+      "calibrationCutoff": "2025-04-11T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:103",
+      "raw": 0.25784936365671457,
+      "calibrated": 0.31554778319633964,
+      "y": 1,
+      "trainCount": 102,
+      "calibrationCutoff": "2025-04-12T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:104",
+      "raw": 0.40946058295667176,
+      "calibrated": 0.4736159588843591,
+      "y": 1,
+      "trainCount": 103,
+      "calibrationCutoff": "2025-04-13T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:105",
+      "raw": 0.6503199014812708,
+      "calibrated": 0.6863941684284838,
+      "y": 0,
+      "trainCount": 104,
+      "calibrationCutoff": "2025-04-14T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:106",
+      "raw": 0.7503126594237983,
+      "calibrated": 0.7698157582507561,
+      "y": 1,
+      "trainCount": 105,
+      "calibrationCutoff": "2025-04-15T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:107",
+      "raw": 0.7431025829166173,
+      "calibrated": 0.7532308845219942,
+      "y": 1,
+      "trainCount": 106,
+      "calibrationCutoff": "2025-04-16T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:108",
+      "raw": 0.6044991401024162,
+      "calibrated": 0.6469122398875807,
+      "y": 1,
+      "trainCount": 107,
+      "calibrationCutoff": "2025-04-17T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:109",
+      "raw": 0.24239298989996316,
+      "calibrated": 0.32666386688002547,
+      "y": 0,
+      "trainCount": 108,
+      "calibrationCutoff": "2025-04-18T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:110",
+      "raw": 0.3559172241017222,
+      "calibrated": 0.4387867120746425,
+      "y": 0,
+      "trainCount": 109,
+      "calibrationCutoff": "2025-04-19T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:111",
+      "raw": 0.7648814963642507,
+      "calibrated": 0.7875383740043175,
+      "y": 1,
+      "trainCount": 110,
+      "calibrationCutoff": "2025-04-20T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:112",
+      "raw": 0.21786490022204819,
+      "calibrated": 0.28720625185036947,
+      "y": 0,
+      "trainCount": 111,
+      "calibrationCutoff": "2025-04-21T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:113",
+      "raw": 0.7620893667917699,
+      "calibrated": 0.7896075987341302,
+      "y": 1,
+      "trainCount": 112,
+      "calibrationCutoff": "2025-04-22T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:114",
+      "raw": 0.6366008471697568,
+      "calibrated": 0.6834856254453765,
+      "y": 1,
+      "trainCount": 113,
+      "calibrationCutoff": "2025-04-23T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:115",
+      "raw": 0.6060461210552603,
+      "calibrated": 0.6598499089688457,
+      "y": 1,
+      "trainCount": 114,
+      "calibrationCutoff": "2025-04-24T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:116",
+      "raw": 0.20043207537382843,
+      "calibrated": 0.25599742814142923,
+      "y": 0,
+      "trainCount": 115,
+      "calibrationCutoff": "2025-04-25T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:117",
+      "raw": 0.5284007207490504,
+      "calibrated": 0.5956535969463552,
+      "y": 0,
+      "trainCount": 116,
+      "calibrationCutoff": "2025-04-26T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:118",
+      "raw": 0.7149630329106003,
+      "calibrated": 0.7647074060219957,
+      "y": 1,
+      "trainCount": 117,
+      "calibrationCutoff": "2025-04-27T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:119",
+      "raw": 0.45998443621210755,
+      "calibrated": 0.5224829924557778,
+      "y": 1,
+      "trainCount": 118,
+      "calibrationCutoff": "2025-04-28T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:120",
+      "raw": 0.5172389754559845,
+      "calibrated": 0.5806300914090112,
+      "y": 1,
+      "trainCount": 119,
+      "calibrationCutoff": "2025-04-29T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:121",
+      "raw": 0.4351137302350253,
+      "calibrated": 0.5032880138257831,
+      "y": 1,
+      "trainCount": 120,
+      "calibrationCutoff": "2025-04-30T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:122",
+      "raw": 0.29673924553208053,
+      "calibrated": 0.3604293011764896,
+      "y": 0,
+      "trainCount": 121,
+      "calibrationCutoff": "2025-05-01T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:123",
+      "raw": 0.5378022011369467,
+      "calibrated": 0.6113173269446897,
+      "y": 1,
+      "trainCount": 122,
+      "calibrationCutoff": "2025-05-02T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:124",
+      "raw": 0.721201407816261,
+      "calibrated": 0.7769065988394499,
+      "y": 0,
+      "trainCount": 123,
+      "calibrationCutoff": "2025-05-03T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:125",
+      "raw": 0.7509761726949364,
+      "calibrated": 0.8053974902357958,
+      "y": 1,
+      "trainCount": 124,
+      "calibrationCutoff": "2025-05-04T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:126",
+      "raw": 0.27922707102261485,
+      "calibrated": 0.3441811509790555,
+      "y": 0,
+      "trainCount": 125,
+      "calibrationCutoff": "2025-05-05T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:127",
+      "raw": 0.746344850026071,
+      "calibrated": 0.7930893996209041,
+      "y": 1,
+      "trainCount": 126,
+      "calibrationCutoff": "2025-05-06T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:128",
+      "raw": 0.42327230060473087,
+      "calibrated": 0.4909826803820489,
+      "y": 1,
+      "trainCount": 127,
+      "calibrationCutoff": "2025-05-07T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:129",
+      "raw": 0.7539706563577055,
+      "calibrated": 0.8038381813284114,
+      "y": 1,
+      "trainCount": 128,
+      "calibrationCutoff": "2025-05-08T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:130",
+      "raw": 0.24793842379003764,
+      "calibrated": 0.30616603840976064,
+      "y": 0,
+      "trainCount": 129,
+      "calibrationCutoff": "2025-05-09T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:131",
+      "raw": 0.7232743917498738,
+      "calibrated": 0.7819735262436214,
+      "y": 1,
+      "trainCount": 130,
+      "calibrationCutoff": "2025-05-10T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:132",
+      "raw": 0.6369355424307287,
+      "calibrated": 0.7051729003486095,
+      "y": 1,
+      "trainCount": 131,
+      "calibrationCutoff": "2025-05-11T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:133",
+      "raw": 0.552324196929112,
+      "calibrated": 0.6269534581031072,
+      "y": 0,
+      "trainCount": 132,
+      "calibrationCutoff": "2025-05-12T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:134",
+      "raw": 0.74443194787018,
+      "calibrated": 0.8072768606662339,
+      "y": 0,
+      "trainCount": 133,
+      "calibrationCutoff": "2025-05-13T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:135",
+      "raw": 0.314557747868821,
+      "calibrated": 0.37249148325331166,
+      "y": 0,
+      "trainCount": 134,
+      "calibrationCutoff": "2025-05-14T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:136",
+      "raw": 0.39172515003010633,
+      "calibrated": 0.4558024242321238,
+      "y": 0,
+      "trainCount": 135,
+      "calibrationCutoff": "2025-05-15T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:137",
+      "raw": 0.4213132092729211,
+      "calibrated": 0.4826486621435997,
+      "y": 0,
+      "trainCount": 136,
+      "calibrationCutoff": "2025-05-16T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:138",
+      "raw": 0.711151734739542,
+      "calibrated": 0.7607989879137294,
+      "y": 1,
+      "trainCount": 137,
+      "calibrationCutoff": "2025-05-17T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:139",
+      "raw": 0.718345433427021,
+      "calibrated": 0.7656962314422986,
+      "y": 1,
+      "trainCount": 138,
+      "calibrationCutoff": "2025-05-18T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:140",
+      "raw": 0.37985770241357386,
+      "calibrated": 0.4313936420936521,
+      "y": 0,
+      "trainCount": 139,
+      "calibrationCutoff": "2025-05-19T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:141",
+      "raw": 0.7000820010900497,
+      "calibrated": 0.7550991644436661,
+      "y": 1,
+      "trainCount": 140,
+      "calibrationCutoff": "2025-05-20T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:142",
+      "raw": 0.6770220119506121,
+      "calibrated": 0.7324580232942896,
+      "y": 1,
+      "trainCount": 141,
+      "calibrationCutoff": "2025-05-21T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:143",
+      "raw": 0.35690001579932873,
+      "calibrated": 0.4029174570040768,
+      "y": 0,
+      "trainCount": 142,
+      "calibrationCutoff": "2025-05-22T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:144",
+      "raw": 0.5853742233011872,
+      "calibrated": 0.648465301170986,
+      "y": 1,
+      "trainCount": 143,
+      "calibrationCutoff": "2025-05-23T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:145",
+      "raw": 0.3490239146631211,
+      "calibrated": 0.39046132597316174,
+      "y": 0,
+      "trainCount": 144,
+      "calibrationCutoff": "2025-05-24T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:146",
+      "raw": 0.7862527521792799,
+      "calibrated": 0.8402538257494039,
+      "y": 1,
+      "trainCount": 145,
+      "calibrationCutoff": "2025-05-25T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:147",
+      "raw": 0.6896953975781799,
+      "calibrated": 0.7517157366215157,
+      "y": 1,
+      "trainCount": 146,
+      "calibrationCutoff": "2025-05-26T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:148",
+      "raw": 0.6732237286400049,
+      "calibrated": 0.738100999657418,
+      "y": 0,
+      "trainCount": 147,
+      "calibrationCutoff": "2025-05-27T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:149",
+      "raw": 0.43586450945585964,
+      "calibrated": 0.48827218946144296,
+      "y": 1,
+      "trainCount": 148,
+      "calibrationCutoff": "2025-05-28T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:150",
+      "raw": 0.3893732606433332,
+      "calibrated": 0.4322989223777649,
+      "y": 1,
+      "trainCount": 149,
+      "calibrationCutoff": "2025-05-29T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:151",
+      "raw": 0.5842656380962581,
+      "calibrated": 0.6466248092936008,
+      "y": 0,
+      "trainCount": 150,
+      "calibrationCutoff": "2025-05-30T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:152",
+      "raw": 0.3704678119625896,
+      "calibrated": 0.4199854959331184,
+      "y": 1,
+      "trainCount": 151,
+      "calibrationCutoff": "2025-05-31T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:153",
+      "raw": 0.776463619666174,
+      "calibrated": 0.8263385704735301,
+      "y": 1,
+      "trainCount": 152,
+      "calibrationCutoff": "2025-06-01T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:154",
+      "raw": 0.45304999747313557,
+      "calibrated": 0.5117292445254397,
+      "y": 0,
+      "trainCount": 153,
+      "calibrationCutoff": "2025-06-02T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:155",
+      "raw": 0.4258847910445184,
+      "calibrated": 0.4831459728351816,
+      "y": 1,
+      "trainCount": 154,
+      "calibrationCutoff": "2025-06-03T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:156",
+      "raw": 0.582135679712519,
+      "calibrated": 0.6435203587176781,
+      "y": 1,
+      "trainCount": 155,
+      "calibrationCutoff": "2025-06-04T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:157",
+      "raw": 0.2139232933521271,
+      "calibrated": 0.24387332296994157,
+      "y": 0,
+      "trainCount": 156,
+      "calibrationCutoff": "2025-06-05T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:158",
+      "raw": 0.7991058222018181,
+      "calibrated": 0.8497794374979244,
+      "y": 1,
+      "trainCount": 157,
+      "calibrationCutoff": "2025-06-06T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:159",
+      "raw": 0.21517025441862644,
+      "calibrated": 0.2417014572493402,
+      "y": 0,
+      "trainCount": 158,
+      "calibrationCutoff": "2025-06-07T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:160",
+      "raw": 0.3530305846594274,
+      "calibrated": 0.40090369279913074,
+      "y": 1,
+      "trainCount": 159,
+      "calibrationCutoff": "2025-06-08T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:161",
+      "raw": 0.4046398929785937,
+      "calibrated": 0.45675561134395953,
+      "y": 0,
+      "trainCount": 160,
+      "calibrationCutoff": "2025-06-09T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:162",
+      "raw": 0.4108636001124978,
+      "calibrated": 0.46874277610665627,
+      "y": 0,
+      "trainCount": 161,
+      "calibrationCutoff": "2025-06-10T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:163",
+      "raw": 0.6041362942196429,
+      "calibrated": 0.6717197957648842,
+      "y": 0,
+      "trainCount": 162,
+      "calibrationCutoff": "2025-06-11T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:164",
+      "raw": 0.21515134219080212,
+      "calibrated": 0.23544567188198362,
+      "y": 0,
+      "trainCount": 163,
+      "calibrationCutoff": "2025-06-12T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:165",
+      "raw": 0.7886805232148617,
+      "calibrated": 0.839389070618899,
+      "y": 1,
+      "trainCount": 164,
+      "calibrationCutoff": "2025-06-13T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:166",
+      "raw": 0.6958073087036609,
+      "calibrated": 0.7551204821499079,
+      "y": 1,
+      "trainCount": 165,
+      "calibrationCutoff": "2025-06-14T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:167",
+      "raw": 0.277838897658512,
+      "calibrated": 0.30321318080622967,
+      "y": 0,
+      "trainCount": 166,
+      "calibrationCutoff": "2025-06-15T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:168",
+      "raw": 0.7130041602067649,
+      "calibrated": 0.7760122254351757,
+      "y": 1,
+      "trainCount": 167,
+      "calibrationCutoff": "2025-06-16T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:169",
+      "raw": 0.2647258841432631,
+      "calibrated": 0.28387932113753733,
+      "y": 0,
+      "trainCount": 168,
+      "calibrationCutoff": "2025-06-17T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:170",
+      "raw": 0.5867140727583319,
+      "calibrated": 0.6512650215994115,
+      "y": 1,
+      "trainCount": 169,
+      "calibrationCutoff": "2025-06-18T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:171",
+      "raw": 0.6577921560965478,
+      "calibrated": 0.724594229453107,
+      "y": 1,
+      "trainCount": 170,
+      "calibrationCutoff": "2025-06-19T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:172",
+      "raw": 0.44366951403208077,
+      "calibrated": 0.4926308339948527,
+      "y": 0,
+      "trainCount": 171,
+      "calibrationCutoff": "2025-06-20T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:173",
+      "raw": 0.5187307586427778,
+      "calibrated": 0.5801647053721826,
+      "y": 1,
+      "trainCount": 172,
+      "calibrationCutoff": "2025-06-21T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:174",
+      "raw": 0.41873635323718195,
+      "calibrated": 0.46141907537399224,
+      "y": 0,
+      "trainCount": 173,
+      "calibrationCutoff": "2025-06-22T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:175",
+      "raw": 0.6855519589502364,
+      "calibrated": 0.7572894465407274,
+      "y": 0,
+      "trainCount": 174,
+      "calibrationCutoff": "2025-06-23T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:176",
+      "raw": 0.4570707134436816,
+      "calibrated": 0.5059025323202692,
+      "y": 1,
+      "trainCount": 175,
+      "calibrationCutoff": "2025-06-24T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:177",
+      "raw": 0.4069890026468784,
+      "calibrated": 0.4441488848202115,
+      "y": 0,
+      "trainCount": 176,
+      "calibrationCutoff": "2025-06-25T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:178",
+      "raw": 0.7288182564079762,
+      "calibrated": 0.7925444077732482,
+      "y": 1,
+      "trainCount": 177,
+      "calibrationCutoff": "2025-06-26T23:00:00.000Z"
+    },
+    {
+      "eventId": "synthetic:179",
+      "raw": 0.7651064258534461,
+      "calibrated": 0.8255668832721805,
+      "y": 1,
+      "trainCount": 178,
+      "calibrationCutoff": "2025-06-27T23:00:00.000Z"
+    }
+  ],
+  "limitations": "Audits supplied immutable pregame predictions, not a refit of the simulation model. Timestamp assertions cannot prove external provenance. No real accuracy claim until licensed historical snapshots and independent holdout evaluation exist."
+}

@@ -1,0 +1,32 @@
+{
+  "quotes": [
+    {
+      "source": "manual-synthetic-example",
+      "sourceEventId": "demo:celtics-knicks",
+      "eventId": "demo:celtics-knicks",
+      "bookmaker": "sportsbet",
+      "snapshotId": "synthetic-1",
+      "rightsBasis": "Synthetic example, not observed bookmaker odds",
+      "market": "moneyline",
+      "period": "full_game",
+      "includesOvertime": true,
+      "observedAt": "2026-10-13T10:00:00Z",
+      "selection": "home",
+      "price": 1.8
+    },
+    {
+      "source": "manual-synthetic-example",
+      "sourceEventId": "demo:celtics-knicks",
+      "eventId": "demo:celtics-knicks",
+      "bookmaker": "sportsbet",
+      "snapshotId": "synthetic-1",
+      "rightsBasis": "Synthetic example, not observed bookmaker odds",
+      "market": "moneyline",
+      "period": "full_game",
+      "includesOvertime": true,
+      "observedAt": "2026-10-13T10:00:00Z",
+      "selection": "away",
+      "price": 2.1
+    }
+  ]
+}

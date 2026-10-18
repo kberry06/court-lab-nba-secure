@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: court-lab-nba-secure
+    runtime: node
+    plan: starter
+    region: singapore
+    numInstances: 1
+    buildCommand: npm ci && npm test
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    disk:
+      name: nba-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATA_DIR
+        value: /var/data
+      - key: TZ
+        value: Australia/Sydney
+      - key: ADMIN_TOKEN
+        generateValue: true
+      - key: APP_USERNAME
+        sync: false
+      - key: APP_PASSWORD_HASH
+        sync: false
+      - key: ODDS_PROVIDER
+        value: manual
+      - key: ODDS_FEED_APPROVED
+        value: false
+      - key: ODDS_API_KEY
+        sync: false
