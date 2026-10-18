@@ -1,0 +1,46 @@
+# Court Lab NBA Secure
+
+A deployable, private NBA research web application. Node 24 serves a responsive dashboard, runs 10,000-draw simulations in worker threads, and persists scenarios, odds, identifier mappings, audit records, simulation inputs/results and validation reports in SQLite. No runtime package dependencies.
+
+**Status:** implemented and locally tested MVP. Not yet pushed to GitHub or deployed to Render. No live NBA feed or Sportsbet feed is enabled. The bundled fixture, generic player profiles and historical validation examples are synthetic, not current schedules, rosters, results or bookmaker prices. No accuracy or profitable-edge claim is made.
+
+## Run
+
+Requires Node 24 (tested with 24.19.0).
+
+```sh
+npm ci
+npm test
+npm start
+```
+
+Open http://127.0.0.1:3000. Default development mode is local-only and has no password. Set `APP_PASSWORD_HASH` to test sign-in locally. Set environment variables in your shell, or use Node's `--env-file=.env` option with a private `.env` copied from `.env.example` (npm start does not auto-load `.env`). Never expose the development configuration to the internet.
+
+## Implemented
+
+- Server-side 10,000-draw, seeded correlated game/player simulation; pace and shared team factors, lineup availability, minute reallocation, rest adjustment, heuristic player impact and overtime resolution.
+- Mean/median and 10th/90th percentile score, margin, total and player points/rebounds/assists/minutes; Monte Carlo sampling uncertainty for home-win probability.
+- Private username/password sign-in, salted scrypt password verification, opaque server-side sessions, 12-hour expiry, HttpOnly/SameSite cookies and Secure cookies in production. Production fails closed without secrets.
+- Authenticated scenario, odds and mapping imports; atomic and idempotent quote persistence; precise decimal prices, UTC timestamps displayed in Australia/Sydney, stale quote and input flags.
+- Moneyline, spread, total, points, rebounds, assists and PRA normalization; explicit reviewed provider mappings, unmatched-event quarantine, pregame/full-game/overtime restrictions, DNP void and push handling, model fair prices, synchronized two-sided no-vig probabilities and EV.
+- Disabled-by-default documented aggregator adapter for Sportsbet **game markets**, with contract approval/key gates. NBA prop mapping code accepts provider-shaped data, but actual Sportsbet NBA prop access is unverified.
+- Walk-forward calibration/evaluation of frozen pregame forecast records: expanding prior-settled calibration set, 24-hour embargo, regularized logistic calibration, Brier/log loss/accuracy, expanding home-win baseline, reliability bins, monthly folds, score/margin MAE and day-cluster bootstrap interval.
+- Render Blueprint, persistent disk, health check, GitHub Actions CI, secret placeholders, tests and deployment/runbook documentation.
+
+## Pending before real predictions
+
+- Licensed NBA schedules, stable official identifiers, rosters, player logs, timestamped injuries and lineup histories. Imports are the working fallback.
+- Training/fitting the projection model and its covariance/dispersion on real NBA history. Current coefficients are explicit **heuristics**; simulation count does not establish accuracy.
+- Full end-to-end walk-forward retraining of the projection model, player-prop calibration/coverage, untouched season holdout, timestamped closing-line comparison and settlement-rule-specific ROI analysis. The implemented backtest audits supplied frozen forecasts; it does not retrain the projection model.
+- Authorised Sportsbet feed contract, NBA market/prop coverage and display/retention rights confirmation. No direct Sportsbet API is assumed, and there is no scraper.
+- GitHub publication under the Gridiron Lab owner (`kberry06`), Render deployment in that account, production secrets and backup verification. Suggested separate repository: `court-lab-nba-secure`; do not overwrite the NFL repository or service.
+
+## Documentation
+
+- [Architecture and model limits](docs/ARCHITECTURE.md)
+- [Secure deployment and recovery](docs/DEPLOYMENT.md)
+- [Data contracts, mapping and feed research](docs/DATA.md)
+- [Validation protocol](docs/VALIDATION.md)
+
+All durable runtime data stays on the server disk, outside Git. Only source, schemas/example fixtures and deployment configuration belong in the repository.
+
