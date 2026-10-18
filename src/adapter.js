@@ -1,5 +1,14 @@
 import {assert} from './validation.js';
 import {normalizeQuote} from './odds.js';
+// Exact, unique full-name and tip-off matches only; ambiguities remain quarantined.
+export function registerExactMatches(events,store) {
+ for(const e of events){
+  const matches=store.scenarios().filter(s=>!s.demo&&s.teams[0].name===e.home_team&&s.teams[1].name===e.away_team&&Math.abs(Date.parse(s.start)-Date.parse(e.commence_time))<=60000);
+  if(matches.length!==1)continue;const s=matches[0];
+  for(const [kind,externalId,canonicalId] of [['event',e.id,s.id],['team',e.home_team,s.teams[0].id],['team',e.away_team,s.teams[1].id]])store.map({source:'the-odds-api',kind,externalId,canonicalId});
+  for(const b of e.bookmakers||[])for(const m of b.markets||[])for(const o of m.outcomes||[]){if(!o.description)continue;const players=s.teams.flatMap(t=>t.players).filter(p=>p.name===o.description);if(players.length===1)store.map({source:'the-odds-api',kind:'player',externalId:`${e.id}:${o.description}`,canonicalId:players[0].id});}
+ }
+}
 // Explicit reviewed mapping only. This provider supplies team/player names rather
 // than stable IDs, so its name tokens are scoped by provider (players by event).
 export function mapProviderEvents(events,store,{rightsBasis,now=Date.now()}={}) {

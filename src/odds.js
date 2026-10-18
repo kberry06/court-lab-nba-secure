@@ -35,11 +35,12 @@ export function addNoVig(quotes) {
     return {...q,bookFairProbability:opposite?(1/q.price)/(1/q.price+1/opposite.price):null};});
 }
 // Documented aggregator endpoint only. No calls to Sportsbet websites or private APIs.
-export async function fetchApprovedOdds(env=process.env) {
+export async function fetchApprovedOdds(env=process.env,eventId=null) {
   assert(env.ODDS_PROVIDER==='the-odds-api' && env.ODDS_FEED_APPROVED==='true' && env.ODDS_API_KEY,'Feed disabled: approved contract and server secret required');
-  const url=new URL('https://api.the-odds-api.com/v4/sports/basketball_nba/odds');
-  url.search=new URLSearchParams({apiKey:env.ODDS_API_KEY,bookmakers:'sportsbet',markets:'h2h,spreads,totals',oddsFormat:'decimal',dateFormat:'iso'});
+  assert(!eventId||/^[a-zA-Z0-9_-]+$/.test(eventId),'Invalid odds event ID');
+  const url=new URL('https://api.the-odds-api.com/v4/sports/basketball_nba/'+(eventId?`events/${eventId}/odds`:'odds'));
+  url.search=new URLSearchParams({apiKey:env.ODDS_API_KEY,bookmakers:'sportsbet',markets:eventId?'player_points,player_rebounds,player_assists,player_points_rebounds_assists':'h2h,spreads,totals',oddsFormat:'decimal',dateFormat:'iso'});
   const response=await fetch(url,{signal:AbortSignal.timeout(15000)});
-  if(!response.ok) throw new Error(`Odds provider returned HTTP ${response.status}`);
+  assert(response.ok,`Odds provider returned HTTP ${response.status}. Check subscription coverage or quota in your provider account.`);
   return response.json();
 }

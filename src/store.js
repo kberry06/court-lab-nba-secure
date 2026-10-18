@@ -7,6 +7,7 @@ export function openStore(dir) {
   db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
     CREATE TABLE IF NOT EXISTS migrations(version INTEGER PRIMARY KEY); INSERT OR IGNORE INTO migrations VALUES(1);
     CREATE TABLE IF NOT EXISTS scenarios(id TEXT PRIMARY KEY, body TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS data_cache(key TEXT PRIMARY KEY,saved_at INTEGER NOT NULL,body TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS mappings(source TEXT,kind TEXT,external_id TEXT,canonical_id TEXT,created_at TEXT, PRIMARY KEY(source,kind,external_id));
     CREATE TABLE IF NOT EXISTS quotes(id TEXT PRIMARY KEY,event_id TEXT NOT NULL,observed_at TEXT NOT NULL,body TEXT NOT NULL);
     CREATE INDEX IF NOT EXISTS quotes_event ON quotes(event_id,observed_at);
@@ -14,6 +15,8 @@ export function openStore(dir) {
     CREATE TABLE IF NOT EXISTS reports(id TEXT PRIMARY KEY,created_at TEXT,body TEXT);
     CREATE TABLE IF NOT EXISTS audit(id TEXT PRIMARY KEY,created_at TEXT,action TEXT,body TEXT);`);
   return {db,
+    cache:key=>{const r=db.prepare('SELECT saved_at,body FROM data_cache WHERE key=?').get(key);return r?{savedAt:r.saved_at,body:JSON.parse(r.body)}:null;},
+    saveCache:(key,body)=>db.prepare('INSERT INTO data_cache VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET saved_at=excluded.saved_at,body=excluded.body').run(key,Date.now(),JSON.stringify(body)),
     scenarios:()=>db.prepare('SELECT body FROM scenarios').all().map(r=>JSON.parse(r.body)),
     scenario:id=>{const r=db.prepare('SELECT body FROM scenarios WHERE id=?').get(id);return r?JSON.parse(r.body):null;},
     saveScenario:s=>db.prepare('INSERT INTO scenarios VALUES(?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body').run(s.id,JSON.stringify(s)),

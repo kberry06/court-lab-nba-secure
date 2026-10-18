@@ -1,0 +1,17 @@
+# Schedule, roster and probability workflow
+
+Open NBA schedule. The app loads an eight-day slate from ESPN's publicly accessible sports JSON endpoints. Choose Build prediction to fetch current rosters, published injury listings, recent completed team games and their player box scores. Work happens in the background; refreshes are cached on the existing persistent disk. No paid NBA subscription is required.
+
+These endpoints are also documented in the open-source [hoopR project](https://github.com/sportsdataverse/hoopR/blob/master/R/espn_nba_data.R) and its [team helpers](https://github.com/sportsdataverse/hoopR/blob/master/R/espn_basketball_team_helpers.R). Open-source tooling does not make ESPN's underlying data openly licensed. This is a private research integration, with no redistribution licence claimed or guaranteed service-level agreement. HTTP access denials stop retrieval; no proxies, browser impersonation or protection bypasses are used. Provider failure retains saved data and displays an error.
+
+Current roster membership comes from the current roster endpoint, not historical box scores. IDs use the `espn:game:`, `espn:team:` and `espn:player:` namespaces. Times display in Australia/Sydney. Data collection timestamps are separate from historical game dates. Injuries are listings, not verified starting lineups. Out/doubtful/questionable/probable availability values are explicit heuristic assumptions that the owner can adjust.
+
+Team estimates use up to 12 recent completed regular-season games per team, with shrinkage toward a 114-point prior at a fixed pace of 100. Player rates use available completed box scores, minimum three appearances; players without sufficient history are shown in the roster but excluded from model rotation with an explicit warning. Trades, rookies and offseason changes can materially reduce coverage. Historical games inside the last 24 hours are embargoed. This is not a trained, calibrated model, and full walk-forward model fitting is still pending.
+
+The simulation produces projected scores, both teams' win probabilities, model fair odds, total/margin distributions, player means/ranges and conditional-on-playing milestone probabilities (20+ points, 8+ rebounds, 5+ assists). Those probabilities are model estimates, not demonstrated NBA accuracy.
+
+The owner approved the existing Odds API subscription for NBA on 18 October 2026. `ODDS_PROVIDER=the-odds-api` and `ODDS_FEED_APPROVED=true` enable server-side use of the existing Render `ODDS_API_KEY`; no key is copied into source or browser storage. Sportsbet game prices and per-event player markets are queried only through documented aggregator endpoints, cached for 15 minutes to bound credit use. Empty props are reported as unavailable, not synthesized. Sportsbet-specific settlement and display rights remain governed by the owner's provider agreement.
+
+Exact unique team names plus tip-off time map events; exact unique full player names map props. Ambiguous names, unmatched events and reschedules are quarantined. Canonical IDs and mappings persist. Prices retain provider observation times. The comparison shows price, model probability/fair odds, two-sided no-vig bookmaker probability where available, edge, expected return and freshness. Manual entry remains available.
+
+Public schedules, roster/history snapshots, stored runs and odds survive deployments on the existing disk. No extra Render service or paid NBA feed was added.
