@@ -9,10 +9,11 @@ import {validateScenario,assert,string,number} from './validation.js';
 import {normalizeQuote,priceQuote,addNoVig,fetchApprovedOdds} from './odds.js';
 import {demoScenario,demoHistory} from './demo.js';
 import {mapProviderEvents} from './adapter.js';
-import {sessionAuth,verifyPassword,validHash} from './auth.js';
+import {sessionAuth,verifyPassword,validHash,hashPassword} from './auth.js';
 const root=fileURLToPath(new URL('../public/',import.meta.url));
-export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=process.env.ADMIN_TOKEN,passwordHash=process.env.APP_PASSWORD_HASH,username=process.env.APP_USERNAME||'admin',production=process.env.NODE_ENV==='production'}={}) {
+export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=process.env.ADMIN_TOKEN,passwordHash=process.env.APP_PASSWORD_HASH,password=process.env.APP_PASSWORD,username=process.env.APP_USERNAME||'admin',production=process.env.NODE_ENV==='production'}={}) {
  if(production&&(!adminToken||adminToken.length<24))throw new Error('Production ADMIN_TOKEN must be at least 24 characters');
+ if(!passwordHash&&password){if(typeof password!=='string'||password.length<24||password.length>1024)throw new Error('APP_PASSWORD must contain 24–1024 characters');passwordHash=hashPassword(password);}
  if(production&&!validHash(passwordHash))throw new Error('Production APP_PASSWORD_HASH must be a valid scrypt hash');
  const store=openStore(dataDir);if(!store.scenarios().length)store.saveScenario(demoScenario());let busy=false;
  const counters=new Map(),loginAttempts=new Map(),auth=sessionAuth(store.db,passwordHash,production);

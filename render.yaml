@@ -2,7 +2,7 @@ services:
   - type: web
     name: court-lab-nba-secure
     runtime: node
-    plan: starter
+    plan: 0.5c-512mb
     region: singapore
     numInstances: 1
     buildCommand: npm ci && npm test
@@ -27,12 +27,10 @@ services:
       - key: ADMIN_TOKEN
         generateValue: true
       - key: APP_USERNAME
-        sync: false
-      - key: APP_PASSWORD_HASH
-        sync: false
+        value: admin
+      - key: APP_PASSWORD
+        generateValue: true
       - key: ODDS_PROVIDER
         value: manual
       - key: ODDS_FEED_APPROVED
-        value: false
-      - key: ODDS_API_KEY
-        sync: false
+        value: "false"

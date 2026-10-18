@@ -4,7 +4,7 @@ Existing account context from Gridiron Lab: GitHub owner `kberry06`, NFL reposit
 
 ## Source publication
 
-Create a private repository (suggested `kberry06/court-lab-nba-secure`), then push this complete project root. The supplied local repository can be connected once access is available. Never add `.env`, SQLite files, credentials, session files or licensed datasets to Git. Local browser access to GitHub was declined during this build, so no external repository changes were made.
+Source is published at `kberry06/court-lab-nba-secure`. GitHub reported this user-created repository as public at publication; the application itself is protected by login. Repository visibility can be changed separately in GitHub settings. Never add `.env`, SQLite files, credentials, session files or licensed datasets to Git. Uploads were performed through the authorised GitHub connector.
 
 Protect `main` with required CI checks and pull-request review. CI installs from the lockfile, checks syntax and runs automated tests. Render's `autoDeployTrigger: checksPass` delays deployments until linked GitHub checks pass. Initial Blueprint creation still needs a verified first deployment.
 
@@ -12,13 +12,14 @@ Protect `main` with required CI checks and pull-request review. CI installs from
 
 1. In the same Render workspace as Gridiron Secure, create a Blueprint from the NBA repository and `render.yaml`.
 2. Review the paid Node service and 1 GB persistent disk before accepting provisioning charges. Persistent disk services cannot use free hosting and do not provide zero-downtime deploys. The selected region is Singapore; Sydney is the display timezone, not the server region.
-3. Set the secrets below in Render. Do not paste secrets into chat or GitHub files.
+3. The Blueprint generates `APP_PASSWORD` and `ADMIN_TOKEN` within Render. Do not paste their values into chat or GitHub files. Username is `admin`; retrieve the generated password from the service's Environment page when signing in.
 4. Deploy, check `/api/health`, verify `/` redirects to `/login` before sign-in, then verify an authenticated simulation and saved result across a restart.
 
 | Variable | Configuration |
 |---|---|
-| `APP_USERNAME` | Your chosen login name; configure in Render |
-| `APP_PASSWORD_HASH` | Salted scrypt hash, required in production |
+| `APP_USERNAME` | `admin`; configurable in Render |
+| `APP_PASSWORD` | Platform-generated random login secret; hashed with scrypt in server memory |
+| `APP_PASSWORD_HASH` | Optional precomputed salted scrypt hash; overrides `APP_PASSWORD` |
 | `ADMIN_TOKEN` | Auto-generated secret, minimum 24 characters, for API writes/automation |
 | `DATA_DIR` | `/var/data`, on the mounted persistent disk |
 | `NODE_ENV` | `production` |
@@ -30,9 +31,9 @@ Protect `main` with required CI checks and pull-request review. CI installs from
 | `ODDS_FEED_APPROVED` | `false` until contractual rights and coverage are verified |
 | `ODDS_API_KEY` | Render secret only; leave unset for manual mode |
 
-Use a unique password (at least 16 characters); do not copy Gridiron credentials. `node src/password-hash.js` accepts the password on stdin, then prints a salted scrypt hash. Feed it from a password manager in a trusted local terminal without including the plaintext in a command argument/history. Save only the resulting hash in Render. The script never writes a file. Clear the terminal afterward. Changing the stored hash invalidates all existing sessions.
+The default platform-generated password requires no local password creation. If you prefer to supply a hash instead, `node src/password-hash.js` accepts a unique password on stdin and prints a salted scrypt hash. Feed it from a password manager in a trusted local terminal without including plaintext in command arguments/history. Save only the resulting hash as `APP_PASSWORD_HASH` in Render. Changing the stored hash invalidates existing sessions. With the default generated `APP_PASSWORD` configuration, a fresh in-memory salt also invalidates sessions after each server restart; sign in again after deployment.
 
-The dashboard accepts browser sessions. The admin token exists for scripted POSTs; GET data requires a browser session. Login sessions last 12 hours and persist on disk in hashed form. Cookies are HttpOnly, SameSite=Strict and Secure in production. HTTPS is terminated by Render. `/api/health` intentionally exposes only `{ok:true}`.
+The dashboard accepts browser sessions. The admin token exists for scripted POSTs; GET data requires a browser session. Login sessions last at most 12 hours and their tokens are stored on disk in hashed form. Cookies are HttpOnly, SameSite=Strict and Secure in production. HTTPS is terminated by Render. `/api/health` intentionally exposes only `{ok:true}`.
 
 ## Persistence, backup and recovery
 
