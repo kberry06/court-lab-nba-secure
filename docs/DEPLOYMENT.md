@@ -1,6 +1,6 @@
 # GitHub → Render secure deployment
 
-Existing account context from Gridiron Lab: GitHub owner `kberry06`, NFL repository `gridiron-lab-nfl`, Render NFL secure service `gridiron-lab-nfl-secure`. Create the NBA service separately so NFL operation is unaffected. The requested hosting destination is Render, not Sites.
+Existing account context from Gridiron Lab: GitHub owner `kberry06`, NFL repository `gridiron-lab-nfl`, Render NFL secure service `gridiron-lab-nfl-secure`. NBA reuses the existing paid Diamond service; NFL is unaffected. See [current service and rollback](REUSED-SERVICE.md). Do not create another service within the current budget.
 
 ## Source publication
 
@@ -8,7 +8,15 @@ Source is published at `kberry06/court-lab-nba-secure`. GitHub reported this use
 
 Protect `main` with required CI checks and pull-request review. CI installs from the lockfile, checks syntax and runs automated tests. Render's `autoDeployTrigger: checksPass` delays deployments until linked GitHub checks pass. Initial Blueprint creation still needs a verified first deployment.
 
-## Provisioning
+## Current hosting configuration
+
+The existing Diamond Blueprint in `kberry06/diamond-lab-mlb/render.yaml` is the infrastructure source of truth. Its `repo` points to `kberry06/court-lab-nba-secure`, branch `main`, with `autoDeployTrigger: checksPass`. The service retains its existing Docker runtime, Starter compute plan, 1 GB disk at `/data` and `/healthz` check. The NBA Dockerfile starts `deploy/reuse-service.mjs`, using `/data/court-nba` for SQLite and the existing Diamond sign-in credentials in memory. MLB files are retained and its web application is inactive. The inherited odds key remains unused in manual mode.
+
+URL: https://diamond-lab-mlb.onrender.com. The old hostname is retained to preserve the existing service. Base hosting cost is unchanged; usage overages follow existing Render account terms. Automated off-host backups and a production restore exercise remain pending.
+
+## Optional future standalone provisioning (adds cost)
+
+The following instructions and variable table apply only to a separately authorised new service. They are not the current deployment configuration.
 
 1. In the same Render workspace as Gridiron Secure, create a Blueprint from the NBA repository and `render.yaml`.
 2. Review the paid Node service and 1 GB persistent disk before accepting provisioning charges. Persistent disk services cannot use free hosting and do not provide zero-downtime deploys. The selected region is Singapore; Sydney is the display timezone, not the server region.

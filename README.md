@@ -2,7 +2,7 @@
 
 A deployable, private NBA research web application. Node 24 serves a responsive dashboard, runs 10,000-draw simulations in worker threads, and persists scenarios, odds, identifier mappings, audit records, simulation inputs/results and validation reports in SQLite. No runtime package dependencies.
 
-**Status:** implemented, tested and published to [GitHub](https://github.com/kberry06/court-lab-nba-secure). Render provisioning is pending. No live NBA feed or Sportsbet feed is enabled. The bundled fixture, generic player profiles and historical validation examples are synthetic, not current schedules, rosters, results or bookmaker prices. No accuracy or profitable-edge claim is made.
+**Status:** implemented, tested, published to [GitHub](https://github.com/kberry06/court-lab-nba-secure) and deployed at [Court Lab Secure](https://diamond-lab-mlb.onrender.com). NBA reuses Diamond's existing paid Render service and login; NFL is unchanged. The old hostname is retained. No live NBA feed or Sportsbet feed is enabled. The bundled fixture, generic player profiles and historical validation examples are synthetic, not current schedules, rosters, results or bookmaker prices. No accuracy or profitable-edge claim is made.
 
 ## Run
 
@@ -33,12 +33,13 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 - Training/fitting the projection model and its covariance/dispersion on real NBA history. Current coefficients are explicit **heuristics**; simulation count does not establish accuracy.
 - Full end-to-end walk-forward retraining of the projection model, player-prop calibration/coverage, untouched season holdout, timestamped closing-line comparison and settlement-rule-specific ROI analysis. The implemented backtest audits supplied frozen forecasts; it does not retrain the projection model.
 - Authorised Sportsbet feed contract, NBA market/prop coverage and display/retention rights confirmation. No direct Sportsbet API is assumed, and there is no scraper.
-- Render deployment in the Hobby Time workspace and backup verification. The separate repository is `kberry06/court-lab-nba-secure`; the NFL repository and service are unaffected. The Blueprint generates login and automation secrets inside Render.
+- Automated off-host backup and restore verification; real-account authenticated live simulation acceptance. Render reports the NBA deployment live, and the public root redirects to the secure login. Local inherited-login/security smoke checks and GitHub CI pass. The separate repository is `kberry06/court-lab-nba-secure`; the NFL repository and service are unaffected.
 
 ## Documentation
 
 - [Architecture and model limits](docs/ARCHITECTURE.md)
 - [Secure deployment and recovery](docs/DEPLOYMENT.md)
+- [Existing-service budget and rollback](docs/REUSED-SERVICE.md)
 - [Data contracts, mapping and feed research](docs/DATA.md)
 - [Validation protocol](docs/VALIDATION.md)
 
