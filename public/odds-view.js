@@ -3,8 +3,8 @@ export function quoteTeam(q,scenario){
  if(q.playerId)return scenario.teams.find(t=>t.players.some(p=>p.id===q.playerId))?.id||null;
  return ['moneyline','spread'].includes(q.market)?scenario.teams[q.selection==='home'?0:1]?.id:null;
 }
-export function filterQuotes(quotes,scenario,{team='',player='',market='',freshness=''}={}){
- return quotes.filter(q=>(!team||quoteTeam(q,scenario)===team||q.market==='total')&&(!player||q.playerId===player)&&(!market||q.market===market)&&(freshness!=='fresh'||!q.stale&&!q.started&&!q.inputsStale));
+export function filterQuotes(quotes,scenario,{team='',player='',market='',freshness='',selection=''}={}){
+ return quotes.filter(q=>(!team||quoteTeam(q,scenario)===team||q.market==='total')&&(!player||q.playerId===player)&&(!market||q.market===market)&&(!selection||q.selection===selection)&&(freshness!=='fresh'||!q.stale&&!q.started&&!q.inputsStale));
 }
 // Display probability bands, not evidence of model accuracy or a betting rating.
 export function confidence(q){
