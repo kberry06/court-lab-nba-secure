@@ -1,5 +1,5 @@
 import {assert,number,string,timestamp} from './validation.js';
-export const markets=['moneyline','spread','total','player_points','player_rebounds','player_assists','player_pra'];
+export const markets=['moneyline','spread','total','player_points','player_rebounds','player_assists','player_pra','player_pa','player_ra','player_pr'];
 export function normalizeQuote(q,scenario,now=Date.now()) {
   assert(q && typeof q==='object','Quote required');
   for(const field of ['source','sourceEventId','eventId','bookmaker','snapshotId','selection','rightsBasis']) string(q[field],field);
@@ -20,7 +20,7 @@ export function priceQuote(q,sim,scenario,now=Date.now()) {
   if(q.market==='moneyline') values=values.map(v=>q.selection==='home'?v:-v);
   if(q.market==='spread') values=values.map(v=>(q.selection==='home'?v:-v)+q.line);
   if(q.market==='total') values=sim.samples.total.map(v=>v-q.line);
-  if(q.market.startsWith('player_')) { const p=sim.samples.players[q.playerId]; active=p.active; values=(q.market==='player_pra'?p.points.map((v,i)=>v+p.rebounds[i]+p.assists[i]):p[q.market.slice(7)]).map(v=>v-q.line); }
+  if(q.market.startsWith('player_')) { const p=sim.samples.players[q.playerId]; active=p.active; values=(['player_pra','player_pa','player_ra','player_pr'].includes(q.market)?p.points.map((v,i)=>(q.market!=='player_ra'?v:0)+(q.market!=='player_pa'?p.rebounds[i]:0)+(q.market!=='player_pr'?p.assists[i]:0)):p[q.market.slice(7)]).map(v=>v-q.line); }
   if(q.selection==='under') values=values.map(v=>-v);
   let wins=0,losses=0,pushes=0,voids=0;
   values.forEach((v,i)=>{if(active&&!active[i])voids++;else if(v>0)wins++;else if(v<0)losses++;else pushes++;});
@@ -34,12 +34,14 @@ export function addNoVig(quotes) {
   return quotes.map(q=>{const opposite=quotes.find(p=>p!==q&&p.source===q.source&&p.snapshotId===q.snapshotId&&p.eventId===q.eventId&&p.bookmaker===q.bookmaker&&p.market===q.market&&p.playerId===q.playerId&&p.observedAt===q.observedAt&&p.selection!==q.selection&&(q.market==='spread'?p.line===-q.line:p.line===q.line));
     return {...q,bookFairProbability:opposite?(1/q.price)/(1/q.price+1/opposite.price):null};});
 }
+export const PLAYER_MARKETS=['player_points','player_rebounds','player_assists','player_points_rebounds_assists','player_points_assists','player_rebounds_assists','player_points_rebounds'];
+export const REQUESTED_PLAYER_MARKETS=PLAYER_MARKETS.flatMap(k=>[k,k+'_alternate']);
 // Documented aggregator endpoint only. No calls to Sportsbet websites or private APIs.
 export async function fetchApprovedOdds(env=process.env,eventId=null) {
   assert(env.ODDS_PROVIDER==='the-odds-api' && env.ODDS_FEED_APPROVED==='true' && env.ODDS_API_KEY,'Feed disabled: approved contract and server secret required');
   assert(!eventId||/^[a-zA-Z0-9_-]+$/.test(eventId),'Invalid odds event ID');
   const url=new URL('https://api.the-odds-api.com/v4/sports/basketball_nba/'+(eventId?`events/${eventId}/odds`:'odds'));
-  url.search=new URLSearchParams({apiKey:env.ODDS_API_KEY,bookmakers:'sportsbet',markets:eventId?'player_points,player_rebounds,player_assists,player_points_rebounds_assists':'h2h,spreads,totals',oddsFormat:'decimal',dateFormat:'iso'});
+  url.search=new URLSearchParams({apiKey:env.ODDS_API_KEY,bookmakers:'sportsbet',markets:eventId?REQUESTED_PLAYER_MARKETS.join(','):'h2h,spreads,totals',oddsFormat:'decimal',dateFormat:'iso'});
   const response=await fetch(url,{signal:AbortSignal.timeout(15000)});
   assert(response.ok,`Odds provider returned HTTP ${response.status}. Check subscription coverage or quota in your provider account.`);
   return response.json();

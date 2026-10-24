@@ -1,3 +1,4 @@
+import {propCoverage} from './adapter.js';
 import http from 'node:http';
 import {readFile} from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
@@ -58,10 +59,17 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/odds/import'){assert(Array.isArray(body.quotes)&&body.quotes.length>0&&body.quotes.length<=2000,'1–2000 quotes required');const qs=body.quotes.map(q=>{const s=store.scenario(q.eventId);assert(s,'Unknown event');return normalizeQuote(q,s);});const inserted=store.importQuotes(qs);store.record('audit',{action:'odds-import',inserted});send(res,201,{inserted});return;}
    if(path==='/api/mappings'){for(const k of ['source','kind','externalId','canonicalId'])string(body[k],k);assert(['event','team','player'].includes(body.kind),'Mapping kind invalid');const ss=store.scenarios();assert(ss.some(s=>body.kind==='event'?s.id===body.canonicalId:body.kind==='team'?s.teams.some(t=>t.id===body.canonicalId):s.teams.some(t=>t.players.some(p=>p.id===body.canonicalId))),'Unknown canonical identifier');store.map(body);send(res,201,{saved:true});return;}
    if(path==='/api/provider/fetch'){
-    const rightsBasis='Owner-approved Odds API NBA use';const cache=store.cache('nba-odds');let raw=cache&&Date.now()-cache.savedAt<15*60000?cache.body:await fetchApprovedOdds();assert(Array.isArray(raw),'Invalid odds provider response');if(!cache||raw!==cache.body)store.saveCache('nba-odds',raw);
+    const rightsBasis='Owner-approved Odds API NBA use';const cache=store.cache('nba-odds');let raw=body.forceRefresh!==true&&cache&&Date.now()-cache.savedAt<15*60000?cache.body:await fetchApprovedOdds();assert(Array.isArray(raw),'Invalid odds provider response');if(!cache||raw!==cache.body)store.saveCache('nba-odds',raw);
     registerExactMatches(raw,store);let mapped=mapProviderEvents(raw,store,{rightsBasis}),note='Sportsbet game markets refreshed. Unmatched events are held for review.';
-    if(body.eventId){const e=raw.find(e=>store.resolve('the-odds-api','event',e.id)===body.eventId);if(e){try{const key='nba-props:'+e.id,c=store.cache(key);const props=c&&Date.now()-c.savedAt<15*60000?c.body:await fetchApprovedOdds(process.env,e.id);if(!c||props!==c.body)store.saveCache(key,props);registerExactMatches([props],store);const pm=mapProviderEvents([props],store,{rightsBasis});mapped.quotes.push(...pm.quotes);mapped.quarantine.push(...pm.quarantine);note=pm.quotes.length?'Game and available Sportsbet player markets refreshed.':'Sportsbet returned no supported player props for this game. Game markets remain available.';}catch(e){note='Game markets loaded; player props unavailable: '+(e.status?e.message:'Provider request failed.');}}}
-    const inserted=store.importQuotes(mapped.quotes);store.record('audit',{action:'provider-fetch',inserted,quarantine:mapped.quarantine});send(res,200,{inserted,quarantine:mapped.quarantine,note});return;
+    let coverage=null;
+    if(body.eventId){const e=raw.find(e=>store.resolve('the-odds-api','event',e.id)===body.eventId);if(e){try{
+     const key='nba-props:v2:'+e.id,c=store.cache(key);const props=body.forceRefresh!==true&&c&&Date.now()-c.savedAt<15*60000?c.body:await fetchApprovedOdds(process.env,e.id);
+     if(!c||props!==c.body)store.saveCache(key,props);registerExactMatches([props],store);const pm=mapProviderEvents([props],store,{rightsBasis});mapped.quotes.push(...pm.quotes);mapped.quarantine.push(...pm.quarantine);
+     coverage=propCoverage(props,pm);note=coverage.note;
+    }catch(error){note='Game markets loaded; player feed request failed. Existing quotes retain their original timestamps. '+(error.status?error.message:'Check provider availability.');coverage={checkedAt:new Date().toISOString(),note,failed:true};}}
+    else {note='No uniquely matched event in The Odds API response. Sportsbet website availability is separate; review event mapping.';coverage={checkedAt:new Date().toISOString(),note,failed:true};}
+    store.saveCache('odds-coverage:'+body.eventId,coverage);}
+    const inserted=store.importQuotes(mapped.quotes);store.record('audit',{action:'provider-fetch',inserted,quarantine:mapped.quarantine});send(res,200,{inserted,quarantine:mapped.quarantine,note,coverage});return;
    }
    if(path==='/api/backtest'){const rows=body.demo?demoHistory():body.live?store.historicalForecasts():body.rows;const report=await work({kind:'backtest',rows});store.record('reports',report);send(res,200,report);return;}
   }
@@ -70,7 +78,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/nba/schedule'){send(res,200,scheduleView(store.cache('nba-schedule')?.body,store));return;}
    if(path==='/api/nba/job'){send(res,200,dataJob);return;}
    if(path==='/api/nba/roster'){const bundle=store.cache('matchup:'+url.searchParams.get('gameId'))?.body;send(res,200,bundle?{fetchedAt:bundle.fetchedAt,players:bundle.players,injuries:bundle.injuries}:{players:[],injuries:[]});return;}
-   if(path==='/api/nba/projection'){const eventId=url.searchParams.get('eventId'),run=store.latestRun(eventId);assert(run,'Projection is still being prepared');send(res,200,{...run.summary,id:run.id,histogram:run.histogram,quotes:run.quotes||[]});return;}
+   if(path==='/api/nba/projection'){const eventId=url.searchParams.get('eventId'),run=store.latestRun(eventId);assert(run,'Projection is still being prepared');send(res,200,{...run.summary,id:run.id,histogram:run.histogram,quotes:run.quotes||[],oddsCoverage:store.cache('odds-coverage:'+eventId)?.body||null});return;}
    if(path==='/api/status'){send(res,200,{timezone:'Australia/Sydney',mode:'research MVP',authRequired:!!adminToken&&!loggedIn,secure:!!passwordHash,provider:process.env.ODDS_PROVIDER||'manual',feedApproved:process.env.ODDS_FEED_APPROVED==='true',liveData:!!store.cache('nba-schedule'),modelValidated:false});return;}
    if(path==='/api/scenarios'){send(res,200,store.scenarios());return;}
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
