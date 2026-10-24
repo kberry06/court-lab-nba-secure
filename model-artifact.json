@@ -1,0 +1,2291 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-24T08:00:02.191Z",
+  "modelVersion": "historical-game-baseline-0.1",
+  "limitations": "Retrospective final-score replay of a game-only baseline. Excludes historical player, lineup, injury and odds features. This is not validation of the live 10,000-draw player simulation. No betting ROI measured.",
+  "source": {
+    "provider": "espn",
+    "fetchedAt": "2026-10-24T07:56:44.199Z",
+    "sha256": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+    "coverage": {
+      "seasons": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025,
+        2026
+      ],
+      "counts": {
+        "2019": 1230,
+        "2020": 1059,
+        "2021": 1080,
+        "2022": 1230,
+        "2023": 1230,
+        "2024": 1230,
+        "2025": 1230,
+        "2026": 1230
+      },
+      "teamsBySeason": {
+        "2019": 30,
+        "2020": 30,
+        "2021": 30,
+        "2022": 30,
+        "2023": 30,
+        "2024": 30,
+        "2025": 30,
+        "2026": 30
+      },
+      "total": 9519,
+      "firstGame": "2018-10-17T00:00Z",
+      "lastGame": "2026-04-13T00:30Z"
+    }
+  },
+  "parameters": {
+    "decay": 0.92,
+    "k": 14,
+    "probabilityScale": 6.8
+  },
+  "teamRatings": {
+    "1": {
+      "elo": 1600.791705054335,
+      "off": 120.45957174875858,
+      "def": 113.20600844353999,
+      "games": 82
+    },
+    "2": {
+      "elo": 1713.0158957802219,
+      "off": 116.3212210662279,
+      "def": 106.88702819332141,
+      "games": 82
+    },
+    "3": {
+      "elo": 1399.31890492437,
+      "off": 117.37617749917864,
+      "def": 121.45722802299238,
+      "games": 82
+    },
+    "4": {
+      "elo": 1315.0822680918461,
+      "off": 116.7098769211018,
+      "def": 125.22324011065558,
+      "games": 82
+    },
+    "5": {
+      "elo": 1617.6101077966653,
+      "off": 120.67564784166801,
+      "def": 116.57558248697194,
+      "games": 82
+    },
+    "6": {
+      "elo": 1340.6283834710664,
+      "off": 116.99159413609746,
+      "def": 124.6644681438721,
+      "games": 82
+    },
+    "7": {
+      "elo": 1698.4227971405799,
+      "off": 126.90157624677998,
+      "def": 118.54701545018742,
+      "games": 82
+    },
+    "8": {
+      "elo": 1700.7334443536922,
+      "off": 119.674931111733,
+      "def": 109.50867079451861,
+      "games": 82
+    },
+    "9": {
+      "elo": 1388.2572884555161,
+      "off": 112.43764227945731,
+      "def": 117.78733721290953,
+      "games": 82
+    },
+    "10": {
+      "elo": 1613.8311109111337,
+      "off": 118.64508122668991,
+      "def": 110.47704881285088,
+      "games": 82
+    },
+    "11": {
+      "elo": 1303.8947514478944,
+      "off": 115.36715846963757,
+      "def": 121.40510377694298,
+      "games": 82
+    },
+    "12": {
+      "elo": 1538.6504050622555,
+      "off": 115.2821971744435,
+      "def": 112.79161811413191,
+      "games": 82
+    },
+    "13": {
+      "elo": 1628.525660999486,
+      "off": 116.15677590120715,
+      "def": 111.46035433626508,
+      "games": 82
+    },
+    "14": {
+      "elo": 1518.3604139054378,
+      "off": 124.04926939424294,
+      "def": 122.95149982051156,
+      "games": 82
+    },
+    "15": {
+      "elo": 1340.3059048112725,
+      "off": 109.2560452347969,
+      "def": 119.04932772023092,
+      "games": 82
+    },
+    "16": {
+      "elo": 1549.8981702303263,
+      "off": 116.83723440767287,
+      "def": 115.67507934625583,
+      "games": 82
+    },
+    "17": {
+      "elo": 1246.0296908037767,
+      "off": 103.26211711580387,
+      "def": 118.04347247302522,
+      "games": 82
+    },
+    "18": {
+      "elo": 1635.0190831711216,
+      "off": 113.37334381300528,
+      "def": 106.81687112224733,
+      "games": 82
+    },
+    "19": {
+      "elo": 1556.0038235036927,
+      "off": 117.30228003404089,
+      "def": 116.26053469669665,
+      "games": 82
+    },
+    "20": {
+      "elo": 1530.3972004042378,
+      "off": 114.95360659546132,
+      "def": 114.7353200523454,
+      "games": 82
+    },
+    "21": {
+      "elo": 1544.3227080796723,
+      "off": 111.98794200059908,
+      "def": 110.22780692109234,
+      "games": 82
+    },
+    "22": {
+      "elo": 1546.96912535465,
+      "off": 115.89674742305891,
+      "def": 109.72886846206013,
+      "games": 82
+    },
+    "23": {
+      "elo": 1332.6924047678401,
+      "off": 112.32609263575827,
+      "def": 120.89150887409771,
+      "games": 82
+    },
+    "24": {
+      "elo": 1765.7180801816594,
+      "off": 123.32724610583206,
+      "def": 111.62637321615551,
+      "games": 82
+    },
+    "25": {
+      "elo": 1715.809569608506,
+      "off": 118.72919577225912,
+      "def": 109.48203637438453,
+      "games": 82
+    },
+    "26": {
+      "elo": 1255.2592264011623,
+      "off": 118.05081012962839,
+      "def": 128.3223028835851,
+      "games": 82
+    },
+    "27": {
+      "elo": 1179.3280704891697,
+      "off": 114.01763544840915,
+      "def": 129.21013599280298,
+      "games": 82
+    },
+    "28": {
+      "elo": 1539.1745698910775,
+      "off": 117.22334192960112,
+      "def": 110.38017384889642,
+      "games": 82
+    },
+    "29": {
+      "elo": 1231.9440514200614,
+      "off": 111.9063910956206,
+      "def": 129.24742480344364,
+      "games": 82
+    },
+    "30": {
+      "elo": 1654.0051834872747,
+      "off": 115.36615388556226,
+      "def": 106.37801554676422,
+      "games": 82
+    }
+  },
+  "validation": {
+    "method": "expanding-window season replay; parameters selected only on prior seasons",
+    "warmupSeason": 2019,
+    "folds": [
+      {
+        "season": 2020,
+        "trainingSeasons": [
+          2019
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 18,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1059,
+          "accuracy": 0.6421152030217187,
+          "brier": 0.21974428490701087,
+          "logLoss": 0.6290360844695257,
+          "marginMae": 10.274905197794975,
+          "totalMae": 15.463199557049972,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 4,
+              "predicted": 0.1684305870828683,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 35,
+              "predicted": 0.26410317663131,
+              "actual": 0.11428571428571428
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 122,
+              "predicted": 0.35475553068949006,
+              "actual": 0.3360655737704918
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 215,
+              "predicted": 0.45074546400872517,
+              "actual": 0.4418604651162791
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 280,
+              "predicted": 0.5498084184672961,
+              "actual": 0.5571428571428572
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 213,
+              "predicted": 0.6480074226048812,
+              "actual": 0.6619718309859155
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 157,
+              "predicted": 0.7443582338234371,
+              "actual": 0.7452229299363057
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 32,
+              "predicted": 0.8326924932247971,
+              "actual": 0.90625
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 1,
+              "predicted": 0.9123506293267079,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 229,
+              "coverage": 0.21624173748819642,
+              "accuracy": 0.7947598253275109,
+              "wilson95": [
+                0.7377921933931543,
+                0.8420011081474638
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 37,
+              "coverage": 0.03493862134088763,
+              "accuracy": 0.918918918918919,
+              "wilson95": [
+                0.7869900750149847,
+                0.9720399336036787
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 12,
+              "coverage": 0.0113314447592068,
+              "accuracy": 0.9166666666666666,
+              "wilson95": [
+                0.6461140782014047,
+                0.9851352905492264
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 1,
+              "coverage": 0.0009442870632672333,
+              "accuracy": 1,
+              "wilson95": [
+                0.20654329147389294,
+                1
+              ]
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1059,
+          "accuracy": 0.5514636449480642,
+          "brier": 0.24905052244745823,
+          "logLoss": 0.6913271844303396,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1059,
+              "predicted": 0.5926829268292629,
+              "actual": 0.5514636449480642
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2021,
+        "trainingSeasons": [
+          2019,
+          2020
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 18,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1080,
+          "accuracy": 0.6203703703703703,
+          "brier": 0.2262547898579561,
+          "logLoss": 0.6431177560362497,
+          "marginMae": 11.226344940534691,
+          "totalMae": 14.928070925538139,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 4,
+              "predicted": 0.17321501128558547,
+              "actual": 0.25
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 21,
+              "predicted": 0.25479099653952425,
+              "actual": 0.23809523809523808
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 109,
+              "predicted": 0.36248759489412813,
+              "actual": 0.3853211009174312
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 205,
+              "predicted": 0.455129574992441,
+              "actual": 0.3902439024390244
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 308,
+              "predicted": 0.5523546937748273,
+              "actual": 0.4902597402597403
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 254,
+              "predicted": 0.6475258292517052,
+              "actual": 0.6535433070866141
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 138,
+              "predicted": 0.7376247769801673,
+              "actual": 0.7681159420289855
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 41,
+              "predicted": 0.8328990087246166,
+              "actual": 0.8780487804878049
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 204,
+              "coverage": 0.18888888888888888,
+              "accuracy": 0.7892156862745098,
+              "wilson95": [
+                0.7281622743840798,
+                0.8395777738064653
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 45,
+              "coverage": 0.041666666666666664,
+              "accuracy": 0.8666666666666667,
+              "wilson95": [
+                0.738224177587027,
+                0.9374293636565033
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 8,
+              "coverage": 0.007407407407407408,
+              "accuracy": 1,
+              "wilson95": [
+                0.6755843804891231,
+                1
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1080,
+          "accuracy": 0.5435185185185185,
+          "brier": 0.24901181223330454,
+          "logLoss": 0.6911961798438659,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1080,
+              "predicted": 0.5736129314110933,
+              "actual": 0.5435185185185185
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2022,
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 18,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.640650406504065,
+          "brier": 0.22241096334158464,
+          "logLoss": 0.6360584843979364,
+          "marginMae": 11.265165039002362,
+          "totalMae": 15.248059977886976,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 2,
+              "predicted": 0.17770467117357852,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 38,
+              "predicted": 0.2587426879934201,
+              "actual": 0.23684210526315788
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 135,
+              "predicted": 0.35290337244319575,
+              "actual": 0.32592592592592595
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 220,
+              "predicted": 0.4508314166081631,
+              "actual": 0.38636363636363635
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 298,
+              "predicted": 0.5533787260680931,
+              "actual": 0.5134228187919463
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 293,
+              "predicted": 0.64969954104585,
+              "actual": 0.6552901023890785
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 201,
+              "predicted": 0.7474802154718749,
+              "actual": 0.7611940298507462
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 41,
+              "predicted": 0.8288773357909268,
+              "actual": 0.7804878048780488
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9031803548565184,
+              "actual": 0.5
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 284,
+              "coverage": 0.23089430894308943,
+              "accuracy": 0.7640845070422535,
+              "wilson95": [
+                0.7113847241838673,
+                0.8097352251215839
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 45,
+              "coverage": 0.036585365853658534,
+              "accuracy": 0.7777777777777778,
+              "wilson95": [
+                0.637304262026367,
+                0.8745544813399436
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 7,
+              "coverage": 0.005691056910569106,
+              "accuracy": 0.8571428571428571,
+              "wilson95": [
+                0.48686549668097007,
+                0.9743210440510253
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 0.5,
+              "wilson95": [
+                0.09452865480086614,
+                0.9054713451991339
+              ]
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1230,
+          "accuracy": 0.5439024390243903,
+          "brier": 0.24847510500877332,
+          "logLoss": 0.6901032049334419,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1230,
+              "predicted": 0.5639655684179424,
+              "actual": 0.5439024390243903
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2023,
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021,
+          2022
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 14,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6365853658536585,
+          "brier": 0.2281078335834568,
+          "logLoss": 0.647837508595888,
+          "marginMae": 10.303731472813336,
+          "totalMae": 14.685983365650339,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 15,
+              "predicted": 0.2732996155625285,
+              "actual": 0.2
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 110,
+              "predicted": 0.36354388390694736,
+              "actual": 0.36363636363636365
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 222,
+              "predicted": 0.45572831758284804,
+              "actual": 0.43243243243243246
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 401,
+              "predicted": 0.5532423720286038,
+              "actual": 0.5910224438902744
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 333,
+              "predicted": 0.6460513891961092,
+              "actual": 0.6756756756756757
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 135,
+              "predicted": 0.7461335759200625,
+              "actual": 0.7481481481481481
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 14,
+              "predicted": 0.823559505318732,
+              "actual": 0.8571428571428571
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 164,
+              "coverage": 0.13333333333333333,
+              "accuracy": 0.7621951219512195,
+              "wilson95": [
+                0.6915054964498925,
+                0.820882374018454
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 14,
+              "coverage": 0.011382113821138212,
+              "accuracy": 0.8571428571428571,
+              "wilson95": [
+                0.600580922361363,
+                0.9599069262620787
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 3,
+              "coverage": 0.0024390243902439024,
+              "accuracy": 0.6666666666666666,
+              "wilson95": [
+                0.2076549551264879,
+                0.9385096847238394
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1230,
+          "accuracy": 0.5804878048780487,
+          "brier": 0.24400080259429469,
+          "logLoss": 0.6811092902172131,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1230,
+              "predicted": 0.5585996955860114,
+              "actual": 0.5804878048780487
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2024,
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021,
+          2022,
+          2023
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 14,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6463414634146342,
+          "brier": 0.2150376217742891,
+          "logLoss": 0.6183293015385706,
+          "marginMae": 11.21987555864637,
+          "totalMae": 14.816646930073755,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 7,
+              "predicted": 0.1747915151268303,
+              "actual": 0.14285714285714285
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 55,
+              "predicted": 0.26286269407046653,
+              "actual": 0.2
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 132,
+              "predicted": 0.35207364427422805,
+              "actual": 0.23484848484848486
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 213,
+              "predicted": 0.45392995624675825,
+              "actual": 0.45539906103286387
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 320,
+              "predicted": 0.5523190007037483,
+              "actual": 0.515625
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 262,
+              "predicted": 0.6470888957339715,
+              "actual": 0.6335877862595419
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 181,
+              "predicted": 0.7459172702089593,
+              "actual": 0.7845303867403315
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 58,
+              "predicted": 0.8343444475802781,
+              "actual": 0.9137931034482759
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9066915406149987,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 303,
+              "coverage": 0.24634146341463414,
+              "accuracy": 0.8151815181518152,
+              "wilson95": [
+                0.7676257118047266,
+                0.8548452960377563
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 67,
+              "coverage": 0.05447154471544716,
+              "accuracy": 0.9104477611940298,
+              "wilson95": [
+                0.8180703630060067,
+                0.9583096171186658
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 19,
+              "coverage": 0.015447154471544716,
+              "accuracy": 0.8947368421052632,
+              "wilson95": [
+                0.686054495051583,
+                0.9706420586049034
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 1,
+              "wilson95": [
+                0.34237195288961925,
+                1
+              ]
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1230,
+          "accuracy": 0.5430894308943089,
+          "brier": 0.24854847597227528,
+          "logLoss": 0.6902500853991925,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1230,
+              "predicted": 0.5632183908046084,
+              "actual": 0.5430894308943089
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2025,
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 14,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6764227642276422,
+          "brier": 0.21105555877387244,
+          "logLoss": 0.6101204124540521,
+          "marginMae": 11.206756579728465,
+          "totalMae": 14.726724212477581,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 9,
+              "predicted": 0.16594065914971,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 54,
+              "predicted": 0.2625786775930863,
+              "actual": 0.2037037037037037
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 143,
+              "predicted": 0.35551857515938085,
+              "actual": 0.26573426573426573
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 219,
+              "predicted": 0.4487981554103001,
+              "actual": 0.3744292237442922
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 258,
+              "predicted": 0.5516208918555429,
+              "actual": 0.5658914728682171
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 286,
+              "predicted": 0.6492403731168808,
+              "actual": 0.6258741258741258
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 192,
+              "predicted": 0.7448617948760435,
+              "actual": 0.8072916666666666
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 66,
+              "predicted": 0.8370252640498277,
+              "actual": 0.8333333333333334
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 3,
+              "predicted": 0.907227117549113,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 324,
+              "coverage": 0.2634146341463415,
+              "accuracy": 0.8179012345679012,
+              "wilson95": [
+                0.7722342534667506,
+                0.8561179751704937
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 78,
+              "coverage": 0.06341463414634146,
+              "accuracy": 0.8589743589743589,
+              "wilson95": [
+                0.7648582105386765,
+                0.9193903867516988
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 26,
+              "coverage": 0.02113821138211382,
+              "accuracy": 0.9615384615384616,
+              "wilson95": [
+                0.811068230080416,
+                0.9931781910230102
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 3,
+              "coverage": 0.0024390243902439024,
+              "accuracy": 1,
+              "wilson95": [
+                0.43849391955098227,
+                1
+              ]
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1230,
+          "accuracy": 0.5439024390243903,
+          "brier": 0.2483224866762606,
+          "logLoss": 0.6897932117615574,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1230,
+              "predicted": 0.559711007224802,
+              "actual": 0.5439024390243903
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2026,
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "parameters": {
+          "decay": 0.92,
+          "k": 14,
+          "probabilityScale": 6.8
+        },
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6943089430894309,
+          "brier": 0.20691732612045002,
+          "logLoss": 0.6017243623286559,
+          "marginMae": 11.610576615977003,
+          "totalMae": 15.295155103317335,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 9,
+              "predicted": 0.18346742512655026,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 58,
+              "predicted": 0.2629427504332132,
+              "actual": 0.15517241379310345
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 125,
+              "predicted": 0.35347787992247215,
+              "actual": 0.264
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 230,
+              "predicted": 0.45244572638227154,
+              "actual": 0.36086956521739133
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 286,
+              "predicted": 0.5507979599630338,
+              "actual": 0.5804195804195804
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 254,
+              "predicted": 0.6459920158458577,
+              "actual": 0.6771653543307087
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 185,
+              "predicted": 0.7474957511323518,
+              "actual": 0.8108108108108109
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 81,
+              "predicted": 0.8338331701020567,
+              "actual": 0.8271604938271605
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9049108890677705,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 335,
+              "coverage": 0.27235772357723576,
+              "accuracy": 0.826865671641791,
+              "wilson95": [
+                0.7827025946105491,
+                0.8636171016723156
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 92,
+              "coverage": 0.07479674796747968,
+              "accuracy": 0.8478260869565217,
+              "wilson95": [
+                0.7606330403346201,
+                0.907135444331746
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 22,
+              "coverage": 0.01788617886178862,
+              "accuracy": 0.9090909090909091,
+              "wilson95": [
+                0.7218461934161421,
+                0.9747051037171622
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 1,
+              "wilson95": [
+                0.34237195288961925,
+                1
+              ]
+            }
+          ]
+        },
+        "homeFrequencyBaseline": {
+          "games": 1230,
+          "accuracy": 0.5544715447154471,
+          "brier": 0.2470412239575164,
+          "logLoss": 0.6872180496188478,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1230,
+              "predicted": 0.5573651827723588,
+              "actual": 0.5544715447154471
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.8,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.85,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      }
+    ],
+    "aggregate": {
+      "games": 8289,
+      "accuracy": 0.6517070816745084,
+      "brier": 0.21833820897373762,
+      "logLoss": 0.6262543823416524,
+      "marginMae": 11.026792932516425,
+      "totalMae": 15.016058092105947,
+      "calibration": [
+        {
+          "from": 0,
+          "to": 0.1,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.1,
+          "to": 0.2,
+          "count": 35,
+          "predicted": 0.17400586000557502,
+          "actual": 0.05714285714285714
+        },
+        {
+          "from": 0.2,
+          "to": 0.3,
+          "count": 276,
+          "predicted": 0.26236708252044366,
+          "actual": 0.18840579710144928
+        },
+        {
+          "from": 0.3,
+          "to": 0.4,
+          "count": 876,
+          "predicted": 0.35607387828706893,
+          "actual": 0.3070776255707763
+        },
+        {
+          "from": 0.4,
+          "to": 0.5,
+          "count": 1524,
+          "predicted": 0.4524952949972788,
+          "actual": 0.40551181102362205
+        },
+        {
+          "from": 0.5,
+          "to": 0.6,
+          "count": 2151,
+          "predicted": 0.5520302841834538,
+          "actual": 0.5457926545792655
+        },
+        {
+          "from": 0.6,
+          "to": 0.7,
+          "count": 1895,
+          "predicted": 0.6476497251673291,
+          "actual": 0.6548812664907652
+        },
+        {
+          "from": 0.7,
+          "to": 0.8,
+          "count": 1189,
+          "predicted": 0.7451128868596342,
+          "actual": 0.7771236333052985
+        },
+        {
+          "from": 0.8,
+          "to": 0.9,
+          "count": 333,
+          "predicted": 0.8332881535976115,
+          "actual": 0.8528528528528528
+        },
+        {
+          "from": 0.9,
+          "to": 1,
+          "count": 10,
+          "predicted": 0.9063597551052622,
+          "actual": 0.9
+        }
+      ],
+      "confidenceCoverage": [
+        {
+          "threshold": 0.7,
+          "games": 1843,
+          "coverage": 0.2223428640366751,
+          "accuracy": 0.7997829625610418,
+          "wilson95": [
+            0.7808981076214587,
+            0.8174206653583138
+          ]
+        },
+        {
+          "threshold": 0.8,
+          "games": 378,
+          "coverage": 0.04560260586319218,
+          "accuracy": 0.8624338624338624,
+          "wilson95": [
+            0.8240468178079978,
+            0.8935282185421536
+          ]
+        },
+        {
+          "threshold": 0.85,
+          "games": 97,
+          "coverage": 0.01170225600193027,
+          "accuracy": 0.9175257731958762,
+          "wilson95": [
+            0.8456221298338819,
+            0.9576178028922945
+          ]
+        },
+        {
+          "threshold": 0.9,
+          "games": 10,
+          "coverage": 0.0012064181445288937,
+          "accuracy": 0.9,
+          "wilson95": [
+            0.5958436145024278,
+            0.9821242504842788
+          ]
+        }
+      ]
+    },
+    "homeFrequencyBaseline": {
+      "games": 8289,
+      "accuracy": 0.551695017493063,
+      "brier": 0.24773007797815466,
+      "logLoss": 0.6886150546648304,
+      "calibration": [
+        {
+          "from": 0,
+          "to": 0.1,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.1,
+          "to": 0.2,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.2,
+          "to": 0.3,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.3,
+          "to": 0.4,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.4,
+          "to": 0.5,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.5,
+          "to": 0.6,
+          "count": 8289,
+          "predicted": 0.5663736029132111,
+          "actual": 0.551695017493063
+        },
+        {
+          "from": 0.6,
+          "to": 0.7,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.7,
+          "to": 0.8,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.8,
+          "to": 0.9,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.9,
+          "to": 1,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        }
+      ],
+      "confidenceCoverage": [
+        {
+          "threshold": 0.7,
+          "games": 0,
+          "coverage": 0,
+          "accuracy": null,
+          "wilson95": null
+        },
+        {
+          "threshold": 0.8,
+          "games": 0,
+          "coverage": 0,
+          "accuracy": null,
+          "wilson95": null
+        },
+        {
+          "threshold": 0.85,
+          "games": 0,
+          "coverage": 0,
+          "accuracy": null,
+          "wilson95": null
+        },
+        {
+          "threshold": 0.9,
+          "games": 0,
+          "coverage": 0,
+          "accuracy": null,
+          "wilson95": null
+        }
+      ]
+    },
+    "fixedEloBaseline": {
+      "games": 8289,
+      "accuracy": 0.6453130655085052,
+      "brier": 0.2191841232389581,
+      "logLoss": 0.6283921402538362,
+      "calibration": [
+        {
+          "from": 0,
+          "to": 0.1,
+          "count": 48,
+          "predicted": 0.08012005343111438,
+          "actual": 0.0625
+        },
+        {
+          "from": 0.1,
+          "to": 0.2,
+          "count": 359,
+          "predicted": 0.15970652866731266,
+          "actual": 0.20334261838440112
+        },
+        {
+          "from": 0.2,
+          "to": 0.3,
+          "count": 708,
+          "predicted": 0.25462899753633367,
+          "actual": 0.3135593220338983
+        },
+        {
+          "from": 0.3,
+          "to": 0.4,
+          "count": 931,
+          "predicted": 0.3524860701723031,
+          "actual": 0.38560687432867885
+        },
+        {
+          "from": 0.4,
+          "to": 0.5,
+          "count": 1174,
+          "predicted": 0.4538306876546015,
+          "actual": 0.48126064735945484
+        },
+        {
+          "from": 0.5,
+          "to": 0.6,
+          "count": 1426,
+          "predicted": 0.5514060032291545,
+          "actual": 0.5476858345021038
+        },
+        {
+          "from": 0.6,
+          "to": 0.7,
+          "count": 1351,
+          "predicted": 0.6481986475391811,
+          "actual": 0.615099925980755
+        },
+        {
+          "from": 0.7,
+          "to": 0.8,
+          "count": 1202,
+          "predicted": 0.748459362643364,
+          "actual": 0.7054908485856906
+        },
+        {
+          "from": 0.8,
+          "to": 0.9,
+          "count": 885,
+          "predicted": 0.8460412689237157,
+          "actual": 0.8067796610169492
+        },
+        {
+          "from": 0.9,
+          "to": 1,
+          "count": 205,
+          "predicted": 0.9249385030686507,
+          "actual": 0.8634146341463415
+        }
+      ],
+      "confidenceCoverage": [
+        {
+          "threshold": 0.7,
+          "games": 3407,
+          "coverage": 0.41102666184099407,
+          "accuracy": 0.7502201350161433,
+          "wilson95": [
+            0.7354078308022105,
+            0.7644687978867324
+          ]
+        },
+        {
+          "threshold": 0.8,
+          "games": 1497,
+          "coverage": 0.18060079623597539,
+          "accuracy": 0.8162992651970608,
+          "wilson95": [
+            0.7958813850052193,
+            0.8350979268688652
+          ]
+        },
+        {
+          "threshold": 0.85,
+          "games": 778,
+          "coverage": 0.09385933164434793,
+          "accuracy": 0.8560411311053985,
+          "wilson95": [
+            0.8296223480586591,
+            0.8789610785587019
+          ]
+        },
+        {
+          "threshold": 0.9,
+          "games": 253,
+          "coverage": 0.03052237905658101,
+          "accuracy": 0.8774703557312253,
+          "wilson95": [
+            0.831327552920598,
+            0.9123214509790819
+          ]
+        }
+      ]
+    }
+  }
+}

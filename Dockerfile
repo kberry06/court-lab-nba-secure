@@ -11,5 +11,7 @@ RUN npm ci --ignore-scripts
 COPY src ./src
 COPY public ./public
 COPY deploy ./deploy
+COPY model-artifact.json ./
+COPY player-history-artifact.json ./
 EXPOSE 10000
 CMD ["node", "deploy/reuse-service.mjs"]

@@ -1,0 +1,1270 @@
+{
+  "schemaVersion": 1,
+  "fetchedAt": "2026-10-24T08:10:23.620Z",
+  "provider": "SportsDataverse hoopR NBA / ESPN",
+  "attribution": "SportsDataverse / hoopR NBA authors; upstream ESPN. Filtered to the verified regular-season archive, normalized IDs and stats, retained observed DNP/starter fields.",
+  "licenseUrl": "https://github.com/sportsdataverse/hoopR-nba-data/blob/main/LICENSE.md",
+  "releaseUrl": "https://github.com/sportsdataverse/sportsdataverse-data/releases/tag/espn_nba_player_boxscores",
+  "sourceAssets": [
+    {
+      "season": 2019,
+      "name": "player_box_2019.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2019.csv",
+      "bytes": 16423678,
+      "sha256": "5df73407e22c013e1602aec0c13223217523ca11966c28beac73b09c870128f0"
+    },
+    {
+      "season": 2020,
+      "name": "player_box_2020.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2020.csv",
+      "bytes": 14334441,
+      "sha256": "f822c3cf5a1e440cca81ab98aac5cc97f1fb0c2259cb0ab1a2cfd7cf5a47b473"
+    },
+    {
+      "season": 2021,
+      "name": "player_box_2021.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2021.csv",
+      "bytes": 16122075,
+      "sha256": "86b12342459b786450460000ad4de6a6c6a618ae064f6047e19565110bcc638f"
+    },
+    {
+      "season": 2022,
+      "name": "player_box_2022.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2022.csv",
+      "bytes": 17355393,
+      "sha256": "1a639a8c47250a35cb823a17510d6a1a900bbab9bcaec19b7b79abe2f7f803e6"
+    },
+    {
+      "season": 2023,
+      "name": "player_box_2023.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2023.csv",
+      "bytes": 17431336,
+      "sha256": "1b797107d4a0b2fbc98862bd283b9e807a05aa11c671b89a471b25591a589493"
+    },
+    {
+      "season": 2024,
+      "name": "player_box_2024.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2024.csv",
+      "bytes": 17930190,
+      "sha256": "c52a708ac80542baa0711f166154e0a647543036854e29aa903bd2fc27b49ae2"
+    },
+    {
+      "season": 2025,
+      "name": "player_box_2025.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2025.csv",
+      "bytes": 17909380,
+      "sha256": "8e34c5b1b7629dda89483356b5ec40f76a0b534aa273a5ddd8d9ef23f3e0e4f7"
+    },
+    {
+      "season": 2026,
+      "name": "player_box_2026.csv",
+      "url": "https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_nba_player_boxscores/player_box_2026.csv",
+      "bytes": 17729581,
+      "sha256": "7a4868da67ae7f6ebfba23389e04220be2e3f69d2e56a3942c02aa56f1becc89"
+    }
+  ],
+  "coverage": [
+    {
+      "season": 2019,
+      "rows": 30221,
+      "appearances": 25594,
+      "dnp": 4627,
+      "players": 540,
+      "games": 1207,
+      "excludedNonArchiveRows": 2167,
+      "quarantinedRows": 17,
+      "missingTeamGames": 2,
+      "scoreMismatches": 27,
+      "bulkRows": 30801,
+      "repairs": 42,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2020,
+      "rows": 26491,
+      "appearances": 22353,
+      "dnp": 4138,
+      "players": 537,
+      "games": 1057,
+      "excludedNonArchiveRows": 2220,
+      "quarantinedRows": 0,
+      "missingTeamGames": 0,
+      "scoreMismatches": 2,
+      "bulkRows": 26544,
+      "repairs": 2,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2021,
+      "rows": 28853,
+      "appearances": 23034,
+      "dnp": 5819,
+      "players": 544,
+      "games": 1079,
+      "excludedNonArchiveRows": 2709,
+      "quarantinedRows": 1,
+      "missingTeamGames": 0,
+      "scoreMismatches": 1,
+      "bulkRows": 28883,
+      "repairs": 2,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2022,
+      "rows": 31330,
+      "appearances": 26041,
+      "dnp": 5289,
+      "players": 622,
+      "games": 1230,
+      "excludedNonArchiveRows": 2550,
+      "quarantinedRows": 0,
+      "missingTeamGames": 0,
+      "scoreMismatches": 0,
+      "bulkRows": 31330,
+      "repairs": 0,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2023,
+      "rows": 31551,
+      "appearances": 25898,
+      "dnp": 5653,
+      "players": 548,
+      "games": 1230,
+      "excludedNonArchiveRows": 2506,
+      "quarantinedRows": 0,
+      "missingTeamGames": 0,
+      "scoreMismatches": 0,
+      "bulkRows": 31551,
+      "repairs": 0,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2024,
+      "rows": 32500,
+      "appearances": 26498,
+      "dnp": 6002,
+      "players": 588,
+      "games": 1230,
+      "excludedNonArchiveRows": 2528,
+      "quarantinedRows": 0,
+      "missingTeamGames": 0,
+      "scoreMismatches": 0,
+      "bulkRows": 32500,
+      "repairs": 0,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2025,
+      "rows": 32515,
+      "appearances": 26306,
+      "dnp": 6209,
+      "players": 577,
+      "games": 1230,
+      "excludedNonArchiveRows": 2668,
+      "quarantinedRows": 67,
+      "missingTeamGames": 0,
+      "scoreMismatches": 0,
+      "bulkRows": 32515,
+      "repairs": 56,
+      "remainingScoreMismatches": 0
+    },
+    {
+      "season": 2026,
+      "rows": 31977,
+      "appearances": 26488,
+      "dnp": 5489,
+      "players": 591,
+      "games": 1223,
+      "excludedNonArchiveRows": 2692,
+      "quarantinedRows": 46,
+      "missingTeamGames": 0,
+      "scoreMismatches": 7,
+      "bulkRows": 32145,
+      "repairs": 46,
+      "remainingScoreMismatches": 0
+    }
+  ],
+  "totalRows": 245438,
+  "totalAppearances": 202212,
+  "limitations": "Actual player participation and starter fields are postgame observations. Missing and inconsistent records are audited and must be resolved or excluded before player model fitting. This archive is not evidence of pregame roster/injury availability or calibrated player-prop forecasts.",
+  "bulkImportedRows": 246269,
+  "repairs": {
+    "requested": 148,
+    "repaired": 115,
+    "excludedGames": [
+      401070216,
+      401070716,
+      401070728,
+      401070741,
+      401070761,
+      401070804,
+      401070818,
+      401070832,
+      401070845,
+      401070877,
+      401070892,
+      401070914,
+      401070923,
+      401070986,
+      401071328,
+      401070239,
+      401071384,
+      401071406,
+      401071428,
+      401071433,
+      401071441,
+      401071459,
+      401071544,
+      401160790,
+      401161182,
+      401267209,
+      401810150,
+      401810372,
+      401810547,
+      401810560,
+      401810577,
+      401810633,
+      401810760
+    ],
+    "sources": [
+      {
+        "gameId": 401070917,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070917",
+        "sha256": "ab7121cf310fcd39044ad6ce13c37abf6c5b8e4db2becdad9f018cc98eac406e",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070216,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070216",
+        "sha256": "fe7f67810797fe6678c65aee5a983f2806832341705cdd7a0664d493b61c290a",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070716,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070716",
+        "sha256": "8293692861b7a07ce8cdf7690384cd897dbab546a99753927749c6a2917bab7f",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070728,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070728",
+        "sha256": "818bcd2c8214fd8295928a96885bc70927ef31864ab9087084aaeeb35b9457f4",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070741,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070741",
+        "sha256": "b2bdddbd0cc7af2ba35784aa88930a4d2b28ca73d1363c9a31b7f154ba1dc1a1",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070761,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070761",
+        "sha256": "9e50e69826acd212b971205b2455d3186c8925330fecf404366e84e2a7e562c7",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070804,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070804",
+        "sha256": "9863ac86a95b46dc996bb3673f53ac2daa7ca133799559b7dcd68359a6ced93a",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070818,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070818",
+        "sha256": "2b0be1b829bd31ab81f6a678ef0846f113116ee35201698d9720f670bffda58c",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070832,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070832",
+        "sha256": "13f5a80efa72f836829155f7cb02b9bbbd8a1a76b4fcedd31cd26e0732b4d226",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070845,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070845",
+        "sha256": "f481a61dcd278b5fd864637b2397e48ce78ab85e8f1935059d3d9b10bfbdcffd",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070857,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070857",
+        "sha256": "b69ce4aea040dfcd5e5c8ed0968ed21969d703c6431c359ffba9b128f9b056d4",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070877,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070877",
+        "sha256": "d3b94a1be60fdc3c93d51db2b9fa4d4884fc4ebe0bbcb982ae13ff7fbc145562",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070892,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070892",
+        "sha256": "f92244819abfb9c69bbff96ed5cba90771db8e1b817bfeb259c8ad2104059ed2",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070914,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070914",
+        "sha256": "1c02bf5f9854230b950a615c960f9a55ba6e06df26411546e4ab8a1121c1e06c",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070923,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070923",
+        "sha256": "c636193d10ec8e8b92dc5aef0a0d26d8cb66402a18be397a49e2e654211b664a",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070938,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070938",
+        "sha256": "d97dc463edf8900bbba915ce38cff92bbffc0a10bf11468b843caa7cab79da5e",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070986,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070986",
+        "sha256": "d948891b71758911a7c6049d99cfe1f318af292471e9e8b1de063ea483fbf20f",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071328,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071328",
+        "sha256": "85accc9d8cb81421c974a7b2b75199ed1852c63a5d18c7f2d8277c6ffbbcde24",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401070239,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070239",
+        "sha256": "8361f65b6fb130997bf848018612ca479d53f3b9ec578ba036a7d28b1adf2a75",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071384,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071384",
+        "sha256": "b77e0423eb203d9f6033e6f46db74624ba183d3e2e8b4651f2d3c58d49f29418",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071406,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071406",
+        "sha256": "06e9fd91781a48b87e49c9e32089e404a3cf4409ccc519a3f3bbfc7e9db2be0f",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071428,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071428",
+        "sha256": "0c8cbf7dbbe015f2c692be53de9d501ea1d218203bc98730549fba5f1c04437c",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071433,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071433",
+        "sha256": "22c64bb454c5458b830adf11deba3ad8d9b4c70077d67202b005565f93dc692d",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071441,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071441",
+        "sha256": "6e5258e77872d06d37d9512c96550e5156d1a0bd8883c637653be37a3f1d10db",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071459,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071459",
+        "sha256": "4067d2a765868ab91e69861936ba1ff353c599eb0c5c64a6f4f6477c9aa90470",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071544,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071544",
+        "sha256": "33e10c1ee77b174ddf8cc08560ece2364172a42f83b8f4be44ce43830b24ab65",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401071802,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071802",
+        "sha256": "0370e2056a4b76f03d2b058104b9765d008480cedfa4da91f26d284891a500e6",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071777,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071777",
+        "sha256": "5c60f9501334c437c70f3b5a96d6cfdf6894c681ff67d935fabd1c65e2e897b6",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401071722,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071722",
+        "sha256": "ed880d47aa400f68f67f2d26fa71d5bb2960484a118334f8fbf5bf7477a314b1",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071689,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071689",
+        "sha256": "83935d22750d98e0c09500684a90cf0e142ae1ca41debe444f3cb60b5f08cb7f",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071620,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071620",
+        "sha256": "6f56469c2aea50cbf6a09581c4afc9be31fbd7c16f4abc6a3cf8e80863d7720d",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071593,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071593",
+        "sha256": "24b0a73b74559259cbf460305da6119c51039ab13bd7d86a4bc716b0b25ef2ee",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071587,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071587",
+        "sha256": "5e18b21dd8e37301260438bc921ddb491decd57ac49e1c295d71746f1030608e",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071564,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071564",
+        "sha256": "25edf04e9a728d8f17443c01775b7275612e4a772f77b8e2491a58bf6e62e73a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071551,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071551",
+        "sha256": "480fb0ec8395cfa450f3127f82afb1920a89b09cc04c0b18328ff884f7f53852",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071529,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071529",
+        "sha256": "b497fadf51dfbbaf8003cc531468c286b16a56d599746de089d152720cade3c8",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071469,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071469",
+        "sha256": "b896f87ffb43f3042242071c1d8fee320c6fdda3b0c4f42f3b79ed6ab5b068fd",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071465,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071465",
+        "sha256": "924395c2ef982727c2c56dedc1ebf3e0aac8e3099b84494e8a963c94c651e7e7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401071016,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401071016",
+        "sha256": "6683ad1b7229a55648623e7af1af260e8dfccbfd95e8b0f8a69e41fb4dbf29af",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070948,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070948",
+        "sha256": "19cd842837a48782571653bf65f52c05a3971505ed17ec0dc2da1e687467fa51",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070856,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070856",
+        "sha256": "011620959c299c07d18f16409f231c2f8e69bdc0f5aed7ce0aabe6c4ff38417c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401070701,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401070701",
+        "sha256": "08114ff47a23bab7091280a18a3d2593058d8afd15438c60b3959672e62666f3",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401160790,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401160790",
+        "sha256": "667e66e69dc62232ff9069b629198c9e51dcfe286f11d3a85d24b9c7995479d0",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401161182,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401161182",
+        "sha256": "6c94c1612a381381df9db465115ab85cb39a312be80719eacfa1d257e335cbfe",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401267209,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401267209",
+        "sha256": "bee0d63e4b51b0637346f8e5a6971b75a181fa35ed842f390bed37138f3f80c8",
+        "status": "unresolved",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401307470,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401307470",
+        "sha256": "46f723bde7a41806b51c08eeea3acc41d90078dc131d876cda66e8ddf62e64d0",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705766,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705766",
+        "sha256": "2278a6db30a51c90e03c1db4a357660c376b4394dd749f517e57128f73c96f39",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705740,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705740",
+        "sha256": "662108926160406094025143bad5a29902bbca2bc2322fa1c108fbf7e117c598",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705744,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705744",
+        "sha256": "7033c8aaca72b97335c64e3de5dbc307b2b55eb8c8116028b80cf20d1879568f",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705749,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705749",
+        "sha256": "9bd499c4ece90bbc9689398d9627815b0e05f7bc8bac5691214b4e04197a4fd0",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705735,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705735",
+        "sha256": "9602de645e79c77767f3a51698463edb21de587a86a3ff5a93526357f688c49d",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705711,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705711",
+        "sha256": "893198f51160cd2bc71b7c1ad270286f848c6324e9bca262fef9f5edb68435b5",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705709,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705709",
+        "sha256": "478e6aa25f64d4fcf9cc302de195e30e5ff9e9827d8da5400ff6ffcbddef2df6",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705690,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705690",
+        "sha256": "15675925adfc92cf7e2d77f92b22d4efe93d26c9dc153443490fe5dc6d77ef6a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705661,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705661",
+        "sha256": "d13533a0f498fbd73a69542c48fe560ee23fd83bda07d0e14273b56e82a2a4a9",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705653,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705653",
+        "sha256": "a37320e56ee0134fdda62b0cbc804b89283930a370810ccac58d8be36c08e22c",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705642,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705642",
+        "sha256": "f1f97cad9e1565b5e4ce5b6106f0ba60306c3abcf2fc7eaad007b3c315f21bb1",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705634,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705634",
+        "sha256": "d1978bc697f2981fd78f3d288d5931a41a007afe7cf9c1c157b8cad549f85480",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705638,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705638",
+        "sha256": "b204010dc4cc508f3cfb5387dcb8f4b0d34f8255ae6b1f73f760837d2eea904d",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705639,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705639",
+        "sha256": "0facda63601389ed3ce93aef15b0e4bf307fc888912f56acc170001ac8a852a2",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705607,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705607",
+        "sha256": "40e524b3aedd7263841734e144ec7250f1614ff4f142d30165719918267e6e3c",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705193,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705193",
+        "sha256": "f9b4ef0209efc2d0918b9167812c349339aa1c23b65bdcbb9f9182f109db5a49",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705578,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705578",
+        "sha256": "8ced44f1a69c54f8a28215636eae989f5cc567d3f2172e4b182b7c1acf47d45c",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705557,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705557",
+        "sha256": "489a21319f6879dc6d415346ff37650950ae1958f4ccf55988d6949250f3d1c7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401748706,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401748706",
+        "sha256": "e648d4aebd6d8e8c106c2cadf0ede5b2ad7284e196b2baa99452e44a570e2011",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705540,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705540",
+        "sha256": "1bd0be7229f90021bd953d110a7b60e145187e6e77a15caae8b7cbd06f0ada11",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705533,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705533",
+        "sha256": "eaad955688b453871cb75011bf7e5deba725735daa464231d99faf97cbbfe9e6",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705522,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705522",
+        "sha256": "f9a30d592f396be0e5a3addea98d37eeb862c1e807d39dc66a7ab8132400015d",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705507,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705507",
+        "sha256": "8a45d951096f620650b0a7d17b9f6c5d2dfdfa34740e4b6c109f9f8d4709b0ac",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401705505,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705505",
+        "sha256": "9f0fe5c2f50482a03066e48482e5b6d81175dc0d6787e829506ded048ca9487a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705481,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705481",
+        "sha256": "b79af582c2bfc90a0b3de206c484fc385657c8b9959de89d8f54b31c66115086",
+        "status": "verified",
+        "excludedInvalidRows": 3
+      },
+      {
+        "gameId": 401705485,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705485",
+        "sha256": "b2c7728106022079e80df2cef42017666f1999a78e88f4b222f366a3f2e1afac",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705473,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705473",
+        "sha256": "ff94a3dd86071bcfa57aa0757f2e8d637744178bc3bfa71f0c16c356f2aa8c6c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705469,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705469",
+        "sha256": "e2c5b992da69d17f3409373e270671dbbdffca9562ebef09fdb1e7b94bca0eec",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705458,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705458",
+        "sha256": "f4aff6fc46acdeb95e1050c417f6f10ae67849ac68c5d8b04b7b28931aacc6ce",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705454,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705454",
+        "sha256": "d894d9adcfa4ba9da37caad570fb508d34289d91bdb4448dd9a3f0115666c903",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705424,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705424",
+        "sha256": "44f55d15dd783a6240d03fc355ef7f37e9583b6d71db2509623da1a1d1d5f11c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705412,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705412",
+        "sha256": "df5a008b9e1a68635397d732ff967ec147176b96abe47f3ce1b30cb600176fa7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705379,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705379",
+        "sha256": "8fae9bfd0e1c63bf6bc390019ccef1c68b7f691448670dcc7ea8e642b7557b33",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705305,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705305",
+        "sha256": "9f213a0ab6308f93c29b765aa13aae64cd26d1583a435a498f5c1230ef651337",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705306,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705306",
+        "sha256": "992faa1466e169a7cdfd5951f8f990b9938d15f41842811b23ff5ee9a039014a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705053,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705053",
+        "sha256": "b25cf6de8e93b9a43120f915f4e5ebd77e7d999855494b55dcd75e8637fc635c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705036,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705036",
+        "sha256": "4fe12fec3ad40560ba571433c1415a6f6f4dac61e62d6073e3a3c02d9ac0d886",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401705025,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401705025",
+        "sha256": "6c17ca5c44d4a62dcbc3c69d3048e0b1ed0527b22be31b843aa91078ae7a0250",
+        "status": "verified",
+        "excludedInvalidRows": 2
+      },
+      {
+        "gameId": 401704994,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704994",
+        "sha256": "e2979476e14d8de8646b62b89cdb4b5a28ca323cc27602b8ebd5af38496dafe2",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704980,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704980",
+        "sha256": "aa6571c0f553c1b44745ce25893a9af4b4233892b09dd33a0281171a0b42d941",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704969,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704969",
+        "sha256": "3a2c688246404a383788917eed0636cf292e0a709b1b1f8f66bc843dc8b4ae74",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401736817,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401736817",
+        "sha256": "b6f0e6d764f9671394c4c7be06b0350acbdf7d188d221002b787e701fe3d84a1",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401736811,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401736811",
+        "sha256": "517ddecdeccb1bd82b78292616ab4956ed3d3dec5c610a34298bf3758938ee6a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401737912,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401737912",
+        "sha256": "34e50f8a554fa9c32075cec3f4414230439117fce99df36c51cba630ac878de3",
+        "status": "verified",
+        "excludedInvalidRows": 3
+      },
+      {
+        "gameId": 401734907,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401734907",
+        "sha256": "c912c349f92ff9e6f78444976916445d2ce158c7fa893503664766579491c802",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401734905,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401734905",
+        "sha256": "8961f605a28e80d36ff6295320f79f2cbd13036d7bf631716e120ec39a38723a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401734903,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401734903",
+        "sha256": "480e3e4115ebc8a74a75d860bf25380b734feaa5d0fa9ce188e7032d8b8d745f",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704921,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704921",
+        "sha256": "8012b1ba4ea01e2ae07fa2d2c86ea21fab7511f5d507e9897c9540960ca0ab41",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704904,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704904",
+        "sha256": "6df0a4b38522ed6301cbcbb29c92d4ecab76c38b08045527a27bafd2655ff6e1",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704894,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704894",
+        "sha256": "168b56fe9cc587c7eaa34268e0cde36585d6c57d662d64e33b86393d6d1afe04",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704851,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704851",
+        "sha256": "6801b4a750aeea485578f26ef1d13779d59e6f4a65ca4bbf3607acc0da45dc4f",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401703394,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401703394",
+        "sha256": "7078c98b28873eb7d608d4653ff55e4ee4bb10b1e7edd3b83583776300f58079",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704808,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704808",
+        "sha256": "79bb44bfcf8df16b4bb4049119c87b2adb16efd98b8d69eb7ce7308575ed5686",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704701,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704701",
+        "sha256": "2becffdacdea72ab902c04803547bddd8629fff748794d239c1834bbdb4850c7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704681,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704681",
+        "sha256": "9b4841a5e4bbef7d1a7e57634c2bc39ce76b9ee11efaf852ee84f39d5446134c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401704678,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401704678",
+        "sha256": "4c55b734bda7453ce0e2e0dc49c97cc4c1276d2b798e607abc0bb4c54d3bd6a3",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810150,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810150",
+        "sha256": "3accac539c997b8b9af6498146038cc94dca06ef7a295b09e936d6fc3deb96cf",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810372,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810372",
+        "sha256": "be3e1497d49c52d5acef57b2d93f3fbadd5c66354515966356b77ce673ae6e4f",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810547,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810547",
+        "sha256": "3e15da47936d748b54c9b93648179ee3f0aff662f51fca376cbc974bc3d3e981",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810560,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810560",
+        "sha256": "6f8aff8f1b8056ea4639eab87765e7edcd8f04eeba59a8cd0c727dabd8a42f58",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810577,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810577",
+        "sha256": "0755a52b4f56f627120e63aa516ec4d664ebee478bd6760f78d1686e0547fbe9",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810633,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810633",
+        "sha256": "36482522c10b348fe6d4a97c5ca99f9b200e4b00dffab46a75e90a7f6172dd7c",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810760,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810760",
+        "sha256": "e86c1cc6620d93125dd874e98adb624ef292610984e539da7501d796a26a660e",
+        "status": "unresolved",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401811009,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401811009",
+        "sha256": "4a522a3599ac36d6191a4492458af003a8dbd9a0b17d5488f20ed47e91c39728",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810996,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810996",
+        "sha256": "dafecc11a942d87c345dae5d5542b938b3c4289f43d96f0a8f809c2443f8138c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810837,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810837",
+        "sha256": "92a28f64d18454c4c1d5afec21486b433c10aa172a8ce51afc23dd571584da82",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810785,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810785",
+        "sha256": "3201766cc8c2fc3ba79a2208846c187c82786654daad03460a2095f8e95d2fc0",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810744,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810744",
+        "sha256": "0e4e48ba6ea7238cb1480376e24f63017fe26a190b80e36eba3bda6cb001bb9c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810725,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810725",
+        "sha256": "df326b0115734250146a3eabd28f848a23472faba38964232eb486add428788b",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810729,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810729",
+        "sha256": "f7f6dd572d9329c3b68402f982bafa91609fbd3af980d27eaf2a1ad82d616d6e",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810717,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810717",
+        "sha256": "dbbbadd74552fe47b296d9bb4805f9b6d117f97b5b0c29c2ff7eb3a996978e6b",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810708,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810708",
+        "sha256": "fa190e92aa7653e7bf0f19a14ba966e52a4b9737578df8885d2f61ac7d749f38",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810691,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810691",
+        "sha256": "1da5639b4f7c3265d506d5c7ad6f7f100ed5fa1be458ad0eddbaf2618bcf4fa7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810680,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810680",
+        "sha256": "fa6ad3b96b8c11c0979635089c6630630520060348343109952e5a659ff06830",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810652,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810652",
+        "sha256": "0d50c95c8ae7a42b177667aaba6fff239c98684bcfb22dac2d2e3e6a3507c1a2",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810617,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810617",
+        "sha256": "485ad4ff0d2ff82d249a5ad5ce0d4f554308e1413f9b5c93d8f60f07b81293c7",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810624,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810624",
+        "sha256": "3235da91d8b8b147e604a58d24d0dec0a5c71002cadfe3032fbd135825fdaa25",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810607,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810607",
+        "sha256": "848877aca4213ffa086e0ed62dd04157131d9b7b351eb5f9dde03875b558dd61",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810591,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810591",
+        "sha256": "2f85679523bb2a4888e12efd02a90f70325179a29d1850d978818db117a7d504",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810583,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810583",
+        "sha256": "cc34d4f37e436a2288a44ca44b54299847144eac14261eec31f184174546cf5c",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810585,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810585",
+        "sha256": "a882862247608143cf351182b8f2c5b05a96dd1c07a338d09ac66123fca92624",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810550,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810550",
+        "sha256": "5f5a35c9001663aa15b737ded6911cd78f7c0b1f141ec1b032029c1cd506e992",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401850920,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401850920",
+        "sha256": "886f954cacb0fe05229dbba2724b5c9b9f4ebddedea1d8a0fc05caca3eb6f6df",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810527,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810527",
+        "sha256": "428f5934981fa5217e31b2831d69c0955427922b16d0328fc25d8286ff79ee81",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810516,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810516",
+        "sha256": "f8c73907688a53e6e64905cc7e3d220c7036adf9418be48b6c79d13684873bc4",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810502,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810502",
+        "sha256": "317c7b6ad86b4ce97bef50b846e45a11c6d334b705484c0aa35792d5a4eda4cb",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810503,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810503",
+        "sha256": "e1538a2db729dd7d946f90de1c5f4ee264b66f76013c496f995cc6daaceb7fb7",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810496,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810496",
+        "sha256": "42f65c1be214cacee1b6e428abef807b8a3e03f35034f2fbd3775efe71eba6a2",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810486,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810486",
+        "sha256": "56818064498755738e9addff6dcabb871656ba71e8f7ba908f52fbd9c8548447",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810469,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810469",
+        "sha256": "843aa85adc82ba573a774e583cf962fa45b2cd46bf4ba9c6a970f3ca550e4be2",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810458,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810458",
+        "sha256": "59577a3fb334ed7ce6790522a2d7c38619ffd336a71e18235eddd48b081deb76",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810428,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810428",
+        "sha256": "b4278256fd23d2794d64bc626094f968b455a887bc072480c17d545b17a9e18f",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810423,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810423",
+        "sha256": "e30484e693af6b072b7b6d5ce78063bf05690185392dcb9155cd273ac1038deb",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810401,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810401",
+        "sha256": "b337d10d8cc2e880caaac889f7fdc334e8576b6ced89307b09f7778c9a2accd3",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810358,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810358",
+        "sha256": "5b8128b8b17a1f02f4d04833eaf0781e2ffb8adf15382429eeec23c4fee73029",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810344,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810344",
+        "sha256": "fb6d99f08a903c850551a572c6fe6be9ccbc9394b187753df162c0039c4a7959",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810216,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810216",
+        "sha256": "0add37fa027935d69e873e0994eed8a9f485ffb6b89a6877556c055db76ed63a",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810200,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810200",
+        "sha256": "0c51b1986e38f091d7483f74e1c9d14a92d132b07e297207257c491e0a96f3d1",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810184,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810184",
+        "sha256": "888218db21ad6648a805d7648b16b93ef5b62be0f9e7a25f275e2ccd57c78938",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810169,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810169",
+        "sha256": "4cc9e9ed27e8093e98d60e3e8406a311df43b3f0184de733633d578030a58e28",
+        "status": "verified",
+        "excludedInvalidRows": 1
+      },
+      {
+        "gameId": 401810144,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810144",
+        "sha256": "9f5eff3f2b4b9ef2724242c81b4872aa4c3b9dbb24d324edfae3ae7a7d46d23f",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      },
+      {
+        "gameId": 401810126,
+        "sourceUrl": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary?event=401810126",
+        "sha256": "e28c98029d01a40d06adc94c095a344d635116c630dcaa4b16930119d9c3f96d",
+        "status": "verified",
+        "excludedInvalidRows": 0
+      }
+    ]
+  },
+  "normalizedSha256": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7"
+}

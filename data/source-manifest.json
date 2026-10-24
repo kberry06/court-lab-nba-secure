@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-24T00:00:00.000Z",
+  "league": "NBA",
+  "seasonConvention": "ESPN season is the calendar year in which the NBA season ends",
+  "targetSeasons": [2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026],
+  "normalizationRules": [
+    {"rule": "Exclude Cup championships (ESPN competition type 39) from regular-season archive", "basis": "https://www.nba.com/news/nba-cup-101"},
+    {"rule": "Treat July/August 2020 restart games as neutral-site despite ESPN neutralSite=false", "basis": "https://www.nba.com/news/nba-nbpa-finalize-season-comeback-official-release"}
+  ],
+  "sources": [{
+    "id": "espn-team-schedules",
+    "kind": "game-results",
+    "urlTemplate": "https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/{teamId}/schedule?season={season}&seasontype=2",
+    "access": "publicly accessible JSON requested at a bounded rate",
+    "rightsBasis": "Private research use requested by the owner; no authentication bypass or scraping of rendered pages",
+    "expected": "Final regular-season games, teams, dates and scores",
+    "limitations": "No historical lineups, injuries or point-in-time bookmaker prices"
+  }]
+}

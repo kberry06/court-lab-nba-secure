@@ -2,7 +2,8 @@ node_modules/
 .env
 .env.*
 !.env.example
-data/
+data/generated/
+data/raw/
 *.sqlite*
 *.log
 coverage/

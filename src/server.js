@@ -74,6 +74,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/scenarios'){send(res,200,store.scenarios());return;}
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
    if(path==='/api/backtest'){send(res,200,store.latestReport());return;}
+   if(path==='/api/history'){const [gameText,playerText]=await Promise.all([readFile(new URL('../model-artifact.json',import.meta.url),'utf8'),readFile(new URL('../player-history-artifact.json',import.meta.url),'utf8')]);const {modelVersion,generatedAt,limitations,source,validation}=JSON.parse(gameText),players=JSON.parse(playerText);const {provider,attribution,licenseUrl,releaseUrl,coverage,totalRows,totalAppearances,repairs,normalizedSha256}=players;send(res,200,{modelVersion,generatedAt,limitations,source,validation,playerHistory:{provider,attribution,licenseUrl,releaseUrl,coverage,totalRows,totalAppearances,normalizedSha256,repairs:{requested:repairs.requested,repaired:repairs.repaired,excludedGames:repairs.excludedGames},limitations:players.limitations}});return;}
    const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css'};
    if(files[path]){const data=await renderFile(files[path]);res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html'});res.end(data);return;}
   }
@@ -83,4 +84,3 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
  return {server,store};
 }
 if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){const {server,store}=createApp();server.listen(Number(process.env.PORT)||3000,process.env.HOST||'127.0.0.1',()=>console.log(`NBA Lab: http://${process.env.HOST||'127.0.0.1'}:${process.env.PORT||3000}`));process.on('SIGTERM',()=>server.close(()=>{store.db.close();process.exit(0);}));}
-

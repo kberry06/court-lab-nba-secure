@@ -1,0 +1,8 @@
+import fs from 'node:fs/promises';
+import {ESPN_NBA_TEAMS,HISTORY_SEASONS,normalizeHistoricalSchedules,validateHistoricalCoverage} from '../src/historical-nba.js';
+const root=new URL('../data/',import.meta.url),raw=new URL('raw/espn/',root),generated=new URL('generated/',root),wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function fetchJson(url){for(let attempt=0;attempt<3;attempt++){const r=await fetch(url,{signal:AbortSignal.timeout(20000),redirect:'error'});if(r.ok)return r.json();if(![429,500,502,503,504].includes(r.status))throw new Error(`ESPN HTTP ${r.status}; access restrictions will not be bypassed`);await wait(500*2**attempt);}throw new Error('ESPN unavailable after bounded retries');}
+await fs.mkdir(raw,{recursive:true});await fs.mkdir(generated,{recursive:true});const payloads=[];
+for(const season of HISTORY_SEASONS)for(const teamId of ESPN_NBA_TEAMS){const file=new URL(`${season}-${teamId}.json`,raw);let body;try{body=JSON.parse(await fs.readFile(file,'utf8'));}catch{const url=`https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/${teamId}/schedule?season=${season}&seasontype=2`;body=await fetchJson(url);await fs.writeFile(file,JSON.stringify(body));await wait(100);}payloads.push({season,body});}
+const games=normalizeHistoricalSchedules(payloads),coverage=validateHistoricalCoverage(games),artifact={schemaVersion:1,provider:'espn',fetchedAt:new Date().toISOString(),rightsBasis:'Private research from publicly accessible sports data; no access bypass',coverage,games};
+await fs.writeFile(new URL('nba-games-2019-2026.json',generated),JSON.stringify(artifact));console.log(JSON.stringify(coverage,null,2));
