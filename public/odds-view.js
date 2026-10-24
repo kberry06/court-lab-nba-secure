@@ -33,3 +33,19 @@ export function propReviewReasons(q,result,scenario){
  if(keys&&recent.length>=3&&Number.isFinite(projection)){const average=recent.reduce((sum,row)=>sum+keys.reduce((n,k)=>n+row[k],0),0)/recent.length;if(average>=3&&Math.abs(projection-average)/average>.35)reasons.push('Projection differs from recent form by over 35%; review rotation minutes');}
  return reasons;
 }
+
+export function groupPlayerQuotes(quotes){
+ const groups=new Map();
+ for(const q of quotes){if(!q.playerId)continue;const key=JSON.stringify([q.eventId,q.source,q.bookmaker,q.playerId,q.market]);if(!groups.has(key))groups.set(key,{key,playerId:q.playerId,market:q.market,quotes:[]});groups.get(key).quotes.push(q);}
+ return [...groups.values()].map(g=>{
+  const primary=g.quotes.filter(q=>q.providerMarket&&!q.providerMarket.endsWith('_alternate')).sort((a,b)=>Number(!!a.stale)-Number(!!b.stale)||Date.parse(b.observedAt)-Date.parse(a.observedAt));
+  const chosen=primary[0],main=chosen?g.quotes.filter(q=>q.line===chosen.line&&q.providerMarket&&!q.providerMarket.endsWith('_alternate')):[];
+  const others=g.quotes.filter(q=>!main.includes(q)),lines=new Map();
+  for(const q of others){const kind=q.providerMarket?.endsWith('_alternate')?'Alternate':q.providerMarket?'Previous main':'Reference',key=kind+':'+q.line;if(!lines.has(key))lines.set(key,{line:q.line,kind,quotes:[]});lines.get(key).quotes.push(q);}
+  return {...g,main,alternates:[...lines.values()].sort((a,b)=>a.line-b.line||a.kind.localeCompare(b.kind))};
+ });
+}
+export function selectionLabel(q){
+ if(q.playerId&&q.providerMarket?.endsWith('_alternate')&&q.selection==='over'&&q.line>=0&&q.line%1===.5)return (q.line+.5)+'+';
+ return q.selection[0].toUpperCase()+q.selection.slice(1)+(Number.isFinite(q.line)?' '+q.line:'');
+}
