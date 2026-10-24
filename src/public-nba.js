@@ -22,11 +22,23 @@ export function normalizeBox(body,g) {
   }
   return rows;
 }
+export function normalizePlayerLog(body,playerId,cutoff) {
+  const rows=[];if(!body.seasonTypes?.length)return rows;
+  const labels=body.labels||[],index=k=>labels.indexOf(k);
+  assert(['MIN','PTS','REB','AST'].every(k=>index(k)>=0),'Unsupported player-history columns');
+  for(const season of body.seasonTypes.filter(s=>/Regular Season/.test(s.displayName)))for(const category of season.categories||[])for(const row of category.events||[]){
+    const game=body.events?.[row.eventId];if(!game||!['W','L'].includes(game.gameResult)||Date.parse(game.gameDate)>=cutoff)continue;
+    if(!row.stats?.length||!Number.isFinite(Number(row.stats[index('MIN')])))continue;
+    rows.push({provenance:'espn-player-gamelog',player:{id:playerId},game:{id:Number(row.eventId),date:game.gameDate.slice(0,10),datetime:game.gameDate,final:true},min:row.stats[index('MIN')],pts:Number(row.stats[index('PTS')]),reb:Number(row.stats[index('REB')]),ast:Number(row.stats[index('AST')])});
+  }
+  return rows.sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
+}
 export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
   async function get(path,ttl) {
-    assert(/^(scoreboard\?|teams\/\d+\/(roster|schedule\?)|summary\?event=\d+)/.test(path),'Unsupported public data endpoint');
+    assert(/^(scoreboard\?|teams\/\d+\/(roster|schedule\?)|summary\?event=\d+|athletes\/\d+\/gamelog\?season=\d+)/.test(path),'Unsupported public data endpoint');
     const old=store.cache('espn:'+path);if(old&&clock()-old.savedAt<ttl)return old.body;
-    let response;try{response=await fetcher(root+path,{signal:AbortSignal.timeout(15000),redirect:'error'});}catch{assert(false,'Public NBA source unavailable. Saved data has been retained.');}
+    const base=path.startsWith('athletes/')?'https://site.web.api.espn.com/apis/common/v3/sports/basketball/nba/':root;
+    let response;try{response=await fetcher(base+path,{signal:AbortSignal.timeout(15000),redirect:'error'});}catch{assert(false,'Public NBA source unavailable. Saved data has been retained.');}
     assert(response.ok,`Public NBA source returned HTTP ${response.status}. No access restrictions will be bypassed.`);
     const body=await response.json();store.saveCache('espn:'+path,body);return body;
   }
@@ -34,13 +46,18 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
     async schedule(force=false) {
       const previous=store.cache('nba-schedule');if(!force&&previous&&clock()-previous.savedAt<30*60000)return previous.body;
       const date=n=>new Date(n).toISOString().slice(0,10).replaceAll('-','');
-      const raw=await get(`scoreboard?limit=1000&dates=${date(clock()-day)}-${date(clock()+8*day)}`,force?0:30*60000);
-      assert(Array.isArray(raw.events),'Schedule unavailable from public source');
-      const bundle=validateBundle({provider:'espn',fetchedAt:new Date(clock()).toISOString(),rightsBasis:'User-requested private research from publicly accessible sports data',games:raw.events.map(normalizeEvent),players:[],injuries:[],stats:[]},clock());
+      const events=new Map();
+      // ESPN rejects date ranges on this endpoint. Use bounded daily requests.
+      for(let offset=-1;offset<=7;offset++){
+        const raw=await get(`scoreboard?limit=1000&dates=${date(clock()+offset*day)}`,force?0:30*60000);
+        assert(Array.isArray(raw.events),'Schedule unavailable from public source');
+        for(const event of raw.events)events.set(event.id,event);
+      }
+      const bundle=validateBundle({provider:'espn',fetchedAt:new Date(clock()).toISOString(),rightsBasis:'User-requested private research from publicly accessible sports data',games:[...events.values()].map(normalizeEvent),players:[],injuries:[],stats:[]},clock());
       store.saveCache('nba-schedule',bundle);return bundle;
     },
     async matchup(game) {
-      const cached=store.cache('matchup:'+game.id);if(cached&&clock()-cached.savedAt<30*60000)return cached.body;
+      const cached=store.cache('matchup:'+game.id);if(cached?.body.coverageVersion===2&&clock()-cached.savedAt<30*60000)return cached.body;
       const games=new Map(),players=[],injuries=[],stats=[];
       const season=game.season||new Date(game.datetime).getUTCFullYear()+(new Date(game.datetime).getUTCMonth()>=8?1:0);
       for(const t of [game.home_team,game.visitor_team]) {
@@ -56,7 +73,14 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       }
       // Bounded, cached requests. No scraping, proxy rotation or access bypass.
       for(const g of games.values())stats.push(...normalizeBox(await get(`summary?event=${g.id}`,365*day),g));
-      const bundle=validateBundle({provider:'espn',rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
+      // Follow the athlete ID across trades instead of assuming current-team history.
+      for(const p of players)if(stats.filter(s=>s.player.id===p.id&&Number(s.min)>0).length<3){
+        for(const year of [season,season-1]){
+          const rows=normalizePlayerLog(await get(`athletes/${p.id}/gamelog?season=${year}`,6*3600000),p.id,clock()-day);stats.push(...rows);
+          if(stats.filter(s=>s.player.id===p.id&&Number(s.min)>0).length>=3)break;
+        }
+      }
+      const bundle=validateBundle({provider:'espn',coverageVersion:2,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
       store.saveCache('matchup:'+game.id,bundle);return bundle;
     }
   };

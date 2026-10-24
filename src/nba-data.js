@@ -25,7 +25,7 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
   assert(start(g)&&Date.parse(start(g))>now,'Predictions require a confirmed future tip-off');
   assert(!g.postponed&&!['final','in_progress','postponed','canceled','suspended','abandoned','unknown'].includes(g.status_state),'Game is not available for a pregame prediction');
   assert(now-Date.parse(bundle.fetchedAt)<24*3600000,'Refresh roster and injury data before predicting (older than 24 hours)');
-  const cutoff=Date.parse(bundle.fetchedAt),warnings=['Baseline estimates, not calibrated probabilities. Pace fixed at 100; team ratings use recent scores. Injury probabilities are assumptions; confirm lineups.'];
+  const cutoff=Date.parse(bundle.fetchedAt),warnings=['Baseline estimates, not calibrated probabilities. Pace fixed at 100; team ratings use recent scores. Injury probabilities and player impacts are heuristic assumptions; confirm lineups.'];
   const teams=[g.home_team,g.visitor_team].map(t=>{
     const history=bundle.games.filter(x=>x.id!==g.id&&final(x)&&Date.parse(x.datetime||`${x.date}T23:59:59Z`)<cutoff-day&&(x.home_team.id===t.id||x.visitor_team.id===t.id)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
     assert(history.length>=5,`${name(t)} needs at least five completed historical games`);
@@ -33,17 +33,18 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
     const roster=bundle.players.filter(p=>p.team.id===t.id);assert(roster.length>=6,`${name(t)} roster is missing`);
     let missing=[];
     const players=roster.map(p=>{
-      const unique=new Map();for(const s of bundle.stats)if(s.player?.id===p.id&&historicalIds.has(s.game?.id)&&minutes(s.min)>0)unique.set(s.game.id,s);
+      const unique=new Map();for(const s of bundle.stats)if(s.player?.id===p.id&&(historicalIds.has(s.game?.id)||(s.provenance==='espn-player-gamelog'&&s.game?.final&&Date.parse(s.game.datetime)<cutoff-day))&&minutes(s.min)>0)unique.set(s.game.id,s);
       const rows=[...unique.values()].sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
       if(rows.length<3){missing.push(`${p.first_name} ${p.last_name}`);return null;}
       for(const r of rows)assert(Number.isFinite(minutes(r.min))&&minutes(r.min)<=80&&['pts','reb','ast'].every(k=>Number.isFinite(r[k])&&r[k]>=0),'Invalid historical player statistics');
       const totalMinutes=rows.reduce((n,r)=>n+minutes(r.min),0);
       const injury=bundle.injuries.find(i=>i.player?.id===p.id);const status=injury?.status||'Not listed';
       const availability={out:0,doubtful:.25,questionable:.5,probable:.9,'day-to-day':.5}[status.toLowerCase()]??(injury?.status? .5:1);
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(average(rows.map(r=>minutes(r.min))),0,48),availability,impact:0,points:clamp(rows.reduce((n,r)=>n+r.pts,0)/totalMinutes,.01,2),rebounds:clamp(rows.reduce((n,r)=>n+r.reb,0)/totalMinutes,0,2),assists:clamp(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes,0,2),sampleGames:rows.length,injury:status};
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(average(rows.map(r=>minutes(r.min))),0,48),availability,impact:clamp((rows.reduce((n,r)=>n+r.pts,0)/totalMinutes-.45)*12+(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes-.1)*8,-4,8),points:clamp(rows.reduce((n,r)=>n+r.pts,0)/totalMinutes,.01,2),rebounds:clamp(rows.reduce((n,r)=>n+r.reb,0)/totalMinutes,0,2),assists:clamp(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes,0,2),sampleGames:rows.length,injury:status};
     }).filter(Boolean).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
     assert(players.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible players with at least three historical appearances each`);
     if(missing.length)warnings.push(`${name(t)}: insufficient history for ${missing.join(', ')}. These players are excluded; review rotation minutes.`);
+    if(cutoff-Date.parse(history[0].datetime||history[0].date)>45*day)warnings.push(`${name(t)} history ends ${history[0].date}; offseason changes may weaken these estimates.`);
     const scored=history.map(x=>x.home_team.id===t.id?x.home_team_score:x.visitor_team_score),allowed=history.map(x=>x.home_team.id===t.id?x.visitor_team_score:x.home_team_score);
     assert([...scored,...allowed].every(n=>Number.isFinite(n)&&n>0&&n<250),'Invalid historical game scores');
     return {id:id('team',t.id),name:name(t),pace:100,offense:clamp((scored.reduce((a,b)=>a+b,0)+5*114)/(history.length+5),80,140),defense:clamp((allowed.reduce((a,b)=>a+b,0)+5*114)/(history.length+5),80,140),restDays:clamp(Math.floor((Date.parse(g.datetime)-Date.parse(history[0].datetime||history[0].date))/day)-1,0,10),players,sampleGames:history.length};
