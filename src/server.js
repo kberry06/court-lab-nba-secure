@@ -78,7 +78,9 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/nba/schedule'){send(res,200,scheduleView(store.cache('nba-schedule')?.body,store));return;}
    if(path==='/api/nba/job'){send(res,200,dataJob);return;}
    if(path==='/api/nba/roster'){const bundle=store.cache('matchup:'+url.searchParams.get('gameId'))?.body;send(res,200,bundle?{fetchedAt:bundle.fetchedAt,players:bundle.players,injuries:bundle.injuries}:{players:[],injuries:[]});return;}
-   if(path==='/api/nba/projection'){const eventId=url.searchParams.get('eventId'),run=store.latestRun(eventId);assert(run,'Projection is still being prepared');send(res,200,{...run.summary,id:run.id,histogram:run.histogram,quotes:run.quotes||[],oddsCoverage:store.cache('odds-coverage:'+eventId)?.body||null});return;}
+   if(path==='/api/nba/projection'){const eventId=url.searchParams.get('eventId'),run=store.latestRun(eventId);assert(run,'Projection is still being prepared');let view={...run.summary,id:run.id,histogram:run.histogram,quotes:run.quotes||[]};
+    if(run.summary.propSummaryVersion!==2){const key='prop-display-v2:'+run.id,cached=store.cache(key);if(cached)view=cached.body;else {const sim=await work({kind:'simulation',scenario:run.scenario,seed:run.summary.seed??42}),{samples,...summary}=sim;view={...summary,id:run.id,histogram:run.histogram,quotes:addNoVig(store.quotes(eventId).map(q=>priceQuote(q,sim,run.scenario)))};store.saveCache(key,view);}}
+    send(res,200,{...view,oddsCoverage:store.cache('odds-coverage:'+eventId)?.body||null});return;}
    if(path==='/api/status'){send(res,200,{timezone:'Australia/Sydney',mode:'research MVP',authRequired:!!adminToken&&!loggedIn,secure:!!passwordHash,provider:process.env.ODDS_PROVIDER||'manual',feedApproved:process.env.ODDS_FEED_APPROVED==='true',liveData:!!store.cache('nba-schedule'),modelValidated:false});return;}
    if(path==='/api/scenarios'){send(res,200,store.scenarios());return;}
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
