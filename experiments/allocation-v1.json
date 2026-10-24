@@ -1,0 +1,16 @@
+{
+  "version": "allocation-replay-1",
+  "status": "Retrospective diagnostic on previously inspected seasons; no production promotion",
+  "evaluationStarts": 2021,
+  "resultEmbargoHours": 24,
+  "forecastHoursBeforeStart": 1,
+  "rosterSource": "Last eligible team box-score roster; not a verified pregame roster or transaction history",
+  "appearanceWindow": 10,
+  "appearancePrior": {"played": 1, "missed": 1},
+  "monteCarloGamesPerSeason": 12,
+  "monteCarloSelection": "Lowest deterministic game-ID hash per season, chosen without outcomes",
+  "monteCarloDraws": 10000,
+  "seed": 92571,
+  "candidate": "Past listed-game appearance frequencies and participation-weighted conditional rotation minutes",
+  "gate": "Research only: missing point-in-time roster, injury and transaction evidence prevents promotion regardless of retrospective improvements"
+}

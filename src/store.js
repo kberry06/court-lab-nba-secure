@@ -2,6 +2,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {mkdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
+import {compactInputSnapshot} from './input-snapshots.js';
 export function openStore(dir) {
   mkdirSync(dir,{recursive:true});const db=new DatabaseSync(join(dir,'nba.sqlite'));
   db.exec(`PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;
@@ -19,8 +20,15 @@ export function openStore(dir) {
     INSERT OR IGNORE INTO migrations VALUES(2);
     CREATE TABLE IF NOT EXISTS outcomes(event_id TEXT PRIMARY KEY,settled_at TEXT NOT NULL,body TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS reports(id TEXT PRIMARY KEY,created_at TEXT,body TEXT);
-    CREATE TABLE IF NOT EXISTS audit(id TEXT PRIMARY KEY,created_at TEXT,action TEXT,body TEXT);`);
+    CREATE TABLE IF NOT EXISTS audit(id TEXT PRIMARY KEY,created_at TEXT,action TEXT,body TEXT);
+    CREATE TABLE IF NOT EXISTS input_snapshot_payloads(hash TEXT PRIMARY KEY,body TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS input_snapshots(id TEXT PRIMARY KEY,event_id TEXT NOT NULL,observed_at TEXT NOT NULL,received_at TEXT NOT NULL,payload_hash TEXT NOT NULL REFERENCES input_snapshot_payloads(hash),UNIQUE(event_id,observed_at,payload_hash));
+    CREATE INDEX IF NOT EXISTS input_snapshots_event_time ON input_snapshots(event_id,received_at,observed_at);
+    INSERT OR IGNORE INTO migrations VALUES(3);`);
   return {db,
+    saveInputSnapshot:(bundle,gameId,now=Date.now())=>{const s=compactInputSnapshot(bundle,gameId,now),body=JSON.stringify(s.payload),hash=createHash('sha256').update(body).digest('hex');db.exec('BEGIN');try{db.prepare('INSERT OR IGNORE INTO input_snapshot_payloads VALUES(?,?)').run(hash,body);const inserted=db.prepare('INSERT OR IGNORE INTO input_snapshots VALUES(?,?,?,?,?)').run(randomUUID(),s.eventId,s.observedAt,s.receivedAt,hash).changes;db.exec('COMMIT');const receipt=db.prepare('SELECT received_at FROM input_snapshots WHERE event_id=? AND observed_at=? AND payload_hash=?').get(s.eventId,s.observedAt,hash);return {inserted,eventId:s.eventId,observedAt:s.observedAt,receivedAt:receipt.received_at,payloadHash:hash};}catch(error){db.exec('ROLLBACK');throw error;}},
+    inputSnapshotAt:(eventId,cutoff)=>{const at=new Date(cutoff).toISOString(),row=db.prepare('SELECT s.*,p.body FROM input_snapshots s JOIN input_snapshot_payloads p ON p.hash=s.payload_hash WHERE s.event_id=? AND s.observed_at<=? AND s.received_at<=? ORDER BY s.received_at DESC,s.observed_at DESC LIMIT 1').get(eventId,at,at);return row?{id:row.id,eventId:row.event_id,observedAt:row.observed_at,receivedAt:row.received_at,payloadHash:row.payload_hash,payload:JSON.parse(row.body)}:null;},
+    inputSnapshotStats:()=>({observations:db.prepare('SELECT COUNT(*) AS n FROM input_snapshots').get().n,payloads:db.prepare('SELECT COUNT(*) AS n FROM input_snapshot_payloads').get().n}),
     cache:key=>{const r=db.prepare('SELECT saved_at,body FROM data_cache WHERE key=?').get(key);return r?{savedAt:r.saved_at,body:JSON.parse(r.body)}:null;},
     saveCache:(key,body)=>db.prepare('INSERT INTO data_cache VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET saved_at=excluded.saved_at,body=excluded.body').run(key,Date.now(),JSON.stringify(body)),
     scenarios:()=>db.prepare('SELECT body FROM scenarios').all().map(r=>JSON.parse(r.body)),

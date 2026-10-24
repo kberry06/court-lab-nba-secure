@@ -28,7 +28,7 @@ export function priceQuote(q,sim,scenario,now=Date.now()) {
   const stale=now-Date.parse(q.observedAt)>15*60000,started=now>=Date.parse(scenario.start);
   const inputsStale=now-Date.parse(scenario.asOf)>24*3600000;
   const eligible=!stale&&!started&&!inputsStale&&!scenario.demo;
-  return {...q,stale,started,inputsStale,eligible,modelProbability:probability,fairOdds:wins?decisive/wins:null,pushProbability:pushes/n,voidProbability:voids/n,expectedReturn:(wins*(q.price-1)-losses)/n,edge:probability===null?null:probability-1/q.price};
+  return {...q,distributionValidated:false,stale,started,inputsStale,eligible,modelProbability:probability,fairOdds:wins?decisive/wins:null,pushProbability:pushes/n,voidProbability:voids/n,expectedReturn:(wins*(q.price-1)-losses)/n,edge:probability===null?null:probability-1/q.price};
 }
 export function addNoVig(quotes) {
   return quotes.map(q=>{const opposite=quotes.find(p=>p!==q&&p.source===q.source&&p.snapshotId===q.snapshotId&&p.eventId===q.eventId&&p.bookmaker===q.bookmaker&&p.market===q.market&&p.playerId===q.playerId&&p.observedAt===q.observedAt&&p.selection!==q.selection&&(q.market==='spread'?p.line===-q.line:p.line===q.line));

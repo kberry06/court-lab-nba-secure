@@ -8,6 +8,7 @@ export function filterQuotes(quotes,scenario,{team='',player='',market='',freshn
 }
 // Display probability bands, not evidence of model accuracy or a betting rating.
 export function confidence(q){
+ if(q.market?.startsWith('player_')&&q.distributionValidated!==true)return 'Low';
  if(q.reviewReasons?.length||q.stale||q.started||q.inputsStale||!q.eligible||!Number.isFinite(q.modelProbability))return 'Low';
  return q.modelProbability>=.7?'High':q.modelProbability>=.55?'Medium':'Low';
 }
@@ -27,6 +28,7 @@ export function propReviewReasons(q,result,scenario){
  if(!q.playerId)return [];
  const input=scenario.teams.flatMap(t=>t.players).find(p=>p.id===q.playerId),p=result.players.find(p=>p.id===q.playerId),reasons=[];
  if(!input||!p)return ['Player inputs unavailable'];
+ if(q.distributionValidated!==true)reasons.push('Final player distributions are not calibrated; research only');
  if(input.availability<1)reasons.push('Availability uncertain; DNP voids. Projection is if playing');
  if(input.priorModeled)reasons.push('Limited player history');
  const keys={player_points:['points'],player_rebounds:['rebounds'],player_assists:['assists'],player_pra:['points','rebounds','assists'],player_pa:['points','assists'],player_ra:['rebounds','assists'],player_pr:['points','rebounds']}[q.market],recent=(input.recent||[]).slice(0,5),projection=projectionDifference(q,result).projection;

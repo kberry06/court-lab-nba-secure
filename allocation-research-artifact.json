@@ -1,0 +1,1085 @@
+{
+  "schemaVersion": 1,
+  "version": "allocation-replay-1",
+  "generatedAt": "2026-10-24T19:55:26.617Z",
+  "protocol": {
+    "version": "allocation-replay-1",
+    "status": "Retrospective diagnostic on previously inspected seasons; no production promotion",
+    "evaluationStarts": 2021,
+    "resultEmbargoHours": 24,
+    "forecastHoursBeforeStart": 1,
+    "rosterSource": "Last eligible team box-score roster; not a verified pregame roster or transaction history",
+    "appearanceWindow": 10,
+    "appearancePrior": {
+      "played": 1,
+      "missed": 1
+    },
+    "monteCarloGamesPerSeason": 12,
+    "monteCarloSelection": "Lowest deterministic game-ID hash per season, chosen without outcomes",
+    "monteCarloDraws": 10000,
+    "seed": 92571,
+    "candidate": "Past listed-game appearance frequencies and participation-weighted conditional rotation minutes",
+    "gate": "Research only: missing point-in-time roster, injury and transaction evidence prevents promotion regardless of retrospective improvements"
+  },
+  "codeHashes": {
+    "src/model.js": "6701779538573efe9af86f53d4771b865aea0346aa7cbd79aa452a75d62e72bd",
+    "src/player-estimator.js": "efe1213475af7ab82155c7a15923b28052d03ba16a9a6bc93504790936636be0",
+    "src/allocation-replay.js": "a72732f9afdd1b157fbd25673b5db5b68aa28564466112872d04e16056615f72",
+    "scripts/research-allocation.js": "c2d7e982d4dca999c0d569b4618a5de4f0d157ee17369fa0e8372d0df57de730"
+  },
+  "sourceHashes": {
+    "games": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+    "players": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7",
+    "gameForecasts": "775be301ac06eec0980715433bf60e0405f3a6bc25d40ac314c2cea43e1e0ba6",
+    "playerParameters": "e3a1c42075c2c9566e39aa5e0964812808b4e28217df276619216eaf21c7934f",
+    "gameArtifact": "7d458e06f526e8667d8a0a2a95de04d1d11387d1b149832a25ecc51c0b76bb64",
+    "protocol": "fa438969146c848e1d62f08e95f4eb7c5597c59971ab489c9c9c77ed83b864ed"
+  },
+  "coverage": {
+    "scheduledEvaluationGames": 7230,
+    "evaluatedGames": 7222,
+    "skipped": {
+      "missing audited player box score": 8
+    },
+    "actualPositivePlayers": 153620,
+    "coveredPositivePlayers": 144373,
+    "missingPositivePlayers": 9247,
+    "unobservedCandidatePlayers": 13855,
+    "staleProxyTeamRosters": 180,
+    "proxyTeamRosters": 14444
+  },
+  "plugin": {
+    "games": 7222,
+    "rawPositive": {
+      "players": 144373,
+      "positiveAppearances": 144373,
+      "mae": {
+        "minutes": 5.004804143751618,
+        "points": 4.614942303075449,
+        "rebounds": 1.9143502513461552,
+        "assists": 1.3255530723312783,
+        "pra": 6.068403507499705,
+        "pa": 5.07456459868369,
+        "ra": 2.607092189392253,
+        "pr": 5.580896515742845
+      },
+      "bias": {
+        "minutes": -0.12352074713458658,
+        "points": 0.031941187199422835,
+        "rebounds": -0.015542577481270196,
+        "assists": -0.006219160217203311,
+        "pra": 0.010179449500948458,
+        "pa": 0.025722026982219634,
+        "ra": -0.021761737698473536,
+        "pr": 0.01639860971815287
+      }
+    },
+    "baselineAll": {
+      "players": 174981,
+      "positiveAppearances": 144373,
+      "mae": {
+        "minutes": 6.515770448406179,
+        "points": 4.614577329426854,
+        "rebounds": 1.9227152149827906,
+        "assists": 1.264835268681135,
+        "pra": 6.418198607367295,
+        "pa": 5.2056222238526155,
+        "ra": 2.69060225618779,
+        "pr": 5.800995686193781
+      },
+      "bias": {
+        "minutes": -0.3774310920347508,
+        "points": -0.12790761386206162,
+        "rebounds": -0.059022360121313296,
+        "assists": -0.05804267818699592,
+        "pra": -0.24497265217037112,
+        "pa": -0.1859502920490571,
+        "ra": -0.11706503830830929,
+        "pr": -0.18692997398337555
+      }
+    },
+    "candidateAll": {
+      "players": 174981,
+      "positiveAppearances": 144373,
+      "mae": {
+        "minutes": 5.922872484197723,
+        "points": 4.414140585195197,
+        "rebounds": 1.8401663839965328,
+        "assists": 1.219309710332594,
+        "pra": 6.069644044543047,
+        "pa": 4.948047166443474,
+        "ra": 2.560160531603515,
+        "pr": 5.508938053242997
+      },
+      "bias": {
+        "minutes": -0.3173145008756152,
+        "points": -0.10246963952640972,
+        "rebounds": -0.053814221389760546,
+        "assists": -0.032563423654572494,
+        "pra": -0.1888472845707429,
+        "pa": -0.1350330631809826,
+        "ra": -0.08637764504433287,
+        "pr": -0.1562838609161705
+      }
+    },
+    "baselinePositive": {
+      "players": 144373,
+      "positiveAppearances": 144373,
+      "mae": {
+        "minutes": 5.66809605621288,
+        "points": 4.653639675888514,
+        "rebounds": 1.9193992879821338,
+        "assists": 1.321969517836266,
+        "pra": 6.217710226176997,
+        "pa": 5.158985647419769,
+        "ra": 2.6390812022137564,
+        "pr": 5.680668497323642
+      },
+      "bias": {
+        "minutes": -2.6865083279025095,
+        "points": -1.0942603982086447,
+        "rebounds": -0.48245932145264897,
+        "assists": -0.28136702030405597,
+        "pra": -1.858086739965346,
+        "pa": -1.3756274185126989,
+        "ra": -0.7638263417567067,
+        "pr": -1.576719719661291
+      }
+    },
+    "candidatePositive": {
+      "players": 144373,
+      "positiveAppearances": 144373,
+      "mae": {
+        "minutes": 5.552030236074215,
+        "points": 4.65792012646984,
+        "rebounds": 1.9323694687468593,
+        "assists": 1.320990267487824,
+        "pra": 6.209762013559652,
+        "pa": 5.148219408495679,
+        "ra": 2.6482166672126026,
+        "pr": 5.686979611175983
+      },
+      "bias": {
+        "minutes": -2.0111163275846455,
+        "points": -0.8161710575342286,
+        "rebounds": -0.3630682007844994,
+        "assists": -0.19627810743884821,
+        "pra": -1.3755173657575754,
+        "pa": -1.0124491649730767,
+        "ra": -0.5593463082233486,
+        "pr": -1.1792392583187274
+      }
+    }
+  },
+  "folds": [
+    {
+      "season": 2021,
+      "games": 1079,
+      "rawPositive": {
+        "players": 21943,
+        "positiveAppearances": 21943,
+        "mae": {
+          "minutes": 4.9575538314598,
+          "points": 4.532578970121014,
+          "rebounds": 1.897967531767368,
+          "assists": 1.2847790485261583,
+          "pra": 5.928068619660508,
+          "pa": 4.964976900745244,
+          "ra": 2.5517386669798,
+          "pr": 5.466857971565793
+        },
+        "bias": {
+          "minutes": -0.1394903651974404,
+          "points": 0.02818649917417347,
+          "rebounds": -0.02255047974553833,
+          "assists": -0.0019470995420513859,
+          "pra": 0.003688919886583511,
+          "pa": 0.026239399632123794,
+          "ra": -0.024497579287589742,
+          "pr": 0.005636019428635375
+        }
+      },
+      "baselineAll": {
+        "players": 27327,
+        "positiveAppearances": 21943,
+        "mae": {
+          "minutes": 6.694352794112721,
+          "points": 4.582269674194307,
+          "rebounds": 1.9313347056497698,
+          "assists": 1.2261875310528787,
+          "pra": 6.413140028146911,
+          "pa": 5.171553154083892,
+          "ra": 2.6766696446794187,
+          "pr": 5.794770641259592
+        },
+        "bias": {
+          "minutes": -0.29089879746471503,
+          "points": -0.11109486506815075,
+          "rebounds": -0.03915567409121964,
+          "assists": -0.04262792646510634,
+          "pra": -0.19287846562447716,
+          "pa": -0.1537227915332574,
+          "ra": -0.08178360055632627,
+          "pr": -0.15025053915937048
+        }
+      },
+      "candidateAll": {
+        "players": 27327,
+        "positiveAppearances": 21943,
+        "mae": {
+          "minutes": 6.032346223584349,
+          "points": 4.361728788986639,
+          "rebounds": 1.8277647404680268,
+          "assists": 1.179272447924639,
+          "pra": 6.0170596922708945,
+          "pa": 4.890906819007801,
+          "ra": 2.528331628123886,
+          "pr": 5.460816395636051
+        },
+        "bias": {
+          "minutes": -0.2578288772939785,
+          "points": -0.09745372579508371,
+          "rebounds": -0.04282281282292361,
+          "assists": -0.020840928343120423,
+          "pra": -0.1611174669611279,
+          "pa": -0.11829465413820454,
+          "ra": -0.06366374116604441,
+          "pr": -0.1402765386180089
+        }
+      },
+      "baselinePositive": {
+        "players": 21943,
+        "positiveAppearances": 21943,
+        "mae": {
+          "minutes": 5.701036241747541,
+          "points": 4.584461404511313,
+          "rebounds": 1.9083091010516158,
+          "assists": 1.283238664016939,
+          "pra": 6.123846019604447,
+          "pa": 5.0745233376282055,
+          "ra": 2.592711745280031,
+          "pr": 5.597561574500751
+        },
+        "bias": {
+          "minutes": -2.9981375377282458,
+          "points": -1.2604810721065252,
+          "rebounds": -0.5456666819854418,
+          "assists": -0.29689714273665335,
+          "pra": -2.103044896828615,
+          "pa": -1.557378214843173,
+          "ra": -0.8425638247220955,
+          "pr": -1.806147754091971
+        }
+      },
+      "candidatePositive": {
+        "players": 21943,
+        "positiveAppearances": 21943,
+        "mae": {
+          "minutes": 5.575114974450725,
+          "points": 4.597376922323254,
+          "rebounds": 1.918621030743655,
+          "assists": 1.28353845263222,
+          "pra": 6.116197970889898,
+          "pa": 5.071311849546539,
+          "ra": 2.606023837961609,
+          "pr": 5.608556962421968
+        },
+        "bias": {
+          "minutes": -2.258436271126631,
+          "points": -0.9559239290389391,
+          "rebounds": -0.4109129295462859,
+          "assists": -0.21103832507679743,
+          "pra": -1.5778751836620126,
+          "pa": -1.1669622541157283,
+          "ra": -0.6219512546230821,
+          "pr": -1.366836858585217
+        }
+      }
+    },
+    {
+      "season": 2022,
+      "games": 1230,
+      "rawPositive": {
+        "players": 24258,
+        "positiveAppearances": 24258,
+        "mae": {
+          "minutes": 5.093186251107427,
+          "points": 4.622362294609696,
+          "rebounds": 1.9312567210529132,
+          "assists": 1.3082818094630402,
+          "pra": 6.0729773573487424,
+          "pa": 5.062676017889696,
+          "ra": 2.6035975139764456,
+          "pr": 5.601902475129009
+        },
+        "bias": {
+          "minutes": -0.09581711949316203,
+          "points": 0.07132254011784579,
+          "rebounds": -0.009820446398327147,
+          "assists": 0.009964687322176088,
+          "pra": 0.07146678104169416,
+          "pa": 0.08128722744002065,
+          "ra": 0.00014424092384860248,
+          "pr": 0.061502093719519334
+        }
+      },
+      "baselineAll": {
+        "players": 28927,
+        "positiveAppearances": 24258,
+        "mae": {
+          "minutes": 6.392398299856116,
+          "points": 4.564007421848642,
+          "rebounds": 1.939768145916555,
+          "assists": 1.2337246105939603,
+          "pra": 6.305175568565912,
+          "pa": 5.094138520125864,
+          "ra": 2.660114175190142,
+          "pr": 5.745323773315991
+        },
+        "bias": {
+          "minutes": -0.3674062958341844,
+          "points": -0.027047590518940588,
+          "rebounds": -0.05292472043236647,
+          "assists": -0.048161604243956595,
+          "pra": -0.12813391519526404,
+          "pa": -0.0752091947628968,
+          "ra": -0.10108632467632285,
+          "pr": -0.07997231095130682
+        }
+      },
+      "candidateAll": {
+        "players": 28927,
+        "positiveAppearances": 24258,
+        "mae": {
+          "minutes": 5.931058396179588,
+          "points": 4.404601221744901,
+          "rebounds": 1.8754369177956547,
+          "assists": 1.1982524936858365,
+          "pra": 6.035403865349311,
+          "pa": 4.893703966330048,
+          "ra": 2.5593328039195287,
+          "pr": 5.514997362546931
+        },
+        "bias": {
+          "minutes": -0.31416637186079477,
+          "points": -0.005249097989342931,
+          "rebounds": -0.053830484272588304,
+          "assists": -0.021546939164462688,
+          "pra": -0.0806265214263938,
+          "pa": -0.026796037153805952,
+          "ra": -0.07537742343705094,
+          "pr": -0.059079582261931475
+        }
+      },
+      "baselinePositive": {
+        "players": 24258,
+        "positiveAppearances": 24258,
+        "mae": {
+          "minutes": 5.6243300293960035,
+          "points": 4.613783278663189,
+          "rebounds": 1.9354937609747025,
+          "assists": 1.2964532542212173,
+          "pra": 6.137722461907199,
+          "pa": 5.071220557503651,
+          "ra": 2.6197571305453344,
+          "pr": 5.6448440666791395
+        },
+        "bias": {
+          "minutes": -2.4365516401370644,
+          "points": -0.86092396607082,
+          "rebounds": -0.4407378551880176,
+          "assists": -0.23216091580996967,
+          "pra": -1.533822737068801,
+          "pa": -1.0930848818807855,
+          "ra": -0.6728987709979889,
+          "pr": -1.30166182125883
+        }
+      },
+      "candidatePositive": {
+        "players": 24258,
+        "positiveAppearances": 24258,
+        "mae": {
+          "minutes": 5.571931421302653,
+          "points": 4.629093158466927,
+          "rebounds": 1.9562022936893073,
+          "assists": 1.294495987275355,
+          "pra": 6.159188523511811,
+          "pa": 5.077947510313257,
+          "ra": 2.6373421268322317,
+          "pr": 5.673005298141202
+        },
+        "bias": {
+          "minutes": -1.8753279102623586,
+          "points": -0.629532457781444,
+          "rebounds": -0.3443961950413486,
+          "assists": -0.16008139726008302,
+          "pra": -1.1340100500828703,
+          "pa": -0.7896138550415258,
+          "ra": -0.5044775923014294,
+          "pr": -0.9739286528227894
+        }
+      }
+    },
+    {
+      "season": 2023,
+      "games": 1230,
+      "rawPositive": {
+        "players": 24257,
+        "positiveAppearances": 24257,
+        "mae": {
+          "minutes": 5.092544424924639,
+          "points": 4.665180352060414,
+          "rebounds": 1.9248614084357385,
+          "assists": 1.301299442130497,
+          "pra": 6.125789429174637,
+          "pa": 5.119054970798769,
+          "ra": 2.605616936934333,
+          "pr": 5.650480881522992
+        },
+        "bias": {
+          "minutes": -0.08788791415615861,
+          "points": 0.041586369838749054,
+          "rebounds": -0.001476181749375842,
+          "assists": 0.004131919764487184,
+          "pra": 0.04424210785385787,
+          "pa": 0.04571828960323472,
+          "ra": 0.0026557380151117547,
+          "pr": 0.04011018808937415
+        }
+      },
+      "baselineAll": {
+        "players": 29291,
+        "positiveAppearances": 24257,
+        "mae": {
+          "minutes": 6.5150766107807785,
+          "points": 4.62339962731435,
+          "rebounds": 1.9076889034225628,
+          "assists": 1.2295024810255217,
+          "pra": 6.384321576207352,
+          "pa": 5.191155430807557,
+          "ra": 2.6442218010955196,
+          "pr": 5.796070115990075
+        },
+        "bias": {
+          "minutes": -0.3955302539538946,
+          "points": -0.2017324079074701,
+          "rebounds": -0.058821584097779295,
+          "assists": -0.05975481374329721,
+          "pra": -0.32030880574854637,
+          "pa": -0.2614872216507668,
+          "ra": -0.11857639784107718,
+          "pr": -0.2605539920052501
+        }
+      },
+      "candidateAll": {
+        "players": 29291,
+        "positiveAppearances": 24257,
+        "mae": {
+          "minutes": 5.8919277144614846,
+          "points": 4.419056842814508,
+          "rebounds": 1.8268794266141979,
+          "assists": 1.183744319795901,
+          "pra": 6.035122674198747,
+          "pa": 4.929838445213207,
+          "ra": 2.5138222526009715,
+          "pr": 5.504818453232945
+        },
+        "bias": {
+          "minutes": -0.3522270566070902,
+          "points": -0.18510000971955418,
+          "rebounds": -0.05536792476257749,
+          "assists": -0.032812293209085665,
+          "pra": -0.2732802276912182,
+          "pa": -0.2179123029286397,
+          "ra": -0.08818021797166278,
+          "pr": -0.240467934482132
+        }
+      },
+      "baselinePositive": {
+        "players": 24257,
+        "positiveAppearances": 24257,
+        "mae": {
+          "minutes": 5.755687764247335,
+          "points": 4.720200787171376,
+          "rebounds": 1.9218394802865342,
+          "assists": 1.2956832007582015,
+          "pra": 6.275881896509812,
+          "pa": 5.216846769345287,
+          "ra": 2.622286217072892,
+          "pr": 5.754486840620863
+        },
+        "bias": {
+          "minutes": -2.589061614280183,
+          "points": -1.1062209384683381,
+          "rebounds": -0.452738477851039,
+          "assists": -0.26113072598762854,
+          "pra": -1.8200901423070053,
+          "pa": -1.3673516644559793,
+          "ra": -0.7138692038386669,
+          "pr": -1.5589594163193827
+        }
+      },
+      "candidatePositive": {
+        "players": 24257,
+        "positiveAppearances": 24257,
+        "mae": {
+          "minutes": 5.611992637236499,
+          "points": 4.716917265605221,
+          "rebounds": 1.9355022005346352,
+          "assists": 1.292267927599793,
+          "pra": 6.2608309857980515,
+          "pa": 5.19657201509951,
+          "ra": 2.627902423819988,
+          "pr": 5.757602133139828
+        },
+        "bias": {
+          "minutes": -1.9279973615007657,
+          "points": -0.8425858221463574,
+          "rebounds": -0.337187364063607,
+          "assists": -0.17675791036570454,
+          "pra": -1.3565310965756707,
+          "pa": -1.019343732512074,
+          "ra": -0.5139452744293106,
+          "pr": -1.179773186209968
+        }
+      }
+    },
+    {
+      "season": 2024,
+      "games": 1230,
+      "rawPositive": {
+        "players": 24676,
+        "positiveAppearances": 24676,
+        "mae": {
+          "minutes": 4.984678100290625,
+          "points": 4.593238171391815,
+          "rebounds": 1.8966802950425217,
+          "assists": 1.3559920009493813,
+          "pra": 6.086426231101685,
+          "pa": 5.075314938412235,
+          "ra": 2.6146443487757223,
+          "pr": 5.577636927631772
+        },
+        "bias": {
+          "minutes": -0.10425319867331989,
+          "points": 0.11410078655517271,
+          "rebounds": -0.007283782020712952,
+          "assists": -0.015405008232157385,
+          "pra": 0.09141199630230198,
+          "pa": 0.09869577832301613,
+          "ra": -0.022688790252870454,
+          "pr": 0.10681700453446039
+        }
+      },
+      "baselineAll": {
+        "players": 29882,
+        "positiveAppearances": 24676,
+        "mae": {
+          "minutes": 6.35583208118549,
+          "points": 4.530211554359146,
+          "rebounds": 1.8811704086201175,
+          "assists": 1.2851529777209931,
+          "pra": 6.327479175586127,
+          "pa": 5.135230306667588,
+          "ra": 2.668982469317988,
+          "pr": 5.701450172228059
+        },
+        "bias": {
+          "minutes": -0.4173436214742092,
+          "points": -0.17411460532596268,
+          "rebounds": -0.06434907777438015,
+          "assists": -0.07176727055000125,
+          "pra": -0.3102309536503454,
+          "pa": -0.24588187587596202,
+          "ra": -0.1361163483243801,
+          "pr": -0.23846368310034374
+        }
+      },
+      "candidateAll": {
+        "players": 29882,
+        "positiveAppearances": 24676,
+        "mae": {
+          "minutes": 5.709093791365569,
+          "points": 4.311927638472884,
+          "rebounds": 1.7978749056424297,
+          "assists": 1.2360105324669832,
+          "pra": 5.954799470750599,
+          "pa": 4.856047130861583,
+          "ra": 2.530144207112147,
+          "pr": 5.387466102253982
+        },
+        "bias": {
+          "minutes": -0.3274879081681336,
+          "points": -0.13682887330985086,
+          "rebounds": -0.05183455173205756,
+          "assists": -0.04143030314075852,
+          "pra": -0.23009372818266643,
+          "pa": -0.1782591764506108,
+          "ra": -0.09326485487281522,
+          "pr": -0.18866342504190878
+        }
+      },
+      "baselinePositive": {
+        "players": 24676,
+        "positiveAppearances": 24676,
+        "mae": {
+          "minutes": 5.606292484632028,
+          "points": 4.6224829304144865,
+          "rebounds": 1.8974977986915698,
+          "assists": 1.3528066882958223,
+          "pra": 6.2149984072886095,
+          "pa": 5.151698553540904,
+          "ra": 2.6480811683448673,
+          "pr": 5.660373863664229
+        },
+        "bias": {
+          "minutes": -2.5958487192452244,
+          "points": -1.0742763819282235,
+          "rebounds": -0.45843233768369285,
+          "assists": -0.2903887590551953,
+          "pra": -1.8230974786671224,
+          "pa": -1.3646651409834247,
+          "ra": -0.7488210967388992,
+          "pr": -1.5327087196119262
+        }
+      },
+      "candidatePositive": {
+        "players": 24676,
+        "positiveAppearances": 24676,
+        "mae": {
+          "minutes": 5.4293187732175605,
+          "points": 4.604081326850741,
+          "rebounds": 1.9077487590122955,
+          "assists": 1.3505768483928602,
+          "pra": 6.178163734355104,
+          "pa": 5.116848004461984,
+          "ra": 2.648348916886847,
+          "pr": 5.637288531549379
+        },
+        "bias": {
+          "minutes": -1.8808260778712822,
+          "points": -0.783087546293743,
+          "rebounds": -0.3321025871878022,
+          "assists": -0.19637107872784262,
+          "pra": -1.3115612122093812,
+          "pa": -0.9794586250215845,
+          "ra": -0.5284736659156478,
+          "pr": -1.1151901334815424
+        }
+      }
+    },
+    {
+      "season": 2025,
+      "games": 1230,
+      "rawPositive": {
+        "players": 24574,
+        "positiveAppearances": 24574,
+        "mae": {
+          "minutes": 4.970321101568472,
+          "points": 4.651013470977889,
+          "rebounds": 1.9366384711498223,
+          "assists": 1.3476436124787312,
+          "pra": 6.1137157522011725,
+          "pa": 5.114977203509722,
+          "ra": 2.64869071423786,
+          "pr": 5.621405429479001
+        },
+        "bias": {
+          "minutes": -0.20663270361391792,
+          "points": -0.05070756929542958,
+          "rebounds": -0.04900333949089565,
+          "assists": -0.015114654674002005,
+          "pra": -0.11482556346032706,
+          "pa": -0.06582222396943133,
+          "ra": -0.0641179941648972,
+          "pr": -0.09971090878632596
+        }
+      },
+      "baselineAll": {
+        "players": 30052,
+        "positiveAppearances": 24574,
+        "mae": {
+          "minutes": 6.623227974255693,
+          "points": 4.67235930636501,
+          "rebounds": 1.951057168267269,
+          "assists": 1.293216910355447,
+          "pra": 6.527273021446332,
+          "pa": 5.28750425663802,
+          "ra": 2.753335245286012,
+          "pr": 5.881758909168432
+        },
+        "bias": {
+          "minutes": -0.3942581550574248,
+          "points": -0.10473744272812478,
+          "rebounds": -0.07788690501456445,
+          "assists": -0.05973370266330259,
+          "pra": -0.24235805040599231,
+          "pa": -0.1644711453914287,
+          "ra": -0.13762060767786805,
+          "pr": -0.1826243477426919
+        }
+      },
+      "candidateAll": {
+        "players": 30052,
+        "positiveAppearances": 24574,
+        "mae": {
+          "minutes": 6.0037946686952175,
+          "points": 4.4665589176265925,
+          "rebounds": 1.8636448986979466,
+          "assists": 1.2449625664464044,
+          "pra": 6.167816570513154,
+          "pa": 5.023895015638788,
+          "ra": 2.6139842367635047,
+          "pr": 5.581473244837443
+        },
+        "bias": {
+          "minutes": -0.32614281523746325,
+          "points": -0.07511369537182293,
+          "rebounds": -0.06934529381318234,
+          "assists": -0.03253322351472075,
+          "pra": -0.17699221269972576,
+          "pa": -0.10764691888654337,
+          "ra": -0.10187851732790265,
+          "pr": -0.14445898918500433
+        }
+      },
+      "baselinePositive": {
+        "players": 24574,
+        "positiveAppearances": 24574,
+        "mae": {
+          "minutes": 5.7218062170701325,
+          "points": 4.696634297085261,
+          "rebounds": 1.9485305857109656,
+          "assists": 1.349114663470113,
+          "pra": 6.2952536597352635,
+          "pa": 5.216534740747088,
+          "ra": 2.6972845405572294,
+          "pr": 5.7382267511209255
+        },
+        "bias": {
+          "minutes": -2.860007616986942,
+          "points": -1.1453532994362317,
+          "rebounds": -0.532666618145211,
+          "assists": -0.3054337137757409,
+          "pra": -1.9834536313571676,
+          "pa": -1.4507870132119676,
+          "ra": -0.8381003319209496,
+          "pr": -1.6780199175814292
+        }
+      },
+      "candidatePositive": {
+        "players": 24574,
+        "positiveAppearances": 24574,
+        "mae": {
+          "minutes": 5.596928618501919,
+          "points": 4.7043769462267155,
+          "rebounds": 1.956444400051145,
+          "assists": 1.3481082526233787,
+          "pra": 6.288105390415167,
+          "pa": 5.211643141286324,
+          "ra": 2.6997501882359134,
+          "pr": 5.745350701457404
+        },
+        "bias": {
+          "minutes": -2.1440692356180384,
+          "points": -0.8496147963222694,
+          "rebounds": -0.4072785828895372,
+          "assists": -0.21410700394828158,
+          "pra": -1.4710003831600909,
+          "pa": -1.0637218002705515,
+          "ra": -0.6213855868378231,
+          "pr": -1.2568933792118089
+        }
+      }
+    },
+    {
+      "season": 2026,
+      "games": 1223,
+      "rawPositive": {
+        "players": 24665,
+        "positiveAppearances": 24665,
+        "mae": {
+          "minutes": 4.928118190742099,
+          "points": 4.6172872606892295,
+          "rebounds": 1.8974320621850738,
+          "assists": 1.3502044840738265,
+          "pra": 6.06914033552535,
+          "pa": 5.098982127904527,
+          "ra": 2.6122242446487887,
+          "pr": 5.556158822713652
+        },
+        "bias": {
+          "minutes": -0.10807423211481493,
+          "points": -0.012788051261439714,
+          "rebounds": -0.003694650818141572,
+          "assists": -0.01806379357307652,
+          "pra": -0.034546495652659395,
+          "pa": -0.03085184483451544,
+          "ra": -0.02175844439121865,
+          "pr": -0.01648270207958164
+        }
+      },
+      "baselineAll": {
+        "players": 29502,
+        "positiveAppearances": 24665,
+        "mae": {
+          "minutes": 6.524547965195869,
+          "points": 4.711921482476137,
+          "rebounds": 1.9261390595003618,
+          "assists": 1.3167279721842935,
+          "pra": 6.548119261087404,
+          "pa": 5.348743836706408,
+          "ra": 2.7374460561565908,
+          "pr": 5.884797827576014
+        },
+        "bias": {
+          "minutes": -0.39187620216180014,
+          "points": -0.14587827697460926,
+          "rebounds": -0.05899097251677604,
+          "assists": -0.06468567347956791,
+          "pra": -0.2695549229709526,
+          "pa": -0.21056395045417592,
+          "ra": -0.123676645996344,
+          "pr": -0.20486924949138502
+        }
+      },
+      "candidateAll": {
+        "players": 29502,
+        "positiveAppearances": 24665,
+        "mae": {
+          "minutes": 5.978268115304698,
+          "points": 4.5172946685562785,
+          "rebounds": 1.849182548410901,
+          "assists": 1.2693060709529298,
+          "pra": 6.2025200705902765,
+          "pa": 5.08826061559444,
+          "ra": 2.612037166250288,
+          "pr": 5.600810040319875
+        },
+        "bias": {
+          "minutes": -0.32154118495734435,
+          "points": -0.11346619962633986,
+          "rebounds": -0.04862131786606796,
+          "assists": -0.04502604720202098,
+          "pra": -0.20711356469442938,
+          "pa": -0.15849224682836138,
+          "ra": -0.0936473650680894,
+          "pr": -0.1620875174924076
+        }
+      },
+      "baselinePositive": {
+        "players": 24665,
+        "positiveAppearances": 24665,
+        "mae": {
+          "minutes": 5.604011286902849,
+          "points": 4.677256803249623,
+          "rebounds": 1.9039242886138161,
+          "assists": 1.3494768770265284,
+          "pra": 6.248129839793225,
+          "pa": 5.213493236697021,
+          "ra": 2.648863171720647,
+          "pr": 5.680197649729138
+        },
+        "bias": {
+          "minutes": -2.668777919883502,
+          "points": -1.1331955990741516,
+          "rebounds": -0.4705053162744755,
+          "assists": -0.3028428219142868,
+          "pra": -1.9065437372629093,
+          "pa": -1.4360384209884236,
+          "ra": -0.7733481381887629,
+          "pr": -1.6037009153486126
+        }
+      },
+      "candidatePositive": {
+        "players": 24665,
+        "positiveAppearances": 24665,
+        "mae": {
+          "minutes": 5.530983241434509,
+          "points": 4.689689307296587,
+          "rebounds": 1.9187257592075493,
+          "assists": 1.3519955536950312,
+          "pra": 6.246073241822373,
+          "pa": 5.206394760211844,
+          "ra": 2.66495075665869,
+          "pr": 5.69259454976186
+        },
+        "bias": {
+          "minutes": -2.0042680853982797,
+          "points": -0.8492000960329793,
+          "rebounds": -0.3512523337542565,
+          "assists": -0.22008740392942894,
+          "pra": -1.4205398337166757,
+          "pa": -1.0692874999624047,
+          "ra": -0.5713397376836878,
+          "pr": -1.2004524297872392
+        }
+      }
+    }
+  ],
+  "monteCarlo": {
+    "games": 72,
+    "drawsPerGame": 10000,
+    "baselineAll": {
+      "players": 1738,
+      "positiveAppearances": 1442,
+      "mae": {
+        "minutes": 6.397931459184855,
+        "points": 4.53532013808976,
+        "rebounds": 1.9280647871116214,
+        "assists": 1.2519568469505178,
+        "pra": 6.402633486766397,
+        "pa": 5.190664787111623,
+        "ra": 2.6611804372842336,
+        "pr": 5.755606329113927
+      },
+      "bias": {
+        "minutes": -0.24017897233919586,
+        "points": -0.06918078250863058,
+        "rebounds": -0.033569620253164546,
+        "assists": -0.03128446490218641,
+        "pra": -0.13403486766398157,
+        "pa": -0.10046524741081712,
+        "ra": -0.06485408515535099,
+        "pr": -0.10275040276179523
+      }
+    },
+    "candidateAll": {
+      "players": 1738,
+      "positiveAppearances": 1442,
+      "mae": {
+        "minutes": 5.817644738247631,
+        "points": 4.348023993095512,
+        "rebounds": 1.841886823935558,
+        "assists": 1.2191446490218647,
+        "pra": 6.0617323360184105,
+        "pa": 4.94761156501726,
+        "ra": 2.5392366513233595,
+        "pr": 5.4601378596087455
+      },
+      "bias": {
+        "minutes": -0.17788433640113852,
+        "points": -0.04149004602991942,
+        "rebounds": -0.024497640966628292,
+        "assists": -0.008190678941311839,
+        "pra": -0.07417836593785959,
+        "pa": -0.04968072497123131,
+        "ra": -0.03268831990794018,
+        "pr": -0.06598768699654779
+      }
+    },
+    "baselineIfPlaying": {
+      "players": 1442,
+      "positiveAppearances": 1442,
+      "mae": {
+        "minutes": 5.526005556325887,
+        "points": 4.553790915395284,
+        "rebounds": 1.9178033980582527,
+        "assists": 1.3078309292649097,
+        "pra": 6.197256726768376,
+        "pa": 5.142542787794731,
+        "ra": 2.600290360610263,
+        "pr": 5.618529680998612
+      },
+      "bias": {
+        "minutes": -2.474712841724601,
+        "points": -0.9958780166435509,
+        "rebounds": -0.4464966019417477,
+        "assists": -0.2388219140083218,
+        "pra": -1.6811965325936205,
+        "pa": -1.2346999306518727,
+        "ra": -0.6853185159500692,
+        "pr": -1.4423746185852975
+      }
+    },
+    "candidateIfPlaying": {
+      "players": 1442,
+      "positiveAppearances": 1442,
+      "mae": {
+        "minutes": 5.301108041081907,
+        "points": 4.692082481611336,
+        "rebounds": 1.9542182138638864,
+        "assists": 1.3436050018528802,
+        "pra": 6.216648359401345,
+        "pa": 5.218961775053859,
+        "ra": 2.6291523533386156,
+        "pr": 5.678450175896124
+      },
+      "bias": {
+        "minutes": 1.8038239598190435,
+        "points": 0.9233043158593396,
+        "rebounds": 0.33413435641529293,
+        "assists": 0.20818600021648107,
+        "pra": 1.465624672491113,
+        "pa": 1.131490316075821,
+        "ra": 0.5423203566317739,
+        "pr": 1.257438672274633
+      }
+    },
+    "rawIfPlaying": {
+      "players": 1442,
+      "positiveAppearances": 1442,
+      "mae": {
+        "minutes": 4.864018729028857,
+        "points": 4.536344444313291,
+        "rebounds": 1.8927474879687953,
+        "assists": 1.3168236136323759,
+        "pra": 6.01058528652072,
+        "pa": 5.0469161023583275,
+        "ra": 2.5351703792109515,
+        "pr": 5.49185216065999
+      },
+      "bias": {
+        "minutes": -0.08164381525235517,
+        "points": 0.05845161504537945,
+        "rebounds": -0.0124496832613837,
+        "assists": 0.015538626579459985,
+        "pra": 0.06154055836345566,
+        "pa": 0.07399024162483946,
+        "ra": 0.003088943318076303,
+        "pr": 0.04600193178399566
+      }
+    },
+    "participation": {
+      "players": 1738,
+      "baselineBrier": 0.17031070195627157,
+      "candidateBrier": 0.10905113360759494
+    },
+    "pointsCentral80Coverage": {
+      "players": 1442,
+      "baseline": 0.45700416088765605,
+      "candidate": 0.5256588072122053
+    },
+    "uncertainty": {
+      "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+      "days": 71,
+      "draws": 1000,
+      "difference": -0.1872961449942462,
+      "interval95": [
+        -0.25870110400929697,
+        -0.11343933486238542
+      ]
+    }
+  },
+  "promotion": {
+    "passed": false,
+    "status": "Research only; live model unchanged",
+    "reason": "Research only: missing point-in-time roster, injury and transaction evidence prevents promotion regardless of retrospective improvements",
+    "conditionalPointsImproves": false,
+    "conditionalPraImproves": false,
+    "blockers": [
+      "Missing verified point-in-time roster, transaction and injury snapshots",
+      "Final distribution calibration remains unvalidated",
+      "Candidate worsens point MAE conditional on playing"
+    ]
+  },
+  "limitations": [
+    "Plug-in positive-cohort errors grade marginal forecasts on players who actually played; they are not conditional-on-playing forecasts. Only the Monte Carlo IfPlaying summaries condition the prediction on appearance.",
+    "Player pools are reconstructed from earlier box-score listings, not historical pregame roster/transaction or injury snapshots. New arrivals and unlisted players can be missed; coverage and exclusions are reported.",
+    "Only players with observed target-game records are graded; missing records are not silently converted into zeroes. Positive-appearance and listed-player cohorts are reported separately.",
+    "All-game plug-in calculations are deterministic approximations. The stratified 10,000-draw sample audits the actual final production allocation; its sample size limits conclusions.",
+    "Candidate participation probabilities use earlier listed-game frequencies with a fixed Beta(1,1) prior. They are not injury-conditioned, and simulated lineups are conditioned on at least five available players.",
+    "Earlier-season chosen player parameters, earlier-season out-of-sample team-score forecasts and a 24-hour results embargo are used. Historical seasons have already been inspected; no untouched accuracy or betting-edge claim follows.",
+    "Bootstrap intervals cluster by UTC day; team, player and season dependence can make uncertainty wider. No matched-time bookmaker performance, prop calibration or return evaluation is established."
+  ]
+}
