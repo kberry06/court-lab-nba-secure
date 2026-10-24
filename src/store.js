@@ -13,6 +13,8 @@ export function openStore(dir) {
     CREATE INDEX IF NOT EXISTS quotes_event ON quotes(event_id,observed_at);
     CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,event_id TEXT,created_at TEXT,body TEXT);
     CREATE INDEX IF NOT EXISTS runs_event ON runs(event_id,created_at);
+    CREATE TABLE IF NOT EXISTS frozen_forecasts(event_id TEXT PRIMARY KEY,frozen_at TEXT NOT NULL,body TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS outcomes(event_id TEXT PRIMARY KEY,settled_at TEXT NOT NULL,body TEXT NOT NULL);
     CREATE TABLE IF NOT EXISTS reports(id TEXT PRIMARY KEY,created_at TEXT,body TEXT);
     CREATE TABLE IF NOT EXISTS audit(id TEXT PRIMARY KEY,created_at TEXT,action TEXT,body TEXT);`);
   return {db,
@@ -27,8 +29,12 @@ export function openStore(dir) {
     importQuotes:qs=>{db.exec('BEGIN');try {let count=0;for(const q of qs){const {receivedAt,...identity}=q;const id=createHash('sha256').update(JSON.stringify(Object.fromEntries(Object.entries(identity).sort(([a],[b])=>a.localeCompare(b))))).digest('hex');count+=db.prepare('INSERT INTO quotes VALUES(?,?,?,?) ON CONFLICT(id) DO NOTHING').run(id,q.eventId,q.observedAt,JSON.stringify(q)).changes;}db.exec('COMMIT');return count;}catch(e){db.exec('ROLLBACK');throw e;}},
     quotes:id=>{const rows=db.prepare('SELECT body FROM quotes WHERE event_id=? ORDER BY observed_at DESC').all(id).map(r=>JSON.parse(r.body));const seen=new Set();return rows.filter(q=>{const key=JSON.stringify([q.source,q.bookmaker,q.market,q.selection,q.line,q.playerId]);if(seen.has(key))return false;seen.add(key);return true;});},
     latestRun:id=>{const r=db.prepare('SELECT id,created_at,body FROM runs WHERE event_id=? ORDER BY created_at DESC LIMIT 1').get(id);return r?{id:r.id,createdAt:r.created_at,...JSON.parse(r.body)}:null;},
+    freezeForecast:(scenario,summary,at=Date.now())=>{if(scenario.demo||at>=Date.parse(scenario.start))return false;const body={eventId:scenario.id,start:scenario.start,frozenAt:new Date(at).toISOString(),trainingCutoff:scenario.asOf,probability:summary.homeWin,predictedHome:summary.home.mean,predictedAway:summary.away.mean,modelVersion:summary.modelVersion,synthetic:false};return db.prepare('INSERT OR IGNORE INTO frozen_forecasts VALUES(?,?,?)').run(scenario.id,body.frozenAt,JSON.stringify(body)).changes===1;},
+    settleGames:(games,at=Date.now())=>{let count=0;for(const g of games){if((g.status_state||g.status)!=='final'||!Number.isFinite(g.home_team_score)||!Number.isFinite(g.visitor_team_score)||g.home_team_score===g.visitor_team_score)continue;const eventId=`espn:game:${g.id}`,forecast=db.prepare('SELECT 1 FROM frozen_forecasts WHERE event_id=?').get(eventId);if(!forecast)continue;const settledAt=new Date(Math.max(at,Date.parse(g.datetime||g.date)+1)).toISOString(),body={actualHome:g.home_team_score,actualAway:g.visitor_team_score};count+=db.prepare('INSERT OR IGNORE INTO outcomes VALUES(?,?,?)').run(eventId,settledAt,JSON.stringify(body)).changes;}return count;},
+    historicalForecasts:()=>db.prepare('SELECT f.body AS forecast,o.settled_at,o.body AS outcome FROM frozen_forecasts f JOIN outcomes o USING(event_id) ORDER BY f.frozen_at').all().map(r=>({...JSON.parse(r.forecast),settledAt:r.settled_at,...JSON.parse(r.outcome)})),
     record:(table,body,eventId=null)=>{if(!['runs','reports','audit'].includes(table))throw new Error('Invalid table');const id=randomUUID(),at=new Date().toISOString();if(table==='runs')db.prepare('INSERT INTO runs VALUES(?,?,?,?)').run(id,eventId,at,JSON.stringify(body));else if(table==='reports')db.prepare('INSERT INTO reports VALUES(?,?,?)').run(id,at,JSON.stringify(body));else db.prepare('INSERT INTO audit VALUES(?,?,?,?)').run(id,at,body.action,JSON.stringify(body));return id;},
     latestReport:()=>{const r=db.prepare('SELECT body FROM reports ORDER BY created_at DESC LIMIT 1').get();return r?JSON.parse(r.body):null;}
   };
 }
+
 

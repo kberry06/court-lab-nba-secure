@@ -1,5 +1,5 @@
 import { validateScenario } from './validation.js';
-export const MODEL_VERSION = 'baseline-correlated-0.1';
+export const MODEL_VERSION = 'form-rotation-correlated-0.2';
 export function rng(seed=42) { let a=seed>>>0; return () => { a+=0x6D2B79F5; let t=a; t=Math.imul(t^t>>>15,t|1); t^=t+Math.imul(t^t>>>7,t|61); return ((t^t>>>14)>>>0)/4294967296; }; }
 export function normal(random) { return Math.sqrt(-2*Math.log(Math.max(random(),1e-12)))*Math.cos(2*Math.PI*random()); }
 const mean = a => a.reduce((x,y)=>x+y,0)/a.length;
@@ -25,8 +25,9 @@ export function simulate(scenario, {seed=42,draws=10000}={}) {
     for(let side=0;side<2;side++) {
       const t=teams[side],opp=teams[1-side];
       const lost=t.players.reduce((n,p,i)=>n+p.impact*(ms[side][i]-p.minutes)/36,0);
-      const rating=t.offense+opp.defense-114+(side===0?1.5:-1.5)+(t.restDays===0?-1.5:0)+lost;
-      scores[side].push(Math.max(60,Math.round(pace*rating/100+7*teamShock[side]+3*shared)));
+      const rest=t.restDays===0?-1.5:t.restDays>=3?.4:0;
+      const rating=t.offense+opp.defense-114+(side===0?1.5:-1.5)+rest+lost;
+      scores[side].push(Math.max(60,Math.round(pace*rating/100+8.5*teamShock[side]+3.5*shared)));
     }
     // Overtime: resolve ties, preserving a non-draw full-game moneyline.
     let ot=0;
@@ -49,3 +50,4 @@ export function simulate(scenario, {seed=42,draws=10000}={}) {
   const p=margin.filter(m=>m>0).length/draws;
   return {modelVersion:MODEL_VERSION,seed,draws,generatedAt:new Date().toISOString(),asOf:scenario.asOf,demo:scenario.demo,eventId:scenario.id,homeWin:p,mc95HalfWidth:1.96*Math.sqrt(p*(1-p)/draws),home:summary(scores[0]),away:summary(scores[1]),margin:summary(margin),total:summary(total),players:teams.flatMap(t=>t.players.map(p=>({id:p.id,name:p.name,teamId:t.id,thresholds:Object.fromEntries([['points',20],['rebounds',8],['assists',5]].map(([stat,line])=>{const v=playerSamples[p.id],active=v.active.filter(Boolean).length;return [stat,{line,probability:active?v[stat].filter((n,i)=>v.active[i]&&n>=line).length/active:null}];})),...Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>[k,summary(playerSamples[p.id][k])]))}))),samples:{scores,margin,total,players:playerSamples,minutes}};
 }
+
