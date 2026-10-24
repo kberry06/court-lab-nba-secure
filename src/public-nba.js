@@ -18,7 +18,7 @@ export function normalizeBox(body,g) {
   for(const t of body.boxscore.players)for(const group of t.statistics||[]) {
     const labels=group.labels||[];const ix=k=>labels.indexOf(k);
     assert(['MIN','PTS','REB','AST'].every(k=>ix(k)>=0),'Unsupported box-score columns');
-    for(const p of group.athletes||[]){if(p.didNotPlay||!p.stats?.length)continue;rows.push({player:{id:Number(p.athlete.id)},game:{id:g.id,date:g.date},team:{id:Number(t.team.id)},min:p.stats[ix('MIN')],pts:Number(p.stats[ix('PTS')]),reb:Number(p.stats[ix('REB')]),ast:Number(p.stats[ix('AST')])});}
+    for(const p of group.athletes||[]){if(p.didNotPlay||!p.stats?.length)continue;const teamId=Number(t.team.id),opponent=g.home_team&&g.visitor_team?(g.home_team.id===teamId?g.visitor_team:g.home_team):{};rows.push({player:{id:Number(p.athlete.id)},game:{id:g.id,date:g.date},team:{id:teamId},opponent:{id:opponent.id,name:opponent.full_name,abbreviation:opponent.abbreviation},min:p.stats[ix('MIN')],pts:Number(p.stats[ix('PTS')]),reb:Number(p.stats[ix('REB')]),ast:Number(p.stats[ix('AST')])});}
   }
   return rows;
 }
@@ -29,7 +29,8 @@ export function normalizePlayerLog(body,playerId,cutoff) {
   for(const season of body.seasonTypes.filter(s=>/Regular Season/.test(s.displayName)))for(const category of season.categories||[])for(const row of category.events||[]){
     const game=body.events?.[row.eventId];if(!game||!['W','L'].includes(game.gameResult)||Date.parse(game.gameDate)>=cutoff)continue;
     if(!row.stats?.length||!Number.isFinite(Number(row.stats[index('MIN')])))continue;
-    rows.push({provenance:'espn-player-gamelog',player:{id:playerId},game:{id:Number(row.eventId),date:game.gameDate.slice(0,10),datetime:game.gameDate,final:true},min:row.stats[index('MIN')],pts:Number(row.stats[index('PTS')]),reb:Number(row.stats[index('REB')]),ast:Number(row.stats[index('AST')])});
+    const opponent=game.opponent?.displayName||game.opponent?.abbreviation||game.opponent?.name||'Opponent';
+    rows.push({provenance:'espn-player-gamelog',player:{id:playerId},game:{id:Number(row.eventId),date:game.gameDate.slice(0,10),datetime:game.gameDate,final:true},opponent:{name:opponent,abbreviation:game.opponent?.abbreviation},min:row.stats[index('MIN')],pts:Number(row.stats[index('PTS')]),reb:Number(row.stats[index('REB')]),ast:Number(row.stats[index('AST')])});
   }
   return rows.sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
 }

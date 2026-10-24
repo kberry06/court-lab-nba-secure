@@ -40,7 +40,8 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
       const totalMinutes=rows.reduce((n,r)=>n+minutes(r.min),0);
       const injury=bundle.injuries.find(i=>i.player?.id===p.id);const status=injury?.status||'Not listed';
       const availability={out:0,doubtful:.25,questionable:.5,probable:.9,'day-to-day':.5}[status.toLowerCase()]??(injury?.status? .5:1);
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(average(rows.map(r=>minutes(r.min))),0,48),availability,impact:clamp((rows.reduce((n,r)=>n+r.pts,0)/totalMinutes-.45)*12+(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes-.1)*8,-4,8),points:clamp(rows.reduce((n,r)=>n+r.pts,0)/totalMinutes,.01,2),rebounds:clamp(rows.reduce((n,r)=>n+r.reb,0)/totalMinutes,0,2),assists:clamp(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes,0,2),sampleGames:rows.length,injury:status};
+      const recent=rows.slice(0,10).map(r=>({gameId:r.game.id,date:r.game.date,opponent:r.opponent?.abbreviation||r.opponent?.name||'Opponent',points:r.pts,rebounds:r.reb,assists:r.ast}));
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(average(rows.map(r=>minutes(r.min))),0,48),availability,impact:clamp((rows.reduce((n,r)=>n+r.pts,0)/totalMinutes-.45)*12+(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes-.1)*8,-4,8),points:clamp(rows.reduce((n,r)=>n+r.pts,0)/totalMinutes,.01,2),rebounds:clamp(rows.reduce((n,r)=>n+r.reb,0)/totalMinutes,0,2),assists:clamp(rows.reduce((n,r)=>n+r.ast,0)/totalMinutes,0,2),sampleGames:rows.length,injury:status,recent};
     }).filter(Boolean).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
     assert(players.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible players with at least three historical appearances each`);
     if(missing.length)warnings.push(`${name(t)}: insufficient history for ${missing.join(', ')}. These players are excluded; review rotation minutes.`);
@@ -54,5 +55,5 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
 
 export function scheduleView(bundle,store,now=Date.now()) {
   if(!bundle)return {games:[],fetchedAt:null};
-  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>({id:id('game',g.id),providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(id('game',g.id))})).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
+  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>{const eventId=id('game',g.id),run=store.latestRun?.(eventId);return {id:eventId,providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(eventId),projection:run?{runId:run.id,generatedAt:run.summary.generatedAt,home:run.summary.home.mean,away:run.summary.away.mean,homeWin:run.summary.homeWin,total:run.summary.total.mean}:null};}).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
 }

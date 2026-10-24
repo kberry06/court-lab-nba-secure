@@ -12,6 +12,7 @@ export function openStore(dir) {
     CREATE TABLE IF NOT EXISTS quotes(id TEXT PRIMARY KEY,event_id TEXT NOT NULL,observed_at TEXT NOT NULL,body TEXT NOT NULL);
     CREATE INDEX IF NOT EXISTS quotes_event ON quotes(event_id,observed_at);
     CREATE TABLE IF NOT EXISTS runs(id TEXT PRIMARY KEY,event_id TEXT,created_at TEXT,body TEXT);
+    CREATE INDEX IF NOT EXISTS runs_event ON runs(event_id,created_at);
     CREATE TABLE IF NOT EXISTS reports(id TEXT PRIMARY KEY,created_at TEXT,body TEXT);
     CREATE TABLE IF NOT EXISTS audit(id TEXT PRIMARY KEY,created_at TEXT,action TEXT,body TEXT);`);
   return {db,
@@ -25,6 +26,7 @@ export function openStore(dir) {
     mappings:()=>db.prepare('SELECT * FROM mappings').all(),
     importQuotes:qs=>{db.exec('BEGIN');try {let count=0;for(const q of qs){const {receivedAt,...identity}=q;const id=createHash('sha256').update(JSON.stringify(Object.fromEntries(Object.entries(identity).sort(([a],[b])=>a.localeCompare(b))))).digest('hex');count+=db.prepare('INSERT INTO quotes VALUES(?,?,?,?) ON CONFLICT(id) DO NOTHING').run(id,q.eventId,q.observedAt,JSON.stringify(q)).changes;}db.exec('COMMIT');return count;}catch(e){db.exec('ROLLBACK');throw e;}},
     quotes:id=>{const rows=db.prepare('SELECT body FROM quotes WHERE event_id=? ORDER BY observed_at DESC').all(id).map(r=>JSON.parse(r.body));const seen=new Set();return rows.filter(q=>{const key=JSON.stringify([q.source,q.bookmaker,q.market,q.selection,q.line,q.playerId]);if(seen.has(key))return false;seen.add(key);return true;});},
+    latestRun:id=>{const r=db.prepare('SELECT id,created_at,body FROM runs WHERE event_id=? ORDER BY created_at DESC LIMIT 1').get(id);return r?{id:r.id,createdAt:r.created_at,...JSON.parse(r.body)}:null;},
     record:(table,body,eventId=null)=>{if(!['runs','reports','audit'].includes(table))throw new Error('Invalid table');const id=randomUUID(),at=new Date().toISOString();if(table==='runs')db.prepare('INSERT INTO runs VALUES(?,?,?,?)').run(id,eventId,at,JSON.stringify(body));else if(table==='reports')db.prepare('INSERT INTO reports VALUES(?,?,?)').run(id,at,JSON.stringify(body));else db.prepare('INSERT INTO audit VALUES(?,?,?,?)').run(id,at,body.action,JSON.stringify(body));return id;},
     latestReport:()=>{const r=db.prepare('SELECT body FROM reports ORDER BY created_at DESC LIMIT 1').get();return r?JSON.parse(r.body):null;}
   };
