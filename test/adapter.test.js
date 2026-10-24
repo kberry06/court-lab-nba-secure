@@ -17,3 +17,9 @@ test('automatic mapping keeps ambiguous or materially different tip-offs quarant
  }
 });
 
+test('unique punctuation variants map while ambiguous identities remain unmapped',()=>{
+ const s={...demoScenario(),demo:false};s.teams[0].players=[{...s.teams[0].players[0],name:'Michael Porter Jr.'}];
+ const e={id:'e',home_team:s.teams[0].name,away_team:s.teams[1].name,commence_time:s.start,bookmakers:[{markets:[{outcomes:[{description:'Michael Porter Jr'}]}]}]};
+ const mappings=[];registerExactMatches([e],{scenarios:()=>[s],map:m=>mappings.push(m)});assert.equal(mappings.filter(m=>m.kind==='player').length,1);assert.equal(mappings.at(-1).externalId,'e:Michael Porter Jr');
+ s.teams[1].players.push({...s.teams[0].players[0],id:'ambiguous'});mappings.length=0;registerExactMatches([e],{scenarios:()=>[s],map:m=>mappings.push(m)});assert.equal(mappings.filter(m=>m.kind==='player').length,0);
+});

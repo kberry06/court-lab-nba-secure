@@ -3,13 +3,15 @@ import {normalizeQuote} from './odds.js';
 // Exact, unique full-name matches within a small schedule tolerance. NBA feeds can
 // disagree by several minutes as broadcasters and books revise the listed tip-off.
 // Ambiguous or materially rescheduled games remain quarantined.
+// Compare punctuation variants only; keep every name token and suffix.
+export const playerNameKey=name=>String(name).normalize('NFKC').replace(/[.]/g,'').replace(/[’]/g,"'").trim();
 export const EVENT_START_TOLERANCE_MS=30*60*1000;
 export function registerExactMatches(events,store) {
  for(const e of events){
   const matches=store.scenarios().filter(s=>!s.demo&&s.teams[0].name===e.home_team&&s.teams[1].name===e.away_team&&Math.abs(Date.parse(s.start)-Date.parse(e.commence_time))<=EVENT_START_TOLERANCE_MS);
   if(matches.length!==1)continue;const s=matches[0];
   for(const [kind,externalId,canonicalId] of [['event',e.id,s.id],['team',e.home_team,s.teams[0].id],['team',e.away_team,s.teams[1].id]])store.map({source:'the-odds-api',kind,externalId,canonicalId});
-  for(const b of e.bookmakers||[])for(const m of b.markets||[])for(const o of m.outcomes||[]){if(!o.description)continue;const players=s.teams.flatMap(t=>t.players).filter(p=>p.name===o.description);if(players.length===1)store.map({source:'the-odds-api',kind:'player',externalId:`${e.id}:${o.description}`,canonicalId:players[0].id});}
+  for(const b of e.bookmakers||[])for(const m of b.markets||[])for(const o of m.outcomes||[]){if(!o.description)continue;const players=s.teams.flatMap(t=>t.players).filter(p=>playerNameKey(p.name)===playerNameKey(o.description));if(players.length===1)store.map({source:'the-odds-api',kind:'player',externalId:`${e.id}:${o.description}`,canonicalId:players[0].id});}
  }
 }
 // Explicit reviewed mapping only. This provider supplies team/player names rather
