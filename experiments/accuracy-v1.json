@@ -1,0 +1,23 @@
+{
+  "version": "accuracy-research-1",
+  "status": "Retrospective research: all historical seasons have already been inspected. Future prospective forecasts provide the next untouched test.",
+  "gameFamilies": {
+    "form-rest": ["home", "elo", "form", "rest", "backToBack"],
+    "opponent-rest": ["home", "elo", "slow", "fast", "form", "rest", "backToBack"],
+    "opponent-road": ["home", "elo", "slow", "fast", "form", "rest", "backToBack", "roadTrip", "travelSequence"]
+  },
+  "ridgeValues": [1, 10, 100],
+  "trainingSeasonWindow": 3,
+  "resultEmbargoHours": 24,
+  "innerValidationStarts": 2020,
+  "outerEvaluationStarts": 2021,
+  "selectionMetric": "earlier-season out-of-sample log loss",
+  "distributionFit": "Conditional logistic margin scale selected by earlier out-of-sample margin density loss on 4..15 in 0.25 steps; location=scale*logit(p). This was revised after the first retrospective interval-coverage audit showed narrow ranges. All test seasons remain reused research, not untouched validation.",
+  "promotionGate": "Brier and log loss improve against the previous baseline on paired games; paired day-cluster bootstrap 95% upper Brier difference is below zero; latest-season log loss does not worsen. Otherwise retain as research.",
+  "travelLimitation": "Road-trip and previous-away sequence are proxies. No geographic distance or time-zone travel data is present.",
+  "playerHalfLives": [3, 6, 12],
+  "playerPriorMinutes": [60, 240],
+  "playerHistoryLimit": 20,
+  "playerLeaguePrior": "Frozen at each season start from earlier eligible appearances, matching the deployed fitted-prior approach.",
+  "playerEvaluation": "Conditional on an observed appearance; not pregame roster availability or bookmaker prop accuracy. Settings chosen only on earlier seasons."
+}

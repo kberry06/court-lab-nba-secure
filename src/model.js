@@ -1,7 +1,8 @@
 import { validateScenario } from './validation.js';
-export const MODEL_VERSION = 'form-rotation-correlated-0.2';
+export const MODEL_VERSION = 'trained-opponent-rest-player-1';
 export function rng(seed=42) { let a=seed>>>0; return () => { a+=0x6D2B79F5; let t=a; t=Math.imul(t^t>>>15,t|1); t^=t+Math.imul(t^t>>>7,t|61); return ((t^t>>>14)>>>0)/4294967296; }; }
 export function normal(random) { return Math.sqrt(-2*Math.log(Math.max(random(),1e-12)))*Math.cos(2*Math.PI*random()); }
+function normalCdf(x){const a=Math.abs(x),t=1/(1+.2316419*a),density=Math.exp(-a*a/2)/Math.sqrt(2*Math.PI),tail=density*t*(.319381530+t*(-.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));return x>=0?1-tail:tail;}
 const mean = a => a.reduce((x,y)=>x+y,0)/a.length;
 function summary(a) { const b=[...a].sort((x,y)=>x-y); return {mean:mean(a),p10:b[Math.floor(b.length*.1)],p50:b[Math.floor(b.length*.5)],p90:b[Math.floor(b.length*.9)]}; }
 function minutesFor(players, random) {
@@ -22,15 +23,19 @@ export function simulate(scenario, {seed=42,draws=10000}={}) {
     const pace=(teams[0].pace+teams[1].pace)/2 + 3.5*normal(random), shared=normal(random);
     const ms=teams.map(t=>minutesFor(t.players,random));
     const teamShock=[normal(random),normal(random)];
+    let trainedScores=null;
+    if(scenario.gameForecast){const g=scenario.gameForecast,z=normal(random),u=Math.max(1e-9,Math.min(1-1e-9,normalCdf(z))),margin=g.marginMean+g.marginScale*Math.log(u/(1-u)),total=g.totalMean+g.totalSd*(g.rho*z+Math.sqrt(1-g.rho*g.rho)*normal(random));trainedScores=[(total+margin)/2,(total-margin)/2];}
     for(let side=0;side<2;side++) {
       const t=teams[side],opp=teams[1-side];
       const lost=t.players.reduce((n,p,i)=>n+p.impact*(ms[side][i]-p.minutes)/36,0);
       const rest=t.restDays===0?-1.5:t.restDays>=3?.4:0;
       const rating=t.offense+opp.defense-114+(side===0?1.5:-1.5)+rest+lost;
-      scores[side].push(Math.max(60,Math.round(pace*rating/100+8.5*teamShock[side]+3.5*shared)));
+      const expectedScore=trainedScores?trainedScores[side]+lost:pace*rating/100+8.5*teamShock[side]+3.5*shared;if(trainedScores)trainedScores[side]=expectedScore;
+      scores[side].push(Math.max(trainedScores?40:60,Math.round(expectedScore)));
     }
     // Overtime: resolve ties, preserving a non-draw full-game moneyline.
     let ot=0;
+    if(trainedScores&&scores[0][d]===scores[1][d])scores[trainedScores[0]>=trainedScores[1]?0:1][d]++; // Full-game training already includes overtime; resolve rounding ties only.
     while(scores[0][d]===scores[1][d]) { ot++; for(let side=0;side<2;side++) scores[side][d]+=Math.max(1,Math.round(11+3*normal(random))); }
     for(let side=0;side<2;side++) {
       const t=teams[side]; const weights=t.players.map((p,i)=>ms[side][i]*p.points*Math.exp(.25*normal(random)));
@@ -48,6 +53,5 @@ export function simulate(scenario, {seed=42,draws=10000}={}) {
   }
   const margin=scores[0].map((h,i)=>h-scores[1][i]),total=scores[0].map((h,i)=>h+scores[1][i]);
   const p=margin.filter(m=>m>0).length/draws;
-  return {modelVersion:MODEL_VERSION,seed,draws,generatedAt:new Date().toISOString(),asOf:scenario.asOf,demo:scenario.demo,eventId:scenario.id,homeWin:p,mc95HalfWidth:1.96*Math.sqrt(p*(1-p)/draws),home:summary(scores[0]),away:summary(scores[1]),margin:summary(margin),total:summary(total),players:teams.flatMap(t=>t.players.map(p=>({id:p.id,name:p.name,teamId:t.id,thresholds:Object.fromEntries([['points',20],['rebounds',8],['assists',5]].map(([stat,line])=>{const v=playerSamples[p.id],active=v.active.filter(Boolean).length;return [stat,{line,probability:active?v[stat].filter((n,i)=>v.active[i]&&n>=line).length/active:null}];})),...Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>[k,summary(playerSamples[p.id][k])]))}))),samples:{scores,margin,total,players:playerSamples,minutes}};
+  return {modelVersion:scenario.gameForecast?MODEL_VERSION:scenario.playerEstimatorVersion?'trained-player-recent-game-0.3':'form-rotation-correlated-0.2',trainingLastGameAt:scenario.gameForecast?.trainingLastGameAt||null,gameBaseProbability:scenario.gameForecast?.probability??null,seed,draws,generatedAt:new Date().toISOString(),asOf:scenario.asOf,demo:scenario.demo,eventId:scenario.id,homeWin:p,mc95HalfWidth:1.96*Math.sqrt(p*(1-p)/draws),home:summary(scores[0]),away:summary(scores[1]),margin:summary(margin),total:summary(total),players:teams.flatMap(t=>t.players.map(p=>({id:p.id,name:p.name,teamId:t.id,thresholds:Object.fromEntries([['points',20],['rebounds',8],['assists',5]].map(([stat,line])=>{const v=playerSamples[p.id],active=v.active.filter(Boolean).length;return [stat,{line,probability:active?v[stat].filter((n,i)=>v.active[i]&&n>=line).length/active:null}];})),...Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>[k,summary(playerSamples[p.id][k])]))}))),samples:{scores,margin,total,players:playerSamples,minutes}};
 }
-

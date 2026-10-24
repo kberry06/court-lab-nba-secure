@@ -1,4 +1,6 @@
 import {assert, timestamp, string, validateScenario} from './validation.js';
+import {buildGameForecast,playerArtifact,TRAINED_MODEL_VERSION} from './trained-forecast.js';
+import {estimatePlayer} from './player-estimator.js';
 
 const day=86400000;
 const id=(kind,value)=>`espn:${kind}:${value}`;
@@ -35,7 +37,7 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
   assert(start(g)&&Date.parse(start(g))>now,'Predictions require a confirmed future tip-off');
   assert(!g.postponed&&!['final','in_progress','postponed','canceled','suspended','abandoned','unknown'].includes(g.status_state),'Game is not available for a pregame prediction');
   assert(now-Date.parse(bundle.fetchedAt)<24*3600000,'Refresh roster and injury data before predicting (older than 24 hours)');
-  const cutoff=Date.parse(bundle.fetchedAt),warnings=['Accuracy model v0.2 uses time-decayed team form, stabilized rotations and wider NBA score variance. Probabilities remain uncalibrated until enough frozen live forecasts settle. Injury probabilities and player impacts are assumptions; confirm lineups.'];
+  const cutoff=Date.parse(bundle.fetchedAt),playerModelEligible=playerArtifact.promotion.passed&&Date.parse(playerArtifact.trainingLastGameAt)+day<cutoff,warnings=['Recent-score game baseline. Player estimates are historically fitted where the training cutoff permits; live prospective validation is pending. Injury probabilities and player impacts are assumptions; confirm lineups.'];
   const teams=[g.home_team,g.visitor_team].map(t=>{
     const history=bundle.games.filter(x=>x.id!==g.id&&final(x)&&Date.parse(x.datetime||`${x.date}T23:59:59Z`)<cutoff-day&&(x.home_team.id===t.id||x.visitor_team.id===t.id)).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,20);
     assert(history.length>=5,`${name(t)} needs at least five completed historical games`);
@@ -53,10 +55,9 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
       if(rows.length<3)priorModeled.push(`${p.first_name} ${p.last_name}`);
       const priorMinutes=rows.length?12:6,roleMinutes=rows.length?average(rows.map(r=>minutes(r.min))):priorMinutes;
       const priorPossessions=rows.length<3?120:0,denominator=totalMinutes+priorPossessions;
-      const points=(rows.reduce((n,r)=>n+r.pts,0)+.45*priorPossessions)/denominator;
-      const rebounds=(rows.reduce((n,r)=>n+r.reb,0)+.15*priorPossessions)/denominator;
-      const assists=(rows.reduce((n,r)=>n+r.ast,0)+.10*priorPossessions)/denominator;
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(roleMinutes,0,48),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent};
+      const estimated=playerModelEligible?estimatePlayer(rows.map(r=>({minutes:minutes(r.min),points:r.pts,rebounds:r.reb,assists:r.ast})),playerArtifact.parameters):{minutes:roleMinutes,points:(rows.reduce((n,r)=>n+r.pts,0)+.45*priorPossessions)/denominator,rebounds:(rows.reduce((n,r)=>n+r.reb,0)+.15*priorPossessions)/denominator,assists:(rows.reduce((n,r)=>n+r.ast,0)+.10*priorPossessions)/denominator};
+      const {points,rebounds,assists}=estimated;
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent};
     }).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
     const rotation=normalizeRotation(players);
     assert(rotation.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible roster players`);
@@ -66,11 +67,13 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
     assert([...scored,...allowed].every(n=>Number.isFinite(n)&&n>0&&n<250),'Invalid historical game scores');
     return {id:id('team',t.id),name:name(t),pace:100,offense:clamp(weightedAverage(history,x=>x.home_team.id===t.id?x.home_team_score:x.visitor_team_score,cutoff,120,114,8),80,140),defense:clamp(weightedAverage(history,x=>x.home_team.id===t.id?x.visitor_team_score:x.home_team_score,cutoff,120,114,8),80,140),restDays:clamp(Math.floor((Date.parse(g.datetime)-Date.parse(history[0].datetime||history[0].date))/day)-1,0,10),players:rotation,sampleGames:history.length,ratingMethod:'time-decay-120d-prior8'};
   });
-  return validateScenario({id:id('game',g.id),source:'ESPN public data · recent-game baseline',demo:false,asOf:bundle.fetchedAt,start:g.datetime,teams,warnings});
+  const gameForecast=buildGameForecast(bundle,g);
+  if(gameForecast)warnings[0]='Historically trained opponent/rest game model and recency-weighted player estimates. Live prospective validation is pending. Injury probabilities, player impacts, minute reallocation and player-prop distributions remain assumptions; confirm lineups.';
+  else warnings.push('Trained game forecast unavailable for these inputs; the recent-score game baseline is retained.');
+  return validateScenario({id:id('game',g.id),source:gameForecast?'ESPN public data · trained opponent/rest model':'ESPN public data · recent-game baseline',demo:false,asOf:bundle.fetchedAt,start:g.datetime,teams,warnings,gameForecast,playerEstimatorVersion:playerModelEligible?playerArtifact.modelVersion:null});
 }
 
 export function scheduleView(bundle,store,now=Date.now()) {
   if(!bundle)return {games:[],fetchedAt:null};
-  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>{const eventId=id('game',g.id),run=store.latestRun?.(eventId);return {id:eventId,providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(eventId),projection:run?{runId:run.id,generatedAt:run.summary.generatedAt,home:run.summary.home.mean,away:run.summary.away.mean,homeWin:run.summary.homeWin,total:run.summary.total.mean}:null};}).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
+  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>{const eventId=id('game',g.id),run=store.latestRun?.(eventId);return {id:eventId,providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(eventId),projection:run?{runId:run.id,generatedAt:run.summary.generatedAt,home:run.summary.home.mean,away:run.summary.away.mean,homeWin:run.summary.homeWin,total:run.summary.total.mean,modelVersion:run.summary.modelVersion,needsRefresh:run.summary.modelVersion!==TRAINED_MODEL_VERSION}:null};}).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
 }
-

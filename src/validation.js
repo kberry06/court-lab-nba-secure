@@ -7,6 +7,7 @@ export function validateScenario(s) {
   assert(Date.parse(s.asOf) < Date.parse(s.start), 'Projection inputs must predate tip-off');
   assert(typeof s.demo === 'boolean', 'demo flag required'); string(s.source, 'source');
   assert(Array.isArray(s.teams) && s.teams.length === 2, 'Two teams required (home first)');
+  if(s.gameForecast){const g=s.gameForecast;timestamp(g.trainingLastGameAt,'game model training cutoff');assert(Date.parse(g.trainingLastGameAt)+86400000<Date.parse(s.asOf),'Game model training must predate the forecast');number(g.probability,.000001,.999999,'trained game probability');number(g.marginMean,-150,150,'trained margin');number(g.marginScale,4,15,'trained margin scale');number(g.totalMean,140,300,'trained total');number(g.totalSd,5,50,'trained total dispersion');number(g.rho,-.9,.9,'trained residual correlation');assert(Math.abs(g.marginMean-g.marginScale*Math.log(g.probability/(1-g.probability)))<1e-6,'Trained margin/probability mismatch');}
   const ids = new Set();
   for (const t of s.teams) { string(t.id, 'team ID'); string(t.name, 'team name'); assert(!ids.has(t.id), 'Duplicate team ID'); ids.add(t.id); number(t.pace, 80, 120, 'pace'); number(t.offense, 80, 140, 'offense'); number(t.defense, 80, 140, 'defense'); number(t.restDays, 0, 10, 'rest days');
     assert(Array.isArray(t.players) && t.players.length >= 6 && t.players.length <= 20, '6–20 players per team required');

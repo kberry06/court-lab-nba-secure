@@ -13,5 +13,6 @@ COPY public ./public
 COPY deploy ./deploy
 COPY model-artifact.json ./
 COPY player-history-artifact.json ./
+COPY game-model-artifact.json player-model-artifact.json ./
 EXPOSE 10000
 CMD ["node", "deploy/reuse-service.mjs"]

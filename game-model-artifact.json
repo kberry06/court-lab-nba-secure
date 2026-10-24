@@ -1,0 +1,4495 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "trained-opponent-rest-1",
+  "generatedAt": "2026-10-24T09:18:55.487Z",
+  "sourceSha256": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+  "trainingLastGameAt": "2026-04-13T00:30Z",
+  "summary": {
+    "protocol": {
+      "version": "accuracy-research-1",
+      "status": "Retrospective research: all historical seasons have already been inspected. Future prospective forecasts provide the next untouched test.",
+      "gameFamilies": {
+        "form-rest": [
+          "home",
+          "elo",
+          "form",
+          "rest",
+          "backToBack"
+        ],
+        "opponent-rest": [
+          "home",
+          "elo",
+          "slow",
+          "fast",
+          "form",
+          "rest",
+          "backToBack"
+        ],
+        "opponent-road": [
+          "home",
+          "elo",
+          "slow",
+          "fast",
+          "form",
+          "rest",
+          "backToBack",
+          "roadTrip",
+          "travelSequence"
+        ]
+      },
+      "ridgeValues": [
+        1,
+        10,
+        100
+      ],
+      "trainingSeasonWindow": 3,
+      "resultEmbargoHours": 24,
+      "innerValidationStarts": 2020,
+      "outerEvaluationStarts": 2021,
+      "selectionMetric": "earlier-season out-of-sample log loss",
+      "distributionFit": "Conditional logistic margin scale selected by earlier out-of-sample margin density loss on 4..15 in 0.25 steps; location=scale*logit(p). This was revised after the first retrospective interval-coverage audit showed narrow ranges. All test seasons remain reused research, not untouched validation.",
+      "promotionGate": "Brier and log loss improve against the previous baseline on paired games; paired day-cluster bootstrap 95% upper Brier difference is below zero; latest-season log loss does not worsen. Otherwise retain as research.",
+      "travelLimitation": "Road-trip and previous-away sequence are proxies. No geographic distance or time-zone travel data is present.",
+      "playerHalfLives": [
+        3,
+        6,
+        12
+      ],
+      "playerPriorMinutes": [
+        60,
+        240
+      ],
+      "playerHistoryLimit": 20,
+      "playerLeaguePrior": "Frozen at each season start from earlier eligible appearances, matching the deployed fitted-prior approach.",
+      "playerEvaluation": "Conditional on an observed appearance; not pregame roster availability or bookmaker prop accuracy. Settings chosen only on earlier seasons."
+    },
+    "folds": [
+      {
+        "season": 2021,
+        "selected": "opponent-road-ridge10-raw",
+        "selectionSeasons": [
+          2020
+        ],
+        "trainingSeasons": [
+          2019,
+          2020
+        ],
+        "metrics": {
+          "games": 1080,
+          "accuracy": 0.6287037037037037,
+          "brier": 0.22552382385723527,
+          "logLoss": 0.6416110520590321,
+          "marginMae": 11.179791534017093,
+          "totalMae": 14.825527793601367,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 1,
+              "predicted": 0.0893557067413962,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 11,
+              "predicted": 0.16094335297854057,
+              "actual": 0.18181818181818182
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 40,
+              "predicted": 0.2548480172048224,
+              "actual": 0.375
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 117,
+              "predicted": 0.35869746018875787,
+              "actual": 0.38461538461538464
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 179,
+              "predicted": 0.4545274972132114,
+              "actual": 0.3687150837988827
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 234,
+              "predicted": 0.5531429256208313,
+              "actual": 0.4658119658119658
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 226,
+              "predicted": 0.6495284210740133,
+              "actual": 0.6017699115044248
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 187,
+              "predicted": 0.7438694560204784,
+              "actual": 0.7700534759358288
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 74,
+              "predicted": 0.8469073330561548,
+              "actual": 0.8243243243243243
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 11,
+              "predicted": 0.9136362874537448,
+              "actual": 0.8181818181818182
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 324,
+              "coverage": 0.3,
+              "accuracy": 0.7685185185185185,
+              "wilson95": [
+                0.719606560658393,
+                0.8111375547924833
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 97,
+              "coverage": 0.08981481481481482,
+              "accuracy": 0.8247422680412371,
+              "wilson95": [
+                0.7371417860256466,
+                0.8876003838724906
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 45,
+              "coverage": 0.041666666666666664,
+              "accuracy": 0.8666666666666667,
+              "wilson95": [
+                0.738224177587027,
+                0.9374293636565033
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 12,
+              "coverage": 0.011111111111111112,
+              "accuracy": 0.8333333333333334,
+              "wilson95": [
+                0.5519636426153274,
+                0.9530358523851776
+              ]
+            }
+          ],
+          "marginCentral80Coverage": 0.7546296296296297,
+          "totalCentral80Coverage": 0.8194444444444444
+        },
+        "baseline": {
+          "games": 1080,
+          "accuracy": 0.6203703703703703,
+          "brier": 0.2262547898579561,
+          "logLoss": 0.6431177560362497,
+          "marginMae": 11.226344940534691,
+          "totalMae": 14.928070925538139,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 4,
+              "predicted": 0.17321501128558547,
+              "actual": 0.25
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 21,
+              "predicted": 0.25479099653952425,
+              "actual": 0.23809523809523808
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 109,
+              "predicted": 0.36248759489412813,
+              "actual": 0.3853211009174312
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 205,
+              "predicted": 0.455129574992441,
+              "actual": 0.3902439024390244
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 308,
+              "predicted": 0.5523546937748273,
+              "actual": 0.4902597402597403
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 254,
+              "predicted": 0.6475258292517052,
+              "actual": 0.6535433070866141
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 138,
+              "predicted": 0.7376247769801673,
+              "actual": 0.7681159420289855
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 41,
+              "predicted": 0.8328990087246166,
+              "actual": 0.8780487804878049
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 204,
+              "coverage": 0.18888888888888888,
+              "accuracy": 0.7892156862745098,
+              "wilson95": [
+                0.7281622743840798,
+                0.8395777738064653
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 45,
+              "coverage": 0.041666666666666664,
+              "accuracy": 0.8666666666666667,
+              "wilson95": [
+                0.738224177587027,
+                0.9374293636565033
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 8,
+              "coverage": 0.007407407407407408,
+              "accuracy": 1,
+              "wilson95": [
+                0.6755843804891231,
+                1
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2022,
+        "selected": "opponent-rest-ridge10-calibrated",
+        "selectionSeasons": [
+          2020,
+          2021
+        ],
+        "trainingSeasons": [
+          2019,
+          2020,
+          2021
+        ],
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6609756097560976,
+          "brier": 0.21889487420393847,
+          "logLoss": 0.6282700797156525,
+          "marginMae": 11.080126117310185,
+          "totalMae": 14.83637723571108,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 20,
+              "predicted": 0.16642374144574573,
+              "actual": 0.2
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 90,
+              "predicted": 0.254689830308811,
+              "actual": 0.24444444444444444
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 173,
+              "predicted": 0.3533524884105937,
+              "actual": 0.36416184971098264
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 217,
+              "predicted": 0.4542557459904402,
+              "actual": 0.41013824884792627
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 260,
+              "predicted": 0.5499440267088049,
+              "actual": 0.5961538461538461
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 241,
+              "predicted": 0.6474733097601353,
+              "actual": 0.6763485477178424
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 175,
+              "predicted": 0.7500769892820462,
+              "actual": 0.7314285714285714
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 52,
+              "predicted": 0.8371500513943376,
+              "actual": 0.8269230769230769
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9021415496009658,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 339,
+              "coverage": 0.275609756097561,
+              "accuracy": 0.7581120943952803,
+              "wilson95": [
+                0.7097980040954094,
+                0.8006418025091567
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 74,
+              "coverage": 0.06016260162601626,
+              "accuracy": 0.8243243243243243,
+              "wilson95": [
+                0.7222779521065887,
+                0.8943589104450547
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 23,
+              "coverage": 0.01869918699186992,
+              "accuracy": 0.8260869565217391,
+              "wilson95": [
+                0.6286194521470433,
+                0.9302145964938723
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 1,
+              "wilson95": [
+                0.34237195288961925,
+                1
+              ]
+            }
+          ],
+          "marginCentral80Coverage": 0.7739837398373983,
+          "totalCentral80Coverage": 0.8138211382113821
+        },
+        "baseline": {
+          "games": 1230,
+          "accuracy": 0.640650406504065,
+          "brier": 0.22241096334158464,
+          "logLoss": 0.6360584843979364,
+          "marginMae": 11.265165039002362,
+          "totalMae": 15.248059977886976,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 2,
+              "predicted": 0.17770467117357852,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 38,
+              "predicted": 0.2587426879934201,
+              "actual": 0.23684210526315788
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 135,
+              "predicted": 0.35290337244319575,
+              "actual": 0.32592592592592595
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 220,
+              "predicted": 0.4508314166081631,
+              "actual": 0.38636363636363635
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 298,
+              "predicted": 0.5533787260680931,
+              "actual": 0.5134228187919463
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 293,
+              "predicted": 0.64969954104585,
+              "actual": 0.6552901023890785
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 201,
+              "predicted": 0.7474802154718749,
+              "actual": 0.7611940298507462
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 41,
+              "predicted": 0.8288773357909268,
+              "actual": 0.7804878048780488
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9031803548565184,
+              "actual": 0.5
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 284,
+              "coverage": 0.23089430894308943,
+              "accuracy": 0.7640845070422535,
+              "wilson95": [
+                0.7113847241838673,
+                0.8097352251215839
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 45,
+              "coverage": 0.036585365853658534,
+              "accuracy": 0.7777777777777778,
+              "wilson95": [
+                0.637304262026367,
+                0.8745544813399436
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 7,
+              "coverage": 0.005691056910569106,
+              "accuracy": 0.8571428571428571,
+              "wilson95": [
+                0.48686549668097007,
+                0.9743210440510253
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 0.5,
+              "wilson95": [
+                0.09452865480086614,
+                0.9054713451991339
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "season": 2023,
+        "selected": "opponent-rest-ridge10-calibrated",
+        "selectionSeasons": [
+          2020,
+          2021,
+          2022
+        ],
+        "trainingSeasons": [
+          2020,
+          2021,
+          2022
+        ],
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6105691056910569,
+          "brier": 0.23020578078912832,
+          "logLoss": 0.6522698467818807,
+          "marginMae": 10.307189239897506,
+          "totalMae": 14.775481625173505,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 9,
+              "predicted": 0.178102900575822,
+              "actual": 0.3333333333333333
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 78,
+              "predicted": 0.2615969813487223,
+              "actual": 0.2948717948717949
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 158,
+              "predicted": 0.3495771804091277,
+              "actual": 0.4050632911392405
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 294,
+              "predicted": 0.4537265798580826,
+              "actual": 0.5476190476190477
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 329,
+              "predicted": 0.5486392406597712,
+              "actual": 0.6231003039513677
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 239,
+              "predicted": 0.6417019421202683,
+              "actual": 0.6778242677824268
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 104,
+              "predicted": 0.7438095587034143,
+              "actual": 0.7692307692307693
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 19,
+              "predicted": 0.8277259340363405,
+              "actual": 0.8421052631578947
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 210,
+              "coverage": 0.17073170731707318,
+              "accuracy": 0.7476190476190476,
+              "wilson95": [
+                0.6847801153214093,
+                0.8015611765507056
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 28,
+              "coverage": 0.022764227642276424,
+              "accuracy": 0.7857142857142857,
+              "wilson95": [
+                0.6046105292072612,
+                0.8978767829881058
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 4,
+              "coverage": 0.0032520325203252032,
+              "accuracy": 0.75,
+              "wilson95": [
+                0.3006360524426366,
+                0.9544139373553637
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ],
+          "marginCentral80Coverage": 0.8260162601626017,
+          "totalCentral80Coverage": 0.8048780487804879
+        },
+        "baseline": {
+          "games": 1230,
+          "accuracy": 0.6365853658536585,
+          "brier": 0.2281078335834568,
+          "logLoss": 0.647837508595888,
+          "marginMae": 10.303731472813336,
+          "totalMae": 14.685983365650339,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 15,
+              "predicted": 0.2732996155625285,
+              "actual": 0.2
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 110,
+              "predicted": 0.36354388390694736,
+              "actual": 0.36363636363636365
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 222,
+              "predicted": 0.45572831758284804,
+              "actual": 0.43243243243243246
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 401,
+              "predicted": 0.5532423720286038,
+              "actual": 0.5910224438902744
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 333,
+              "predicted": 0.6460513891961092,
+              "actual": 0.6756756756756757
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 135,
+              "predicted": 0.7461335759200625,
+              "actual": 0.7481481481481481
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 14,
+              "predicted": 0.823559505318732,
+              "actual": 0.8571428571428571
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 164,
+              "coverage": 0.13333333333333333,
+              "accuracy": 0.7621951219512195,
+              "wilson95": [
+                0.6915054964498925,
+                0.820882374018454
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 14,
+              "coverage": 0.011382113821138212,
+              "accuracy": 0.8571428571428571,
+              "wilson95": [
+                0.600580922361363,
+                0.9599069262620787
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 3,
+              "coverage": 0.0024390243902439024,
+              "accuracy": 0.6666666666666666,
+              "wilson95": [
+                0.2076549551264879,
+                0.9385096847238394
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 0,
+              "coverage": 0,
+              "accuracy": null,
+              "wilson95": null
+            }
+          ]
+        }
+      },
+      {
+        "season": 2024,
+        "selected": "opponent-rest-ridge10-raw",
+        "selectionSeasons": [
+          2020,
+          2021,
+          2022,
+          2023
+        ],
+        "trainingSeasons": [
+          2021,
+          2022,
+          2023
+        ],
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6617886178861788,
+          "brier": 0.21098923300035105,
+          "logLoss": 0.6095793506668455,
+          "marginMae": 10.982703193175823,
+          "totalMae": 14.64211919949233,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 2,
+              "predicted": 0.0745138434607833,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 22,
+              "predicted": 0.16763576012949932,
+              "actual": 0.22727272727272727
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 87,
+              "predicted": 0.2549020441425246,
+              "actual": 0.1724137931034483
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 151,
+              "predicted": 0.3515133326012219,
+              "actual": 0.31125827814569534
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 192,
+              "predicted": 0.45437996626920835,
+              "actual": 0.453125
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 286,
+              "predicted": 0.5469183376207787,
+              "actual": 0.5524475524475524
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 221,
+              "predicted": 0.648461909842241,
+              "actual": 0.5927601809954751
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 179,
+              "predicted": 0.7492869864082484,
+              "actual": 0.8156424581005587
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 82,
+              "predicted": 0.8341529363916419,
+              "actual": 0.8780487804878049
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 8,
+              "predicted": 0.91544688918542,
+              "actual": 0.875
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 380,
+              "coverage": 0.3089430894308943,
+              "accuracy": 0.8315789473684211,
+              "wilson95": [
+                0.7906741267300348,
+                0.8658466881060851
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 114,
+              "coverage": 0.09268292682926829,
+              "accuracy": 0.8596491228070176,
+              "wilson95": [
+                0.7841226537250542,
+                0.911726689800492
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 37,
+              "coverage": 0.03008130081300813,
+              "accuracy": 0.8918918918918919,
+              "wilson95": [
+                0.7529115358483284,
+                0.9571487947949374
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 10,
+              "coverage": 0.008130081300813009,
+              "accuracy": 0.9,
+              "wilson95": [
+                0.5958436145024278,
+                0.9821242504842788
+              ]
+            }
+          ],
+          "marginCentral80Coverage": 0.7723577235772358,
+          "totalCentral80Coverage": 0.8252032520325203
+        },
+        "baseline": {
+          "games": 1230,
+          "accuracy": 0.6463414634146342,
+          "brier": 0.2150376217742891,
+          "logLoss": 0.6183293015385706,
+          "marginMae": 11.21987555864637,
+          "totalMae": 14.816646930073755,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 7,
+              "predicted": 0.1747915151268303,
+              "actual": 0.14285714285714285
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 55,
+              "predicted": 0.26286269407046653,
+              "actual": 0.2
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 132,
+              "predicted": 0.35207364427422805,
+              "actual": 0.23484848484848486
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 213,
+              "predicted": 0.45392995624675825,
+              "actual": 0.45539906103286387
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 320,
+              "predicted": 0.5523190007037483,
+              "actual": 0.515625
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 262,
+              "predicted": 0.6470888957339715,
+              "actual": 0.6335877862595419
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 181,
+              "predicted": 0.7459172702089593,
+              "actual": 0.7845303867403315
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 58,
+              "predicted": 0.8343444475802781,
+              "actual": 0.9137931034482759
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9066915406149987,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 303,
+              "coverage": 0.24634146341463414,
+              "accuracy": 0.8151815181518152,
+              "wilson95": [
+                0.7676257118047266,
+                0.8548452960377563
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 67,
+              "coverage": 0.05447154471544716,
+              "accuracy": 0.9104477611940298,
+              "wilson95": [
+                0.8180703630060067,
+                0.9583096171186658
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 19,
+              "coverage": 0.015447154471544716,
+              "accuracy": 0.8947368421052632,
+              "wilson95": [
+                0.686054495051583,
+                0.9706420586049034
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 1,
+              "wilson95": [
+                0.34237195288961925,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "season": 2025,
+        "selected": "opponent-rest-ridge10-raw",
+        "selectionSeasons": [
+          2020,
+          2021,
+          2022,
+          2023,
+          2024
+        ],
+        "trainingSeasons": [
+          2022,
+          2023,
+          2024
+        ],
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6747967479674797,
+          "brier": 0.20735447453830932,
+          "logLoss": 0.6008779298687938,
+          "marginMae": 10.900685210511853,
+          "totalMae": 14.757677723072192,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 4,
+              "predicted": 0.07928974766452991,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 30,
+              "predicted": 0.15970493173375985,
+              "actual": 0.1
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 91,
+              "predicted": 0.256099688678492,
+              "actual": 0.2087912087912088
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 157,
+              "predicted": 0.34833791342221926,
+              "actual": 0.3375796178343949
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 193,
+              "predicted": 0.4508121878129651,
+              "actual": 0.42487046632124353
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 233,
+              "predicted": 0.5511793122040652,
+              "actual": 0.5536480686695279
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 230,
+              "predicted": 0.6481823140407534,
+              "actual": 0.6391304347826087
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 176,
+              "predicted": 0.7506003107651185,
+              "actual": 0.7784090909090909
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 99,
+              "predicted": 0.8411336106326304,
+              "actual": 0.8383838383838383
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 17,
+              "predicted": 0.9261404449758661,
+              "actual": 0.9411764705882353
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 417,
+              "coverage": 0.33902439024390246,
+              "accuracy": 0.8129496402877698,
+              "wilson95": [
+                0.7727265619027673,
+                0.847459275238808
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 150,
+              "coverage": 0.12195121951219512,
+              "accuracy": 0.8666666666666667,
+              "wilson95": [
+                0.8030184935523371,
+                0.9120026710741359
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 67,
+              "coverage": 0.05447154471544716,
+              "accuracy": 0.9253731343283582,
+              "wilson95": [
+                0.8369075523798613,
+                0.967704427022072
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 21,
+              "coverage": 0.01707317073170732,
+              "accuracy": 0.9523809523809523,
+              "wilson95": [
+                0.7733018341376452,
+                0.9915442305280766
+              ]
+            }
+          ],
+          "marginCentral80Coverage": 0.7821138211382114,
+          "totalCentral80Coverage": 0.8040650406504065
+        },
+        "baseline": {
+          "games": 1230,
+          "accuracy": 0.6764227642276422,
+          "brier": 0.21105555877387244,
+          "logLoss": 0.6101204124540521,
+          "marginMae": 11.206756579728465,
+          "totalMae": 14.726724212477581,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 9,
+              "predicted": 0.16594065914971,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 54,
+              "predicted": 0.2625786775930863,
+              "actual": 0.2037037037037037
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 143,
+              "predicted": 0.35551857515938085,
+              "actual": 0.26573426573426573
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 219,
+              "predicted": 0.4487981554103001,
+              "actual": 0.3744292237442922
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 258,
+              "predicted": 0.5516208918555429,
+              "actual": 0.5658914728682171
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 286,
+              "predicted": 0.6492403731168808,
+              "actual": 0.6258741258741258
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 192,
+              "predicted": 0.7448617948760435,
+              "actual": 0.8072916666666666
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 66,
+              "predicted": 0.8370252640498277,
+              "actual": 0.8333333333333334
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 3,
+              "predicted": 0.907227117549113,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 324,
+              "coverage": 0.2634146341463415,
+              "accuracy": 0.8179012345679012,
+              "wilson95": [
+                0.7722342534667506,
+                0.8561179751704937
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 78,
+              "coverage": 0.06341463414634146,
+              "accuracy": 0.8589743589743589,
+              "wilson95": [
+                0.7648582105386765,
+                0.9193903867516988
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 26,
+              "coverage": 0.02113821138211382,
+              "accuracy": 0.9615384615384616,
+              "wilson95": [
+                0.811068230080416,
+                0.9931781910230102
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 3,
+              "coverage": 0.0024390243902439024,
+              "accuracy": 1,
+              "wilson95": [
+                0.43849391955098227,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "season": 2026,
+        "selected": "opponent-rest-ridge10-raw",
+        "selectionSeasons": [
+          2020,
+          2021,
+          2022,
+          2023,
+          2024,
+          2025
+        ],
+        "trainingSeasons": [
+          2023,
+          2024,
+          2025
+        ],
+        "metrics": {
+          "games": 1230,
+          "accuracy": 0.6829268292682927,
+          "brier": 0.20448277062464582,
+          "logLoss": 0.5955980517807802,
+          "marginMae": 11.327666010553603,
+          "totalMae": 15.111325413175699,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 4,
+              "predicted": 0.0852278502239471,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 47,
+              "predicted": 0.16378213011484613,
+              "actual": 0.1276595744680851
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 94,
+              "predicted": 0.25578105648823396,
+              "actual": 0.2127659574468085
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 140,
+              "predicted": 0.3528811110645927,
+              "actual": 0.3142857142857143
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 197,
+              "predicted": 0.4487693172360332,
+              "actual": 0.467005076142132
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 215,
+              "predicted": 0.5496282105192355,
+              "actual": 0.5581395348837209
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 201,
+              "predicted": 0.6462864713640463,
+              "actual": 0.681592039800995
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 186,
+              "predicted": 0.746226135835021,
+              "actual": 0.7795698924731183
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 120,
+              "predicted": 0.844171517617848,
+              "actual": 0.8
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 26,
+              "predicted": 0.9178506970147479,
+              "actual": 0.8461538461538461
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 477,
+              "coverage": 0.3878048780487805,
+              "accuracy": 0.80083857442348,
+              "wilson95": [
+                0.7626573822163242,
+                0.8342127721130849
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 197,
+              "coverage": 0.16016260162601625,
+              "accuracy": 0.8274111675126904,
+              "wilson95": [
+                0.7685114983933851,
+                0.8737857149329379
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 92,
+              "coverage": 0.07479674796747968,
+              "accuracy": 0.8804347826086957,
+              "wilson95": [
+                0.7984624277438817,
+                0.9319093523599564
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 30,
+              "coverage": 0.024390243902439025,
+              "accuracy": 0.8666666666666667,
+              "wilson95": [
+                0.7031831605558306,
+                0.9469043057578189
+              ]
+            }
+          ],
+          "marginCentral80Coverage": 0.7699186991869919,
+          "totalCentral80Coverage": 0.7886178861788617
+        },
+        "baseline": {
+          "games": 1230,
+          "accuracy": 0.6943089430894309,
+          "brier": 0.20691732612045002,
+          "logLoss": 0.6017243623286559,
+          "marginMae": 11.610576615977003,
+          "totalMae": 15.295155103317335,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 9,
+              "predicted": 0.18346742512655026,
+              "actual": 0
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 58,
+              "predicted": 0.2629427504332132,
+              "actual": 0.15517241379310345
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 125,
+              "predicted": 0.35347787992247215,
+              "actual": 0.264
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 230,
+              "predicted": 0.45244572638227154,
+              "actual": 0.36086956521739133
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 286,
+              "predicted": 0.5507979599630338,
+              "actual": 0.5804195804195804
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 254,
+              "predicted": 0.6459920158458577,
+              "actual": 0.6771653543307087
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 185,
+              "predicted": 0.7474957511323518,
+              "actual": 0.8108108108108109
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 81,
+              "predicted": 0.8338331701020567,
+              "actual": 0.8271604938271605
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 2,
+              "predicted": 0.9049108890677705,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 335,
+              "coverage": 0.27235772357723576,
+              "accuracy": 0.826865671641791,
+              "wilson95": [
+                0.7827025946105491,
+                0.8636171016723156
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 92,
+              "coverage": 0.07479674796747968,
+              "accuracy": 0.8478260869565217,
+              "wilson95": [
+                0.7606330403346201,
+                0.907135444331746
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 22,
+              "coverage": 0.01788617886178862,
+              "accuracy": 0.9090909090909091,
+              "wilson95": [
+                0.7218461934161421,
+                0.9747051037171622
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 2,
+              "coverage": 0.0016260162601626016,
+              "accuracy": 1,
+              "wilson95": [
+                0.34237195288961925,
+                1
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "aggregate": {
+      "games": 7230,
+      "accuracy": 0.6538035961272476,
+      "brier": 0.21604925360278743,
+      "logLoss": 0.6209477323049681,
+      "marginMae": 10.958529692340363,
+      "totalMae": 14.824735392660832,
+      "calibration": [
+        {
+          "from": 0,
+          "to": 0.1,
+          "count": 11,
+          "predicted": 0.08149579865607919,
+          "actual": 0
+        },
+        {
+          "from": 0.1,
+          "to": 0.2,
+          "count": 139,
+          "predicted": 0.16459476695770356,
+          "actual": 0.16546762589928057
+        },
+        {
+          "from": 0.2,
+          "to": 0.3,
+          "count": 480,
+          "predicted": 0.2563448724608804,
+          "actual": 0.2375
+        },
+        {
+          "from": 0.3,
+          "to": 0.4,
+          "count": 896,
+          "predicted": 0.3521224319429412,
+          "actual": 0.35267857142857145
+        },
+        {
+          "from": 0.4,
+          "to": 0.5,
+          "count": 1272,
+          "predicted": 0.4528182347692261,
+          "actual": 0.45361635220125784
+        },
+        {
+          "from": 0.5,
+          "to": 0.6,
+          "count": 1557,
+          "predicted": 0.5497345480291298,
+          "actual": 0.5626204238921002
+        },
+        {
+          "from": 0.6,
+          "to": 0.7,
+          "count": 1358,
+          "predicted": 0.6469048969295628,
+          "actual": 0.6450662739322534
+        },
+        {
+          "from": 0.7,
+          "to": 0.8,
+          "count": 1007,
+          "predicted": 0.74751672495769,
+          "actual": 0.7745779543197616
+        },
+        {
+          "from": 0.8,
+          "to": 0.9,
+          "count": 446,
+          "predicted": 0.8405898843413413,
+          "actual": 0.8318385650224215
+        },
+        {
+          "from": 0.9,
+          "to": 1,
+          "count": 64,
+          "predicted": 0.9185369228382763,
+          "actual": 0.875
+        }
+      ],
+      "confidenceCoverage": [
+        {
+          "threshold": 0.7,
+          "games": 2147,
+          "coverage": 0.29695712309820194,
+          "accuracy": 0.7918025151374011,
+          "wilson95": [
+            0.7741141763615634,
+            0.8084484819020671
+          ]
+        },
+        {
+          "threshold": 0.8,
+          "games": 660,
+          "coverage": 0.0912863070539419,
+          "accuracy": 0.8393939393939394,
+          "wilson95": [
+            0.809429845190376,
+            0.8654299406380505
+          ]
+        },
+        {
+          "threshold": 0.85,
+          "games": 268,
+          "coverage": 0.03706777316735823,
+          "accuracy": 0.8843283582089553,
+          "wilson95": [
+            0.8404906103981753,
+            0.91730363448561
+          ]
+        },
+        {
+          "threshold": 0.9,
+          "games": 75,
+          "coverage": 0.01037344398340249,
+          "accuracy": 0.8933333333333333,
+          "wilson95": [
+            0.8033843735268642,
+            0.9449515303614384
+          ]
+        }
+      ],
+      "marginCentral80Coverage": 0.780359612724758,
+      "totalCentral80Coverage": 0.8091286307053942
+    },
+    "baseline": {
+      "games": 7230,
+      "accuracy": 0.6531120331950208,
+      "brier": 0.21813225677272263,
+      "logLoss": 0.62584693800508,
+      "marginMae": 11.13692420652333,
+      "totalMae": 14.950563927323664,
+      "calibration": [
+        {
+          "from": 0,
+          "to": 0.1,
+          "count": 0,
+          "predicted": null,
+          "actual": null
+        },
+        {
+          "from": 0.1,
+          "to": 0.2,
+          "count": 31,
+          "predicted": 0.17472525006011783,
+          "actual": 0.06451612903225806
+        },
+        {
+          "from": 0.2,
+          "to": 0.3,
+          "count": 241,
+          "predicted": 0.26211495267031765,
+          "actual": 0.1991701244813278
+        },
+        {
+          "from": 0.3,
+          "to": 0.4,
+          "count": 754,
+          "predicted": 0.3562871918240773,
+          "actual": 0.30238726790450926
+        },
+        {
+          "from": 0.4,
+          "to": 0.5,
+          "count": 1309,
+          "predicted": 0.45278270039264784,
+          "actual": 0.3995416348357525
+        },
+        {
+          "from": 0.5,
+          "to": 0.6,
+          "count": 1871,
+          "predicted": 0.5523627921473896,
+          "actual": 0.5440940673436665
+        },
+        {
+          "from": 0.6,
+          "to": 0.7,
+          "count": 1682,
+          "predicted": 0.6476044281672119,
+          "actual": 0.6539833531510107
+        },
+        {
+          "from": 0.7,
+          "to": 0.8,
+          "count": 1032,
+          "predicted": 0.7452276935715361,
+          "actual": 0.7819767441860465
+        },
+        {
+          "from": 0.8,
+          "to": 0.9,
+          "count": 301,
+          "predicted": 0.8333514796173123,
+          "actual": 0.8471760797342193
+        },
+        {
+          "from": 0.9,
+          "to": 1,
+          "count": 9,
+          "predicted": 0.9056941024139904,
+          "actual": 0.8888888888888888
+        }
+      ],
+      "confidenceCoverage": [
+        {
+          "threshold": 0.7,
+          "games": 1614,
+          "coverage": 0.2232365145228216,
+          "accuracy": 0.8004956629491945,
+          "wilson95": [
+            0.7802955740440868,
+            0.8192686849043788
+          ]
+        },
+        {
+          "threshold": 0.8,
+          "games": 341,
+          "coverage": 0.047164591977869985,
+          "accuracy": 0.8563049853372434,
+          "wilson95": [
+            0.8150996864479456,
+            0.8895716757078964
+          ]
+        },
+        {
+          "threshold": 0.85,
+          "games": 85,
+          "coverage": 0.011756569847856155,
+          "accuracy": 0.9176470588235294,
+          "wilson95": [
+            0.839638370084281,
+            0.9595367911014697
+          ]
+        },
+        {
+          "threshold": 0.9,
+          "games": 9,
+          "coverage": 0.0012448132780082987,
+          "accuracy": 0.8888888888888888,
+          "wilson95": [
+            0.5649937852319399,
+            0.9801096286728695
+          ]
+        }
+      ]
+    },
+    "uncertainty": {
+      "method": "paired UTC-day cluster bootstrap",
+      "days": 968,
+      "draws": 1000,
+      "brierDifference": -0.002083003169935516,
+      "brierDifference95": [
+        -0.003188332818516208,
+        -0.000909075401314518
+      ]
+    },
+    "promotion": {
+      "passed": true,
+      "gate": "Brier and log loss improve against the previous baseline on paired games; paired day-cluster bootstrap 95% upper Brier difference is below zero; latest-season log loss does not worsen. Otherwise retain as research.",
+      "prospectiveValidationPending": true
+    },
+    "variants": [
+      {
+        "id": "form-rest-ridge1-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6491009681881051,
+          "brier": 0.21688549362913107,
+          "logLoss": 0.6227243683763214,
+          "marginMae": 10.991069679848822,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 5,
+              "predicted": 0.08284307083844691,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 118,
+              "predicted": 0.16428149441512788,
+              "actual": 0.13559322033898305
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 443,
+              "predicted": 0.2573344163983697,
+              "actual": 0.21896162528216703
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 856,
+              "predicted": 0.35322420433453794,
+              "actual": 0.3679906542056075
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1192,
+              "predicted": 0.45375802670767335,
+              "actual": 0.44211409395973156
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1543,
+              "predicted": 0.5507455346900277,
+              "actual": 0.5392093324692158
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1458,
+              "predicted": 0.6483120878603092,
+              "actual": 0.6399176954732511
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1042,
+              "predicted": 0.7475445260721999,
+              "actual": 0.7581573896353166
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 513,
+              "predicted": 0.8371692036754073,
+              "actual": 0.8265107212475633
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 60,
+              "predicted": 0.9155797373796256,
+              "actual": 0.9166666666666666
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2181,
+              "coverage": 0.3016597510373444,
+              "accuracy": 0.7895460797799174,
+              "wilson95": [
+                0.7719365864121575,
+                0.8061373572549715
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 696,
+              "coverage": 0.09626556016597511,
+              "accuracy": 0.8419540229885057,
+              "wilson95": [
+                0.8129852063951167,
+                0.8671687027180311
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 252,
+              "coverage": 0.034854771784232366,
+              "accuracy": 0.8809523809523809,
+              "wilson95": [
+                0.8351387856575552,
+                0.9153255641588938
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 65,
+              "coverage": 0.008990318118948824,
+              "accuracy": 0.9230769230769231,
+              "wilson95": [
+                0.8322385378144039,
+                0.9666969895411486
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "form-rest-ridge1-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6473029045643154,
+          "brier": 0.21729032489337885,
+          "logLoss": 0.6236764489705385,
+          "marginMae": 11.017133478053989,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 4,
+              "predicted": 0.08373971901647193,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 128,
+              "predicted": 0.16561301740134063,
+              "actual": 0.140625
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 504,
+              "predicted": 0.25787371556998356,
+              "actual": 0.2361111111111111
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 968,
+              "predicted": 0.35160083256894475,
+              "actual": 0.36983471074380164
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1425,
+              "predicted": 0.4524427581452855,
+              "actual": 0.4729824561403509
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1629,
+              "predicted": 0.5503221083384133,
+              "actual": 0.5733578882750153
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1329,
+              "predicted": 0.6463719410620415,
+              "actual": 0.673438675696012
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 892,
+              "predicted": 0.7463179104780122,
+              "actual": 0.773542600896861
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 322,
+              "predicted": 0.8375557712115187,
+              "actual": 0.8509316770186336
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 29,
+              "predicted": 0.9139825057755905,
+              "actual": 0.9310344827586207
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1879,
+              "coverage": 0.2598893499308437,
+              "accuracy": 0.7929749866950505,
+              "wilson95": [
+                0.7740658108012627,
+                0.8106886369441025
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 483,
+              "coverage": 0.06680497925311203,
+              "accuracy": 0.8592132505175983,
+              "wilson95": [
+                0.8253536102418845,
+                0.8874038862415713
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 160,
+              "coverage": 0.022130013831258646,
+              "accuracy": 0.90625,
+              "wilson95": [
+                0.8510867768996389,
+                0.9423625058222096
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 33,
+              "coverage": 0.004564315352697096,
+              "accuracy": 0.9393939393939394,
+              "wilson95": [
+                0.8039341828220181,
+                0.9832194695709291
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "form-rest-ridge10-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6485477178423237,
+          "brier": 0.2170490672333892,
+          "logLoss": 0.6231590077023496,
+          "marginMae": 11.000129146636615,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 4,
+              "predicted": 0.08745180123905436,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 106,
+              "predicted": 0.16736418445623094,
+              "actual": 0.11320754716981132
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 401,
+              "predicted": 0.2573839242370248,
+              "actual": 0.2194513715710723
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 869,
+              "predicted": 0.35412174691076254,
+              "actual": 0.3624856156501726
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1214,
+              "predicted": 0.4538239369258849,
+              "actual": 0.4382207578253707
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1604,
+              "predicted": 0.551214028057896,
+              "actual": 0.5417705735660848
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1470,
+              "predicted": 0.6484671960690273,
+              "actual": 0.6408163265306123
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1030,
+              "predicted": 0.7466723121696284,
+              "actual": 0.7582524271844661
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 486,
+              "predicted": 0.8369135529452351,
+              "actual": 0.8395061728395061
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 46,
+              "predicted": 0.9144648355498946,
+              "actual": 0.9130434782608695
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2073,
+              "coverage": 0.2867219917012448,
+              "accuracy": 0.7920887602508442,
+              "wilson95": [
+                0.7740867037534268,
+                0.8090102449979849
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 642,
+              "coverage": 0.08879668049792531,
+              "accuracy": 0.8535825545171339,
+              "wilson95": [
+                0.8241329522614204,
+                0.8788257918021395
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 224,
+              "coverage": 0.030982019363762103,
+              "accuracy": 0.875,
+              "wilson95": [
+                0.8252705970969836,
+                0.9120837754144455
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 50,
+              "coverage": 0.006915629322268326,
+              "accuracy": 0.92,
+              "wilson95": [
+                0.8116149745493629,
+                0.9684509967442093
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "form-rest-ridge10-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6481327800829876,
+          "brier": 0.21730434358921946,
+          "logLoss": 0.6237364711566341,
+          "marginMae": 11.013220082747308,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 6,
+              "predicted": 0.08916182311254874,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 133,
+              "predicted": 0.16491123557309145,
+              "actual": 0.15789473684210525
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 516,
+              "predicted": 0.2585786232356533,
+              "actual": 0.23449612403100775
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 966,
+              "predicted": 0.3532572031507421,
+              "actual": 0.37060041407867494
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1348,
+              "predicted": 0.4526974426464879,
+              "actual": 0.47181008902077154
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1618,
+              "predicted": 0.5497890675027578,
+              "actual": 0.5698393077873919
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1330,
+              "predicted": 0.6466307632678254,
+              "actual": 0.6699248120300751
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 926,
+              "predicted": 0.7466989292253685,
+              "actual": 0.7634989200863931
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 352,
+              "predicted": 0.8395802553586368,
+              "actual": 0.8551136363636364
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 35,
+              "predicted": 0.9142498005792891,
+              "actual": 0.9142857142857143
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1968,
+              "coverage": 0.2721991701244813,
+              "accuracy": 0.7891260162601627,
+              "wilson95": [
+                0.7705484421264853,
+                0.8065770227181553
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 526,
+              "coverage": 0.0727524204702628,
+              "accuracy": 0.8574144486692015,
+              "wilson95": [
+                0.82493789800789,
+                0.8847081546991832
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 188,
+              "coverage": 0.02600276625172891,
+              "accuracy": 0.8882978723404256,
+              "wilson95": [
+                0.8352738228491927,
+                0.9257707055534061
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 41,
+              "coverage": 0.0056708160442600275,
+              "accuracy": 0.926829268292683,
+              "wilson95": [
+                0.8057225998278872,
+                0.9748026267474359
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "form-rest-ridge100-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.64716459197787,
+          "brier": 0.2184702292103542,
+          "logLoss": 0.6265942182560446,
+          "marginMae": 11.076713549750282,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 0,
+              "predicted": null,
+              "actual": null
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 35,
+              "predicted": 0.17106526221329385,
+              "actual": 0.05714285714285714
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 261,
+              "predicted": 0.2615388922682738,
+              "actual": 0.20306513409961685
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 769,
+              "predicted": 0.35714622995428746,
+              "actual": 0.2925877763328999
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1367,
+              "predicted": 0.4534479039205273,
+              "actual": 0.43233357717629844
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1916,
+              "predicted": 0.5513387280090731,
+              "actual": 0.541231732776618
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1632,
+              "predicted": 0.6467364918075235,
+              "actual": 0.6685049019607843
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 967,
+              "predicted": 0.7434585304505981,
+              "actual": 0.7724922440537746
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 279,
+              "predicted": 0.8347144203446215,
+              "actual": 0.8566308243727598
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 4,
+              "predicted": 0.9086180681703394,
+              "actual": 1
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1546,
+              "coverage": 0.21383125864453664,
+              "accuracy": 0.796248382923674,
+              "wilson95": [
+                0.7754472670160204,
+                0.8155808741824091
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 318,
+              "coverage": 0.04398340248962656,
+              "accuracy": 0.8679245283018868,
+              "wilson95": [
+                0.8262828495884703,
+                0.9007828870969053
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 86,
+              "coverage": 0.01189488243430152,
+              "accuracy": 0.9186046511627907,
+              "wilson95": [
+                0.8413964054350905,
+                0.9600140770140196
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 4,
+              "coverage": 0.0005532503457814661,
+              "accuracy": 1,
+              "wilson95": [
+                0.5100999795960008,
+                1
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "form-rest-ridge100-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6446749654218534,
+          "brier": 0.21798358222308226,
+          "logLoss": 0.6253359675014059,
+          "marginMae": 11.042762160247388,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 4,
+              "predicted": 0.08840793021271434,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 131,
+              "predicted": 0.16835980735210038,
+              "actual": 0.15267175572519084
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 461,
+              "predicted": 0.25846069744296785,
+              "actual": 0.24511930585683298
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 982,
+              "predicted": 0.35269361190867815,
+              "actual": 0.36761710794297353
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1388,
+              "predicted": 0.45237778129228495,
+              "actual": 0.47046109510086453
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1650,
+              "predicted": 0.5497180095406353,
+              "actual": 0.5612121212121212
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1350,
+              "predicted": 0.6466648275825606,
+              "actual": 0.6755555555555556
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 894,
+              "predicted": 0.7458224777720749,
+              "actual": 0.7684563758389261
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 341,
+              "predicted": 0.8391122093585859,
+              "actual": 0.8533724340175953
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 29,
+              "predicted": 0.9132919718063349,
+              "actual": 0.896551724137931
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1860,
+              "coverage": 0.2572614107883817,
+              "accuracy": 0.7887096774193548,
+              "wilson95": [
+                0.7695718809274427,
+                0.8066573437019463
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 505,
+              "coverage": 0.0698478561549101,
+              "accuracy": 0.8554455445544554,
+              "wilson95": [
+                0.8220898168376807,
+                0.8834342598101406
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 173,
+              "coverage": 0.02392807745504841,
+              "accuracy": 0.8901734104046243,
+              "wilson95": [
+                0.8348400524921514,
+                0.9285549857793866
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 33,
+              "coverage": 0.004564315352697096,
+              "accuracy": 0.9090909090909091,
+              "wilson95": [
+                0.7642705646564897,
+                0.968596628950737
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge1-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6540802213001383,
+          "brier": 0.21560105519179612,
+          "logLoss": 0.6200768820167704,
+          "marginMae": 10.937618935613724,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 12,
+              "predicted": 0.07787428232084352,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 154,
+              "predicted": 0.16459913507913318,
+              "actual": 0.16883116883116883
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 464,
+              "predicted": 0.25714351813398445,
+              "actual": 0.2349137931034483
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 851,
+              "predicted": 0.3533810850463718,
+              "actual": 0.35135135135135137
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1149,
+              "predicted": 0.4524036292776205,
+              "actual": 0.44473455178416016
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1528,
+              "predicted": 0.5505159467838063,
+              "actual": 0.5405759162303665
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1387,
+              "predicted": 0.649391471407462,
+              "actual": 0.6409516943042538
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1064,
+              "predicted": 0.7476537232953742,
+              "actual": 0.7678571428571429
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 543,
+              "predicted": 0.8407926275840459,
+              "actual": 0.8158379373848987
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 78,
+              "predicted": 0.9197534349736896,
+              "actual": 0.8846153846153846
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2315,
+              "coverage": 0.3201936376210235,
+              "accuracy": 0.7879049676025918,
+              "wilson95": [
+                0.7707823368641268,
+                0.8040736601992345
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 787,
+              "coverage": 0.10885200553250346,
+              "accuracy": 0.8284625158831004,
+              "wilson95": [
+                0.8005445066152181,
+                0.8531894396010657
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 334,
+              "coverage": 0.04619640387275242,
+              "accuracy": 0.874251497005988,
+              "wilson95": [
+                0.8343842034977007,
+                0.9056075559540662
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 90,
+              "coverage": 0.012448132780082987,
+              "accuracy": 0.9,
+              "wilson95": [
+                0.8207564910060137,
+                0.9464938542566417
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge1-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6529737206085754,
+          "brier": 0.21606017018626347,
+          "logLoss": 0.6211093590911303,
+          "marginMae": 10.968392286223718,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 10,
+              "predicted": 0.08097175136131585,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 137,
+              "predicted": 0.16511986003144474,
+              "actual": 0.1678832116788321
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 512,
+              "predicted": 0.2580958302013733,
+              "actual": 0.236328125
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 980,
+              "predicted": 0.3540381170154095,
+              "actual": 0.3622448979591837
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1351,
+              "predicted": 0.4528505641332966,
+              "actual": 0.46632124352331605
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1635,
+              "predicted": 0.5477781026585267,
+              "actual": 0.5755351681957187
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1342,
+              "predicted": 0.6459357562104094,
+              "actual": 0.6780923994038748
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 899,
+              "predicted": 0.7459609187194673,
+              "actual": 0.7764182424916574
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 326,
+              "predicted": 0.8398573593657539,
+              "actual": 0.8496932515337423
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 38,
+              "predicted": 0.9178275229149143,
+              "actual": 0.8947368421052632
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1922,
+              "coverage": 0.26583679114799447,
+              "accuracy": 0.7929240374609782,
+              "wilson95": [
+                0.7742324660779382,
+                0.8104469800405797
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 511,
+              "coverage": 0.0706777316735823,
+              "accuracy": 0.8512720156555773,
+              "wilson95": [
+                0.8178031956748685,
+                0.879498654059108
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 202,
+              "coverage": 0.02793914246196404,
+              "accuracy": 0.8861386138613861,
+              "wilson95": [
+                0.8349439398027001,
+                0.9229203597363631
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 48,
+              "coverage": 0.006639004149377593,
+              "accuracy": 0.9166666666666666,
+              "wilson95": [
+                0.8044643483893369,
+                0.9671167756500444
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge10-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.655463347164592,
+          "brier": 0.2156210844285389,
+          "logLoss": 0.6200974556525325,
+          "marginMae": 10.939100467418985,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 11,
+              "predicted": 0.08207945735596013,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 136,
+              "predicted": 0.16543589203248527,
+              "actual": 0.16176470588235295
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 446,
+              "predicted": 0.25770689029677984,
+              "actual": 0.2242152466367713
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 851,
+              "predicted": 0.353471417974721,
+              "actual": 0.35605170387779084
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1148,
+              "predicted": 0.45217503018039273,
+              "actual": 0.43205574912891986
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1572,
+              "predicted": 0.5496571596727209,
+              "actual": 0.5438931297709924
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1436,
+              "predicted": 0.6489937267504875,
+              "actual": 0.6427576601671309
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1038,
+              "predicted": 0.7476547182157894,
+              "actual": 0.7726396917148363
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 524,
+              "predicted": 0.8394801633801473,
+              "actual": 0.816793893129771
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 68,
+              "predicted": 0.9183493794889812,
+              "actual": 0.8823529411764706
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2223,
+              "coverage": 0.3074688796680498,
+              "accuracy": 0.7921727395411606,
+              "wilson95": [
+                0.7748083455694345,
+                0.8085290593003148
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 739,
+              "coverage": 0.10221300138312586,
+              "accuracy": 0.8294993234100135,
+              "wilson95": [
+                0.8006971859589747,
+                0.8548934540913402
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 290,
+              "coverage": 0.040110650069156296,
+              "accuracy": 0.8793103448275862,
+              "wilson95": [
+                0.8367744746457227,
+                0.9119282277626496
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 79,
+              "coverage": 0.010926694329183955,
+              "accuracy": 0.8987341772151899,
+              "wilson95": [
+                0.8126986682072592,
+                0.9477888163415664
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge10-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.651313969571231,
+          "brier": 0.21589625720464614,
+          "logLoss": 0.6207133555170196,
+          "marginMae": 10.955050871934843,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 14,
+              "predicted": 0.08426752799889037,
+              "actual": 0.07142857142857142
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 153,
+              "predicted": 0.1658143319589967,
+              "actual": 0.16993464052287582
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 515,
+              "predicted": 0.2575464052564302,
+              "actual": 0.23883495145631067
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 955,
+              "predicted": 0.3519998656028453,
+              "actual": 0.3633507853403141
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1333,
+              "predicted": 0.4525697667091109,
+              "actual": 0.4711177794448612
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1576,
+              "predicted": 0.5487158794166107,
+              "actual": 0.5697969543147208
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1329,
+              "predicted": 0.6462356403027082,
+              "actual": 0.6659142212189616
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 932,
+              "predicted": 0.746742818994675,
+              "actual": 0.7746781115879828
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 373,
+              "predicted": 0.8396459821622212,
+              "actual": 0.8418230563002681
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 50,
+              "predicted": 0.9166734263670324,
+              "actual": 0.9
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2037,
+              "coverage": 0.2817427385892116,
+              "accuracy": 0.7918507609229258,
+              "wilson95": [
+                0.7736787255158023,
+                0.8089240595313075
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 590,
+              "coverage": 0.08160442600276625,
+              "accuracy": 0.8457627118644068,
+              "wilson95": [
+                0.8143903936510414,
+                0.8726615070578346
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 238,
+              "coverage": 0.032918395573997235,
+              "accuracy": 0.8739495798319328,
+              "wilson95": [
+                0.8257580936979084,
+                0.9102608542415692
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 64,
+              "coverage": 0.008852005532503458,
+              "accuracy": 0.90625,
+              "wilson95": [
+                0.8101690141672233,
+                0.9563223421687121
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge100-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6503457814661134,
+          "brier": 0.21659309834564838,
+          "logLoss": 0.6223174881977233,
+          "marginMae": 10.990862434271419,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 2,
+              "predicted": 0.09195783401105406,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 72,
+              "predicted": 0.16524505569189277,
+              "actual": 0.08333333333333333
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 362,
+              "predicted": 0.2583993002866602,
+              "actual": 0.22099447513812154
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 837,
+              "predicted": 0.35626848373149106,
+              "actual": 0.32616487455197135
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1262,
+              "predicted": 0.4543330618074695,
+              "actual": 0.43740095087163233
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1715,
+              "predicted": 0.551384059691861,
+              "actual": 0.5486880466472304
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1534,
+              "predicted": 0.6471221686511566,
+              "actual": 0.6388526727509778
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1023,
+              "predicted": 0.7460602383263275,
+              "actual": 0.7771260997067448
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 394,
+              "predicted": 0.8375037595406194,
+              "actual": 0.8553299492385786
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 29,
+              "predicted": 0.9129911030469896,
+              "actual": 0.8620689655172413
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1882,
+              "coverage": 0.2603042876901798,
+              "accuracy": 0.8007438894792773,
+              "wilson95": [
+                0.7820924902357549,
+                0.8181700132534035
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 497,
+              "coverage": 0.06874135546334717,
+              "accuracy": 0.8651911468812877,
+              "wilson95": [
+                0.8323488241832536,
+                0.8924312260362169
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 167,
+              "coverage": 0.02309820193637621,
+              "accuracy": 0.874251497005988,
+              "wilson95": [
+                0.8154090381020621,
+                0.9162628731888648
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 31,
+              "coverage": 0.004287690179806363,
+              "accuracy": 0.8709677419354839,
+              "wilson95": [
+                0.7114724304561464,
+                0.9486579883535524
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-rest-ridge100-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.648271092669433,
+          "brier": 0.21657519306255332,
+          "logLoss": 0.6222276144869897,
+          "marginMae": 10.980332620986667,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 12,
+              "predicted": 0.08731996758315037,
+              "actual": 0.08333333333333333
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 152,
+              "predicted": 0.16660996499149228,
+              "actual": 0.15789473684210525
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 496,
+              "predicted": 0.25710252992255256,
+              "actual": 0.2540322580645161
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 984,
+              "predicted": 0.35185466160554024,
+              "actual": 0.3556910569105691
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1336,
+              "predicted": 0.4533073743678131,
+              "actual": 0.47904191616766467
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1596,
+              "predicted": 0.5502107817497631,
+              "actual": 0.5595238095238095
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1310,
+              "predicted": 0.6469047192703206,
+              "actual": 0.6732824427480916
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 909,
+              "predicted": 0.7463436042879175,
+              "actual": 0.7755775577557755
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 390,
+              "predicted": 0.8393817821507069,
+              "actual": 0.841025641025641
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 45,
+              "predicted": 0.9167844826497885,
+              "actual": 0.8888888888888888
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2004,
+              "coverage": 0.27717842323651454,
+              "accuracy": 0.7894211576846307,
+              "wilson95": [
+                0.7710246358874622,
+                0.8067101814407573
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 599,
+              "coverage": 0.08284923928077455,
+              "accuracy": 0.8464106844741235,
+              "wilson95": [
+                0.8153363550312493,
+                0.8730700190477789
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 223,
+              "coverage": 0.030843706777316737,
+              "accuracy": 0.8789237668161435,
+              "wilson95": [
+                0.8295721989122834,
+                0.9154410614420784
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 57,
+              "coverage": 0.007883817427385892,
+              "accuracy": 0.8947368421052632,
+              "wilson95": [
+                0.7887695089206027,
+                0.9508560104608731
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge1-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6524204702627939,
+          "brier": 0.2156893795221516,
+          "logLoss": 0.6202423497589399,
+          "marginMae": 10.940452467859993,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 14,
+              "predicted": 0.08018076748402335,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 147,
+              "predicted": 0.16439165112899498,
+              "actual": 0.17006802721088435
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 477,
+              "predicted": 0.25712633027166804,
+              "actual": 0.22641509433962265
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 837,
+              "predicted": 0.353816285757453,
+              "actual": 0.36200716845878134
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1141,
+              "predicted": 0.45157266966709,
+              "actual": 0.44522348816827345
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1532,
+              "predicted": 0.5496393234897263,
+              "actual": 0.5372062663185379
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1390,
+              "predicted": 0.6492157483934362,
+              "actual": 0.6359712230215827
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1063,
+              "predicted": 0.7474232523034774,
+              "actual": 0.7723424270931326
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 548,
+              "predicted": 0.840592980980252,
+              "actual": 0.8120437956204379
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 81,
+              "predicted": 0.9197190118763953,
+              "actual": 0.8888888888888888
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2330,
+              "coverage": 0.32226832641770403,
+              "accuracy": 0.7909871244635193,
+              "wilson95": [
+                0.7740047031395124,
+                0.807011592053786
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 790,
+              "coverage": 0.10926694329183956,
+              "accuracy": 0.8265822784810126,
+              "wilson95": [
+                0.7986167245356779,
+                0.8513870041678819
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 330,
+              "coverage": 0.04564315352697095,
+              "accuracy": 0.8727272727272727,
+              "wilson95": [
+                0.8324304677163666,
+                0.9044459431323711
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 95,
+              "coverage": 0.01313969571230982,
+              "accuracy": 0.9052631578947369,
+              "wilson95": [
+                0.8296678767789459,
+                0.9493563397452708
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge1-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6538035961272476,
+          "brier": 0.21613769298474936,
+          "logLoss": 0.6212597201582207,
+          "marginMae": 10.971638051932068,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 12,
+              "predicted": 0.08451986330768162,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 136,
+              "predicted": 0.1666725433040767,
+              "actual": 0.16911764705882354
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 517,
+              "predicted": 0.25862569765985716,
+              "actual": 0.23597678916827852
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 970,
+              "predicted": 0.3543437986798232,
+              "actual": 0.36907216494845363
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1381,
+              "predicted": 0.4532456265122205,
+              "actual": 0.46053584359160027
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1613,
+              "predicted": 0.5481986931172335,
+              "actual": 0.5753254804711717
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1337,
+              "predicted": 0.6458234509326699,
+              "actual": 0.681376215407629
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 902,
+              "predicted": 0.7459126702372375,
+              "actual": 0.7782705099778271
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 324,
+              "predicted": 0.8401358373495361,
+              "actual": 0.8487654320987654
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 38,
+              "predicted": 0.9184169281313244,
+              "actual": 0.8947368421052632
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1929,
+              "coverage": 0.26680497925311203,
+              "accuracy": 0.7936754795230689,
+              "wilson95": [
+                0.7750415872524815,
+                0.8111419882665883
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 510,
+              "coverage": 0.07053941908713693,
+              "accuracy": 0.8509803921568627,
+              "wilson95": [
+                0.8174538350091858,
+                0.879258926277561
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 198,
+              "coverage": 0.027385892116182572,
+              "accuracy": 0.8838383838383839,
+              "wilson95": [
+                0.8317285758584666,
+                0.9213371945278165
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 50,
+              "coverage": 0.006915629322268326,
+              "accuracy": 0.92,
+              "wilson95": [
+                0.8116149745493629,
+                0.9684509967442093
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge10-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6550484094052559,
+          "brier": 0.21569452142067588,
+          "logLoss": 0.6202364160000622,
+          "marginMae": 10.941562670183167,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 12,
+              "predicted": 0.08332847134594326,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 133,
+              "predicted": 0.16550804453074008,
+              "actual": 0.16541353383458646
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 450,
+              "predicted": 0.2576115200867539,
+              "actual": 0.21777777777777776
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 843,
+              "predicted": 0.35362761077477356,
+              "actual": 0.36180308422301305
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1171,
+              "predicted": 0.45272082293467625,
+              "actual": 0.43210930828351835
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1556,
+              "predicted": 0.5502437236292016,
+              "actual": 0.5411311053984575
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1416,
+              "predicted": 0.6486661855168654,
+              "actual": 0.6412429378531074
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1052,
+              "predicted": 0.7469871167708827,
+              "actual": 0.7728136882129277
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 530,
+              "predicted": 0.8398561648268584,
+              "actual": 0.8226415094339623
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 67,
+              "predicted": 0.9193179942349401,
+              "actual": 0.8805970149253731
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2244,
+              "coverage": 0.3103734439834025,
+              "accuracy": 0.7945632798573975,
+              "wilson95": [
+                0.7773499728306568,
+                0.8107697594494114
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 742,
+              "coverage": 0.10262793914246196,
+              "accuracy": 0.8328840970350404,
+              "wilson95": [
+                0.804339397027772,
+                0.8579996304547389
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 292,
+              "coverage": 0.04038727524204703,
+              "accuracy": 0.8835616438356164,
+              "wilson95": [
+                0.8416927117605412,
+                0.9154692289536789
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 79,
+              "coverage": 0.010926694329183955,
+              "accuracy": 0.8987341772151899,
+              "wilson95": [
+                0.8126986682072592,
+                0.9477888163415664
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge10-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.649792531120332,
+          "brier": 0.2159672336029555,
+          "logLoss": 0.6208522510653913,
+          "marginMae": 10.957714041767575,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 12,
+              "predicted": 0.08175621269326701,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 155,
+              "predicted": 0.1653371903812564,
+              "actual": 0.16774193548387098
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 514,
+              "predicted": 0.25732390814471684,
+              "actual": 0.24124513618677043
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 946,
+              "predicted": 0.35166504860444425,
+              "actual": 0.3657505285412262
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1362,
+              "predicted": 0.4525117836205885,
+              "actual": 0.47283406754772395
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1569,
+              "predicted": 0.5493338509147715,
+              "actual": 0.5659655831739961
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1316,
+              "predicted": 0.6464432506101047,
+              "actual": 0.6671732522796353
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 932,
+              "predicted": 0.7465219586110764,
+              "actual": 0.7757510729613734
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 374,
+              "predicted": 0.8396531467643416,
+              "actual": 0.8422459893048129
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 50,
+              "predicted": 0.9171921435828893,
+              "actual": 0.9
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 2037,
+              "coverage": 0.2817427385892116,
+              "accuracy": 0.792341678939617,
+              "wilson95": [
+                0.7741840139852222,
+                0.809398758925718
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 591,
+              "coverage": 0.08174273858921162,
+              "accuracy": 0.8477157360406091,
+              "wilson95": [
+                0.8165088572825968,
+                0.8744313863049397
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 233,
+              "coverage": 0.032226832641770405,
+              "accuracy": 0.8755364806866953,
+              "wilson95": [
+                0.8269640802480778,
+                0.9119263849404702
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 62,
+              "coverage": 0.008575380359612726,
+              "accuracy": 0.9193548387096774,
+              "wilson95": [
+                0.824712077925188,
+                0.9650621681441662
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge100-raw",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6504840940525588,
+          "brier": 0.21664646473867286,
+          "logLoss": 0.6224195567231101,
+          "marginMae": 10.993055105959012,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 2,
+              "predicted": 0.09309253042163726,
+              "actual": 0
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 76,
+              "predicted": 0.1672860002784284,
+              "actual": 0.09210526315789473
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 357,
+              "predicted": 0.2591069437567653,
+              "actual": 0.22408963585434175
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 834,
+              "predicted": 0.3562585532282821,
+              "actual": 0.3249400479616307
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1267,
+              "predicted": 0.45445592813063806,
+              "actual": 0.43646408839779005
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1699,
+              "predicted": 0.5510793012568832,
+              "actual": 0.5426721600941731
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1542,
+              "predicted": 0.6466193534253678,
+              "actual": 0.64526588845655
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 1026,
+              "predicted": 0.7458896461121519,
+              "actual": 0.7748538011695907
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 397,
+              "predicted": 0.8372429318001402,
+              "actual": 0.8564231738035264
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 30,
+              "predicted": 0.9131450643801233,
+              "actual": 0.8666666666666667
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1888,
+              "coverage": 0.261134163208852,
+              "accuracy": 0.7992584745762712,
+              "wilson95": [
+                0.7805906232560117,
+                0.816710969012601
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 505,
+              "coverage": 0.0698478561549101,
+              "accuracy": 0.8653465346534653,
+              "wilson95": [
+                0.8328004776054626,
+                0.8923760802860304
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 169,
+              "coverage": 0.023374827109266944,
+              "accuracy": 0.8698224852071006,
+              "wilson95": [
+                0.8107671627902555,
+                0.9124383618056751
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 32,
+              "coverage": 0.004426002766251729,
+              "accuracy": 0.875,
+              "wilson95": [
+                0.7193135021517204,
+                0.950299461555257
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "opponent-road-ridge100-calibrated",
+        "metrics": {
+          "games": 7230,
+          "accuracy": 0.6467496542185339,
+          "brier": 0.2166340284961735,
+          "logLoss": 0.62234398475854,
+          "marginMae": 10.982480671311851,
+          "totalMae": 14.824735392660832,
+          "calibration": [
+            {
+              "from": 0,
+              "to": 0.1,
+              "count": 11,
+              "predicted": 0.08630871956464635,
+              "actual": 0.09090909090909091
+            },
+            {
+              "from": 0.1,
+              "to": 0.2,
+              "count": 153,
+              "predicted": 0.166615196637687,
+              "actual": 0.1568627450980392
+            },
+            {
+              "from": 0.2,
+              "to": 0.3,
+              "count": 491,
+              "predicted": 0.2567296545466567,
+              "actual": 0.25865580448065173
+            },
+            {
+              "from": 0.3,
+              "to": 0.4,
+              "count": 977,
+              "predicted": 0.35114595645736674,
+              "actual": 0.3510747185261003
+            },
+            {
+              "from": 0.4,
+              "to": 0.5,
+              "count": 1357,
+              "predicted": 0.4530197120743934,
+              "actual": 0.4834193072955048
+            },
+            {
+              "from": 0.5,
+              "to": 0.6,
+              "count": 1597,
+              "predicted": 0.5506824847977446,
+              "actual": 0.5579211020663745
+            },
+            {
+              "from": 0.6,
+              "to": 0.7,
+              "count": 1308,
+              "predicted": 0.6473191007161381,
+              "actual": 0.6720183486238532
+            },
+            {
+              "from": 0.7,
+              "to": 0.8,
+              "count": 909,
+              "predicted": 0.7472889866440192,
+              "actual": 0.7722772277227723
+            },
+            {
+              "from": 0.8,
+              "to": 0.9,
+              "count": 384,
+              "predicted": 0.8404936725039316,
+              "actual": 0.8541666666666666
+            },
+            {
+              "from": 0.9,
+              "to": 1,
+              "count": 43,
+              "predicted": 0.9176508557469912,
+              "actual": 0.8837209302325582
+            }
+          ],
+          "confidenceCoverage": [
+            {
+              "threshold": 0.7,
+              "games": 1991,
+              "coverage": 0.2753803596127248,
+              "accuracy": 0.7890507282772476,
+              "wilson95": [
+                0.7705817100968954,
+                0.8064064577857074
+              ]
+            },
+            {
+              "threshold": 0.8,
+              "games": 591,
+              "coverage": 0.08174273858921162,
+              "accuracy": 0.8544839255499154,
+              "wilson95": [
+                0.8237646917896803,
+                0.8806245103105091
+              ]
+            },
+            {
+              "threshold": 0.85,
+              "games": 221,
+              "coverage": 0.030567081604426,
+              "accuracy": 0.8778280542986425,
+              "wilson95": [
+                0.8280821756572311,
+                0.9146629391257984
+              ]
+            },
+            {
+              "threshold": 0.9,
+              "games": 54,
+              "coverage": 0.007468879668049793,
+              "accuracy": 0.8888888888888888,
+              "wilson95": [
+                0.7780505106792327,
+                0.9480704818244324
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "selected": "opponent-rest-ridge10-raw"
+  },
+  "liveModel": {
+    "classifier": {
+      "featureNames": [
+        "home",
+        "elo",
+        "slow",
+        "fast",
+        "form",
+        "rest",
+        "backToBack"
+      ],
+      "coefficients": [
+        0.12065218632009718,
+        0.10370285877863797,
+        0.3183099871696591,
+        0.7538872322419129,
+        0.21347295094374208,
+        0.11161730997834518,
+        0.10007229925678503,
+        0.257485102733739
+      ],
+      "logistic": true,
+      "trainingRows": 3690
+    },
+    "totalModel": {
+      "featureNames": [
+        "leagueTotal",
+        "offTotal",
+        "defTotal",
+        "rest",
+        "backToBack"
+      ],
+      "coefficients": [
+        227.20443946576964,
+        3.8926465318534844,
+        6.709812212956267,
+        6.939062633133731,
+        -0.5615792114058411,
+        0.08935797740409204
+      ],
+      "logistic": false,
+      "trainingRows": 3690
+    },
+    "calibration": {
+      "intercept": 0,
+      "slope": 1
+    },
+    "marginScale": 8,
+    "totalOffset": 1.5966089319111672,
+    "totalSd": 18.616139005151496,
+    "rho": 0.006275965986535967
+  },
+  "state": {
+    "season": 2026,
+    "leaguePoints": 115.51750746555282,
+    "teams": {
+      "1": {
+        "slow": 4.488139266256961,
+        "fast": 6.416752141066603,
+        "elo": 1610.07454074017,
+        "off": 5.533228481085961,
+        "def": -1.6587958871528201,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "2": {
+        "slow": 8.94214123290549,
+        "fast": 11.653660621434216,
+        "elo": 1730.5826428372695,
+        "off": 1.9872326171242414,
+        "def": -7.722977677497326,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "3": {
+        "slow": -3.1591601454002243,
+        "fast": -4.432623969989947,
+        "elo": 1391.5727318675813,
+        "off": 2.6915736399797296,
+        "def": 7.4384609655762555,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "4": {
+        "slow": -7.0810074328382795,
+        "fast": -10.666408127510463,
+        "elo": 1294.3792662295803,
+        "off": 1.8725433699576444,
+        "def": 10.714594341896634,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "5": {
+        "slow": 3.638365888640798,
+        "fast": 1.462198897681533,
+        "elo": 1622.150886074193,
+        "off": 5.858729665969934,
+        "def": 2.0126705389346125,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "6": {
+        "slow": -6.099344703454883,
+        "fast": -6.4594019644956875,
+        "elo": 1331.9302048688992,
+        "off": 2.703997630014693,
+        "def": 10.069454748821641,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "7": {
+        "slow": 6.283457717027908,
+        "fast": 10.25786634492953,
+        "elo": 1732.5443731545624,
+        "off": 12.820918817414558,
+        "def": 3.6455776873509667,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "8": {
+        "slow": 8.88863296244196,
+        "fast": 11.556775230485274,
+        "elo": 1716.270345992869,
+        "off": 5.072301142369879,
+        "def": -5.423400543151259,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "9": {
+        "slow": -3.040502783188569,
+        "fast": -6.774467906819561,
+        "elo": 1363.146094002549,
+        "off": -2.946278635457491,
+        "def": 2.8053741762133297,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "10": {
+        "slow": 4.583210212270067,
+        "fast": 6.19672610163921,
+        "elo": 1623.5273253530984,
+        "off": 4.749429688617819,
+        "def": -4.551314956971711,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "11": {
+        "slow": -6.293723539591384,
+        "fast": -3.8564143242361033,
+        "elo": 1301.3373799103379,
+        "off": 0.37207254583284155,
+        "def": 5.8995266614038595,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "12": {
+        "slow": 2.1517495572914855,
+        "fast": 0.9691378115466038,
+        "elo": 1535.0883440499667,
+        "off": -0.10982622327015193,
+        "def": -2.1603059967790004,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "13": {
+        "slow": 2.8563043515938036,
+        "fast": 3.4794450410383866,
+        "elo": 1640.87358556281,
+        "off": 0.8586570948432422,
+        "def": -4.183656571367206,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "14": {
+        "slow": 1.3021018502145896,
+        "fast": 1.1319618069294566,
+        "elo": 1521.567365596124,
+        "off": 9.675659601707641,
+        "def": 8.595978122682425,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "15": {
+        "slow": -8.455937535375163,
+        "fast": -10.774163011957748,
+        "elo": 1323.5323439999436,
+        "off": -5.655560171469624,
+        "def": 4.093891195011908,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "16": {
+        "slow": 2.8194835065243824,
+        "fast": 2.924259294354808,
+        "elo": 1548.8217516088157,
+        "off": 2.15952558866554,
+        "def": 1.0965074010164964,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "17": {
+        "slow": -12.672515611987167,
+        "fast": -16.96422980831537,
+        "elo": 1227.3164844550286,
+        "off": -12.007554310908647,
+        "def": 3.349017051243851,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "18": {
+        "slow": 6.576892217150689,
+        "fast": 8.224822359122934,
+        "elo": 1644.3673827712796,
+        "off": -2.1346609282700877,
+        "def": -8.419471920677976,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "19": {
+        "slow": 0.8747530646142155,
+        "fast": 3.2640855410877174,
+        "elo": 1571.2488601203304,
+        "off": 2.5884738786027066,
+        "def": 1.2055722461055887,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "20": {
+        "slow": -0.2818651003213292,
+        "fast": 2.043387694718899,
+        "elo": 1537.9847045960857,
+        "off": -0.3046755088545041,
+        "def": -1.0210329893203458,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "21": {
+        "slow": 1.192970512953186,
+        "fast": 0.8322188207005805,
+        "elo": 1548.1235005114575,
+        "off": -3.0320230468313363,
+        "def": -4.9940739412629735,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 2
+      },
+      "22": {
+        "slow": 2.1390707146463406,
+        "fast": 5.557108007179235,
+        "elo": 1557.5512384921926,
+        "off": 1.0851569729211188,
+        "def": -6.004336166194882,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "23": {
+        "slow": -8.94486022147472,
+        "fast": -8.686540835763656,
+        "elo": 1330.2767352697003,
+        "off": -2.6107891578651627,
+        "def": 5.733738292009395,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "24": {
+        "slow": 10.022898026978613,
+        "fast": 10.892663461213306,
+        "elo": 1786.4108906749518,
+        "off": 8.52758518882683,
+        "def": -3.0892586301471487,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "25": {
+        "slow": 10.683951423365482,
+        "fast": 11.11719493159255,
+        "elo": 1715.747955001843,
+        "off": 3.8742366555566865,
+        "def": -4.986784230657598,
+        "lastStart": 1776040200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "26": {
+        "slow": -9.301911447052042,
+        "fast": -11.356510566893435,
+        "elo": 1235.8962322651148,
+        "off": 3.4716258680584957,
+        "def": 14.004199541663807,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "27": {
+        "slow": -13.089406897635705,
+        "fast": -17.12514724492918,
+        "elo": 1149.0310343963877,
+        "off": -0.9752292062514438,
+        "def": 14.734474398439426,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 1
+      },
+      "28": {
+        "slow": 3.6689658800267093,
+        "fast": 6.071214281680074,
+        "elo": 1543.5412186502886,
+        "off": 2.5822852218535113,
+        "def": -5.113570472549565,
+        "lastStart": 1776031200000,
+        "lastAway": false,
+        "roadGames": 0
+      },
+      "29": {
+        "slow": -10.267255705648049,
+        "fast": -17.981234231038616,
+        "elo": 1193.6343714374643,
+        "off": -3.7795046489867845,
+        "def": 15.403708733035442,
+        "lastStart": 1776040200000,
+        "lastAway": true,
+        "roadGames": 3
+      },
+      "30": {
+        "slow": 7.574402739064847,
+        "fast": 11.025663603548846,
+        "elo": 1671.4702095091047,
+        "off": -0.09082519268400757,
+        "def": -8.764034869965709,
+        "lastStart": 1776031200000,
+        "lastAway": true,
+        "roadGames": 1
+      }
+    }
+  },
+  "limitations": "Reused historical research seasons; no independently untouched historical holdout remains. Game classifier and total regression use lagged final scores and schedule features, with a 24-hour result embargo. Current injury/lineup adjustments remain assumptions. Player-prop probabilities and betting ROI are not validated."
+}

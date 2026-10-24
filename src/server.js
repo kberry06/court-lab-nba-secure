@@ -12,6 +12,7 @@ import {mapProviderEvents,registerExactMatches} from './adapter.js';
 import {publicNba} from './public-nba.js';
 import {buildScenario,scheduleView,validateBundle} from './nba-data.js';
 import {sessionAuth,verifyPassword,validHash,hashPassword} from './auth.js';
+import {gameArtifact,playerArtifact,TRAINED_MODEL_VERSION} from './trained-forecast.js';
 const root=fileURLToPath(new URL('../public/',import.meta.url));
 export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=process.env.ADMIN_TOKEN,passwordHash=process.env.APP_PASSWORD_HASH,password=process.env.APP_PASSWORD,username=process.env.APP_USERNAME||'admin',production=process.env.NODE_ENV==='production',basePath=''}={}) {
  if(!/^(?:\/[a-zA-Z0-9_-]+)*$/.test(basePath))throw new Error('Invalid base path');
@@ -74,6 +75,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/scenarios'){send(res,200,store.scenarios());return;}
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
    if(path==='/api/backtest'){send(res,200,store.latestReport());return;}
+   if(path==='/api/accuracy'){send(res,200,{modelVersion:TRAINED_MODEL_VERSION,generatedAt:gameArtifact.generatedAt,game:gameArtifact.summary,gameLimitations:gameArtifact.limitations,player:{candidate:playerArtifact.candidate,baseline:playerArtifact.baseline,folds:playerArtifact.folds,promotion:playerArtifact.promotion,parameters:playerArtifact.parameters,limitations:playerArtifact.limitations},prospective:{settledGames:store.modelForecasts(TRAINED_MODEL_VERSION).length,validationPending:true}});return;}
    if(path==='/api/history'){const [gameText,playerText]=await Promise.all([readFile(new URL('../model-artifact.json',import.meta.url),'utf8'),readFile(new URL('../player-history-artifact.json',import.meta.url),'utf8')]);const {modelVersion,generatedAt,limitations,source,validation}=JSON.parse(gameText),players=JSON.parse(playerText);const {provider,attribution,licenseUrl,releaseUrl,coverage,totalRows,totalAppearances,repairs,normalizedSha256}=players;send(res,200,{modelVersion,generatedAt,limitations,source,validation,playerHistory:{provider,attribution,licenseUrl,releaseUrl,coverage,totalRows,totalAppearances,normalizedSha256,repairs:{requested:repairs.requested,repaired:repairs.repaired,excludedGames:repairs.excludedGames},limitations:players.limitations}});return;}
    const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css'};
    if(files[path]){const data=await renderFile(files[path]);res.writeHead(200,{'Content-Type':path.endsWith('.js')?'text/javascript':path.endsWith('.css')?'text/css':'text/html'});res.end(data);return;}

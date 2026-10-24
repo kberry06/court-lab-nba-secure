@@ -1,0 +1,302 @@
+{
+  "schemaVersion": 1,
+  "modelVersion": "recency-shrinkage-player-1",
+  "generatedAt": "2026-10-24T08:59:19.782Z",
+  "sourceSha256": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7",
+  "protocol": {
+    "version": "accuracy-research-1",
+    "status": "Retrospective research: all historical seasons have already been inspected. Future prospective forecasts provide the next untouched test.",
+    "gameFamilies": {
+      "form-rest": [
+        "home",
+        "elo",
+        "form",
+        "rest",
+        "backToBack"
+      ],
+      "opponent-rest": [
+        "home",
+        "elo",
+        "slow",
+        "fast",
+        "form",
+        "rest",
+        "backToBack"
+      ],
+      "opponent-road": [
+        "home",
+        "elo",
+        "slow",
+        "fast",
+        "form",
+        "rest",
+        "backToBack",
+        "roadTrip",
+        "travelSequence"
+      ]
+    },
+    "ridgeValues": [
+      1,
+      10,
+      100
+    ],
+    "trainingSeasonWindow": 3,
+    "resultEmbargoHours": 24,
+    "innerValidationStarts": 2020,
+    "outerEvaluationStarts": 2021,
+    "selectionMetric": "earlier-season out-of-sample log loss",
+    "distributionFit": "Conditional logistic margin scale selected by earlier out-of-sample margin density loss on 4..15 in 0.25 steps; location=scale*logit(p). This was revised after the first retrospective interval-coverage audit showed narrow ranges. All test seasons remain reused research, not untouched validation.",
+    "promotionGate": "Brier and log loss improve against the previous baseline on paired games; paired day-cluster bootstrap 95% upper Brier difference is below zero; latest-season log loss does not worsen. Otherwise retain as research.",
+    "travelLimitation": "Road-trip and previous-away sequence are proxies. No geographic distance or time-zone travel data is present.",
+    "playerHalfLives": [
+      3,
+      6,
+      12
+    ],
+    "playerPriorMinutes": [
+      60,
+      240
+    ],
+    "playerHistoryLimit": 20,
+    "playerLeaguePrior": "Frozen at each season start from earlier eligible appearances, matching the deployed fitted-prior approach.",
+    "playerEvaluation": "Conditional on an observed appearance; not pregame roster availability or bookmaker prop accuracy. Settings chosen only on earlier seasons."
+  },
+  "folds": [
+    {
+      "season": 2021,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 22950,
+        "coldStarts": 297,
+        "mae": {
+          "minutes": 4.972469274727883,
+          "points": 4.538056245060719,
+          "rebounds": 1.9015322245714166,
+          "assists": 1.2885548335479027,
+          "pra": 5.947849008644487,
+          "pa": 4.97691670838241,
+          "ra": 2.560500026473548,
+          "pr": 5.480166922221167
+        }
+      },
+      "baseline": {
+        "appearances": 22950,
+        "coldStarts": 297,
+        "mae": {
+          "minutes": 5.3378781776690225,
+          "points": 4.586119706966423,
+          "rebounds": 1.9278711377178082,
+          "assists": 1.2941588733870335,
+          "pra": 6.053415678147823,
+          "pa": 5.034190392824316,
+          "ra": 2.607201136269085,
+          "pr": 5.572909975897678
+        }
+      }
+    },
+    {
+      "season": 2022,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 25955,
+        "coldStarts": 362,
+        "mae": {
+          "minutes": 5.133493004336568,
+          "points": 4.613008344012861,
+          "rebounds": 1.9306488569198095,
+          "assists": 1.3080935907024178,
+          "pra": 6.0685212649258915,
+          "pa": 5.056593370802842,
+          "ra": 2.609509732567236,
+          "pr": 5.591784712598235
+        }
+      },
+      "baseline": {
+        "appearances": 25955,
+        "coldStarts": 362,
+        "mae": {
+          "minutes": 5.517841961819972,
+          "points": 4.6811223089665255,
+          "rebounds": 1.9583221541240639,
+          "assists": 1.3169594926115529,
+          "pra": 6.215171811650381,
+          "pa": 5.1580953879661875,
+          "ra": 2.6643221321082478,
+          "pr": 5.704519757526901
+        }
+      }
+    },
+    {
+      "season": 2023,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 25818,
+        "coldStarts": 254,
+        "mae": {
+          "minutes": 5.130945093952166,
+          "points": 4.6736884389731985,
+          "rebounds": 1.9242245192088085,
+          "assists": 1.3028621402095046,
+          "pra": 6.147669546123583,
+          "pa": 5.131347631043759,
+          "ra": 2.60829261942092,
+          "pr": 5.66723863699857
+        }
+      },
+      "baseline": {
+        "appearances": 25818,
+        "coldStarts": 254,
+        "mae": {
+          "minutes": 5.47328000535894,
+          "points": 4.736814169899514,
+          "rebounds": 1.9532804783349,
+          "assists": 1.3154456970356951,
+          "pra": 6.290601577574161,
+          "pa": 5.222621235153806,
+          "ra": 2.6675574575125123,
+          "pr": 5.776386867237517
+        }
+      }
+    },
+    {
+      "season": 2024,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 26283,
+        "coldStarts": 305,
+        "mae": {
+          "minutes": 5.019563223088765,
+          "points": 4.574419625078116,
+          "rebounds": 1.888275198053518,
+          "assists": 1.3487640445935447,
+          "pra": 6.071105742072152,
+          "pa": 5.055176964887599,
+          "ra": 2.6066186115007968,
+          "pr": 5.56269683080872
+        }
+      },
+      "baseline": {
+        "appearances": 26283,
+        "coldStarts": 305,
+        "mae": {
+          "minutes": 5.427039808357511,
+          "points": 4.642577501840643,
+          "rebounds": 1.9134823307667532,
+          "assists": 1.3639221671354624,
+          "pra": 6.223554026532849,
+          "pa": 5.161155228144693,
+          "ra": 2.668629898944865,
+          "pr": 5.6801133402254464
+        }
+      }
+    },
+    {
+      "season": 2025,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 26206,
+        "coldStarts": 317,
+        "mae": {
+          "minutes": 4.996600053921363,
+          "points": 4.630906633177049,
+          "rebounds": 1.9298409482908847,
+          "assists": 1.3449459410413493,
+          "pra": 6.0995200913401595,
+          "pa": 5.100780861400192,
+          "ra": 2.6441964224516776,
+          "pr": 5.602928890316213
+        }
+      },
+      "baseline": {
+        "appearances": 26206,
+        "coldStarts": 317,
+        "mae": {
+          "minutes": 5.382880032301528,
+          "points": 4.689663280956017,
+          "rebounds": 1.9593104733470053,
+          "assists": 1.3615794979272433,
+          "pra": 6.244191655215545,
+          "pa": 5.194343995863294,
+          "ra": 2.7052271747387184,
+          "pr": 5.70846002558508
+        }
+      }
+    },
+    {
+      "season": 2026,
+      "selected": "half3-prior240",
+      "candidate": {
+        "appearances": 26408,
+        "coldStarts": 315,
+        "mae": {
+          "minutes": 4.979913831028828,
+          "points": 4.60863790342411,
+          "rebounds": 1.9011412647891028,
+          "assists": 1.3494389217689553,
+          "pra": 6.073938268147267,
+          "pa": 5.0938721760761085,
+          "ra": 2.6156908831899734,
+          "pr": 5.556422659710109
+        }
+      },
+      "baseline": {
+        "appearances": 26408,
+        "coldStarts": 315,
+        "mae": {
+          "minutes": 5.371453654798705,
+          "points": 4.686929639218854,
+          "rebounds": 1.9241708355158271,
+          "assists": 1.3659987712175408,
+          "pra": 6.232549699875269,
+          "pa": 5.202830956820375,
+          "ra": 2.6722604795248577,
+          "pr": 5.684625287009231
+        }
+      }
+    }
+  ],
+  "candidate": {
+    "appearances": 153620,
+    "coldStarts": 1850,
+    "mae": {
+      "minutes": 5.039762836046948,
+      "points": 4.607708830223911,
+      "rebounds": 1.9127592221983,
+      "assists": 1.324647826282977,
+      "pra": 6.070456932945819,
+      "pa": 5.070957612177217,
+      "ra": 2.60846851204716,
+      "pr": 5.578636213461065
+    }
+  },
+  "baseline": {
+    "appearances": 153620,
+    "coldStarts": 1850,
+    "mae": {
+      "minutes": 5.4197436857204595,
+      "points": 4.6721498722606025,
+      "rebounds": 1.9395517465104828,
+      "assists": 1.3373754782765808,
+      "pra": 6.21305529999307,
+      "pa": 5.164826532247197,
+      "ra": 2.665411946183871,
+      "pr": 5.690012741327747
+    }
+  },
+  "promotion": {
+    "passed": true,
+    "gate": "Point and PRA MAE improve; no component/combination MAE worsens by over 2%.",
+    "prospectiveValidationPending": true
+  },
+  "parameters": {
+    "halfLife": 3,
+    "priorMinutes": 240,
+    "leaguePriors": {
+      "points": 0.4679221426016175,
+      "rebounds": 0.1828895803699601,
+      "assists": 0.105502242457234
+    }
+  },
+  "limitations": "Conditional on a positive-minute appearance, using only earlier-game statistics with a 24-hour embargo. Does not validate pregame participation, team minute reallocation, the final team-score allocation, player covariance, bookmaker prop hit rates or ROI. All historical seasons are reused research.",
+  "trainingLastGameAt": "2026-04-13T00:30Z"
+}

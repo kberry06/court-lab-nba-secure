@@ -2,6 +2,8 @@
 
 The application now includes two evaluations: a retrospective eight-season **game-results baseline replay**, and a separate **walk-forward audit of frozen forecast records**. Neither validates the current live player simulator. The synthetic report remains a functional check only.
 
+The subsequent trained release adds nested game-model selection and a conditional player-component evaluation. Its fitted artifacts now feed fresh complete-data projections after historical gates pass. [Current accuracy research](ACCURACY-RESEARCH.md) reports those comparisons, the modest winner hit-rate change, probability-quality improvement, interval coverage and remaining limits. The original baseline evidence below remains available for comparison.
+
 ## Eight-season game baseline
 
 Run `npm run history:fetch` and `npm run history:backtest`. ESPN season years 2019–2026 correspond to 2018–19 through 2025–26. The source manifest records endpoints and normalization rules. Coverage requires 9,519 unique final regular-season games, 30 teams in each season, 82 games per team except the shortened seasons (72 in 2020–21, variable in 2019–20). NBA Cup championships are excluded and the 88 Orlando restart games are treated as neutral-site. Raw files and per-game replay outputs are ignored by Git; `model-artifact.json` records the normalized archive SHA-256 and compact evaluation evidence.
@@ -33,11 +35,11 @@ At each forecast, calibration uses only rows settled more than 24 hours before t
 ## Before model promotion
 
 1. Acquire licensed, timestamped schedules, outcomes, player logs, roster transactions, injury reports and odds history with documented availability times.
-2. Build features using only information actually available at each forecast timestamp. Split chronologically by NBA season/date; retain an untouched final season.
+2. Build features using only information actually available at each forecast timestamp. Split chronologically by NBA season/date. The historical final season has now been inspected; prospective frozen forecasts provide the next untouched test.
 3. Retrain base score/player-rate and covariance models inside each expanding/rolling training fold. Choose hyperparameters using nested earlier folds, never the next test block.
 4. Generate and save out-of-sample pregame forecasts. Fit calibration on earlier out-of-sample forecasts only; evaluate game and prop families separately.
 5. Report game probability Brier/log loss, home/team-strength/bookmaker baselines, score/margin MAE, interval coverage, player MAE, prop reliability and sample sizes. Segment by lineup uncertainty, rest, season and market.
 6. Evaluate against timestamp-matched prices, then separately against closing prices. Grade pushes/voids with bookmaker rules. Report uncertainty, slippage and missing-market coverage before any ROI claim.
 7. Run prospective shadow predictions with immutable freeze times. Promote only if preregistered improvements hold out of sample and calibration is stable.
 
-Implemented prospective foundation: the first stored real-game forecast before tip-off is immutable, and later schedule refreshes settle it from final scores. Re-runs remain available for research but cannot overwrite the evaluation forecast. Pending: enough settled live games, historical backfill with point-in-time roster/injury snapshots, model fitting/retraining orchestration, historical player forecasts, closing-line ingestion and prop calibration. Imported historical rows still require independent provenance; timestamp assertions alone cannot prove when external inputs were available.
+Implemented prospective foundation: the first stored forecast for each event/model version is immutable, and later schedule refreshes settle it from final scores. The original first-event forecast is also preserved for backward compatibility. Pending: enough settled live games, point-in-time roster/injury snapshots, validation of final allocated player projections, closing-line ingestion and prop calibration. Imported historical rows still require independent provenance; timestamp assertions alone cannot prove when external inputs were available.
