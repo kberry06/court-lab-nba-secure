@@ -1,0 +1,5009 @@
+{
+  "version": "advanced-accuracy-1",
+  "generatedAt": "2026-10-25T10:19:19.068Z",
+  "sourceHashes": {
+    "games": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+    "players": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7"
+  },
+  "protocol": {
+    "version": "allocation-replay-1",
+    "status": "Retrospective diagnostic on previously inspected seasons; no production promotion",
+    "evaluationStarts": 2021,
+    "resultEmbargoHours": 24,
+    "forecastHoursBeforeStart": 1,
+    "rosterSource": "Last eligible team box-score roster; not a verified pregame roster or transaction history",
+    "appearanceWindow": 10,
+    "appearancePrior": {
+      "played": 1,
+      "missed": 1
+    },
+    "monteCarloGamesPerSeason": 12,
+    "monteCarloSelection": "Lowest deterministic game-ID hash per season, chosen without outcomes",
+    "monteCarloDraws": 10000,
+    "seed": 92571,
+    "candidate": "Joint resampling of complete earlier team rotations; 20-game template window and six-game half-life; fixed 5% independent support mixture",
+    "gate": "Research only: missing point-in-time roster, injury and transaction evidence prevents promotion regardless of retrospective improvements",
+    "calibration": "Separate regularized logistic family fits on earlier seasons only; five fixed diagnostic thresholds per family, not bookmaker lines"
+  },
+  "games": 72,
+  "players": 1738,
+  "playingPlayers": 1442,
+  "fallbackDraws": 72463,
+  "models": {
+    "baseline": {
+      "all": {
+        "players": 1738,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 6.397931459184855,
+          "points": 4.53532013808976,
+          "rebounds": 1.9280647871116214,
+          "assists": 1.2519568469505178,
+          "pra": 6.402633486766397,
+          "pa": 5.190664787111623,
+          "ra": 2.6611804372842336,
+          "pr": 5.755606329113927
+        },
+        "bias": {
+          "minutes": -0.24017897233919586,
+          "points": -0.06918078250863058,
+          "rebounds": -0.033569620253164546,
+          "assists": -0.03128446490218641,
+          "pra": -0.13403486766398157,
+          "pa": -0.10046524741081712,
+          "ra": -0.06485408515535099,
+          "pr": -0.10275040276179523
+        }
+      },
+      "ifPlaying": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 5.526005556325887,
+          "points": 4.553790915395284,
+          "rebounds": 1.9178033980582527,
+          "assists": 1.3078309292649097,
+          "pra": 6.197256726768376,
+          "pa": 5.142542787794731,
+          "ra": 2.600290360610263,
+          "pr": 5.618529680998612
+        },
+        "bias": {
+          "minutes": -2.474712841724601,
+          "points": -0.9958780166435509,
+          "rebounds": -0.4464966019417477,
+          "assists": -0.2388219140083218,
+          "pra": -1.6811965325936205,
+          "pa": -1.2346999306518727,
+          "ra": -0.6853185159500692,
+          "pr": -1.4423746185852975
+        }
+      },
+      "participationBrier": 0.17031070195627157,
+      "pointsCentral80Coverage": 0.45700416088765605
+    },
+    "joint": {
+      "all": {
+        "players": 1738,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 6.543228031322655,
+          "points": 4.622008918296892,
+          "rebounds": 1.8977370540851561,
+          "assists": 1.262135730724971,
+          "pra": 6.525342232451095,
+          "pa": 5.30742163406214,
+          "ra": 2.659794303797468,
+          "pr": 5.843674741081701
+        },
+        "bias": {
+          "minutes": -0.10587354484457273,
+          "points": -0.011084177215189893,
+          "rebounds": -0.013218411967779068,
+          "assists": -0.015457364787111618,
+          "pra": -0.039759953970080524,
+          "pa": -0.02654154200230153,
+          "ra": -0.028675776754890654,
+          "pr": -0.02430258918296891
+        }
+      },
+      "ifPlaying": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 5.608461433816716,
+          "points": 4.787842988867988,
+          "rebounds": 1.9879753845243882,
+          "assists": 1.3481707426423564,
+          "pra": 6.396416884759194,
+          "pa": 5.3419381522523866,
+          "ra": 2.686577367434909,
+          "pr": 5.85077087813615
+        },
+        "bias": {
+          "minutes": 2.1208313867008375,
+          "points": 1.0434909378498587,
+          "rebounds": 0.38863735042669045,
+          "assists": 0.23242770401087356,
+          "pra": 1.6645559922874231,
+          "pa": 1.2759186418607318,
+          "ra": 0.621065054437564,
+          "pr": 1.432128288276549
+        }
+      },
+      "participationBrier": 0.13183089475258916,
+      "pointsCentral80Coverage": 0.6137309292649098
+    }
+  },
+  "uncertainty": {
+    "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+    "days": 71,
+    "draws": 1000,
+    "difference": 0.08668878020713465,
+    "interval95": [
+      -0.03464228110599074,
+      0.21924293103448297
+    ]
+  },
+  "calibration": {
+    "baseline": [
+      {
+        "family": "spread",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "status": "insufficient evidence",
+            "trainingGames": 12
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 120,
+              "intercept": -0.3445487753741758,
+              "slope": 1.0016194587752372,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.20479275033333355,
+              "logLoss": 0.5898347413624342
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17783324299603337,
+              "logLoss": 0.5286366620442211
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 180,
+              "intercept": -0.5738202108115643,
+              "slope": 1.0635392789915552,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1991036061666669,
+              "logLoss": 0.5790304204223192
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.20857358092025813,
+              "logLoss": 0.5953727681340736
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 240,
+              "intercept": -0.4507725420875394,
+              "slope": 1.0146161586465203,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16832622033333347,
+              "logLoss": 0.5090928823997601
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.20208218769609768,
+              "logLoss": 0.5872422269755974
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 300,
+              "intercept": -0.24212622572884138,
+              "slope": 1.04034275519745,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1795185083333335,
+              "logLoss": 0.5445842238058787
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17650664623048778,
+              "logLoss": 0.5326357141690787
+            }
+          }
+        ],
+        "raw": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.18793527129166618,
+          "logLoss": 0.5556355669975962,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 6,
+              "predicted": 0.07511666666666666,
+              "observed": 0
+            },
+            {
+              "lower": 0.1,
+              "selections": 21,
+              "predicted": 0.15415714285714285,
+              "observed": 0
+            },
+            {
+              "lower": 0.2,
+              "selections": 21,
+              "predicted": 0.24543333333333323,
+              "observed": 0.23809523809523803
+            },
+            {
+              "lower": 0.3,
+              "selections": 33,
+              "predicted": 0.342781818181818,
+              "observed": 0.33333333333333315
+            },
+            {
+              "lower": 0.4,
+              "selections": 26,
+              "predicted": 0.4524923076923075,
+              "observed": 0.3846153846153844
+            },
+            {
+              "lower": 0.5,
+              "selections": 28,
+              "predicted": 0.543292857142857,
+              "observed": 0.5714285714285713
+            },
+            {
+              "lower": 0.6,
+              "selections": 32,
+              "predicted": 0.6521156249999999,
+              "observed": 0.6249999999999999
+            },
+            {
+              "lower": 0.7,
+              "selections": 32,
+              "predicted": 0.7538624999999994,
+              "observed": 0.6562499999999999
+            },
+            {
+              "lower": 0.8,
+              "selections": 32,
+              "predicted": 0.8513937499999997,
+              "observed": 0.8124999999999999
+            },
+            {
+              "lower": 0.9,
+              "selections": 9,
+              "predicted": 0.9312777777777781,
+              "observed": 0.888888888888889
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.19124891446071857,
+          "logLoss": 0.5609718428307406,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 16,
+              "predicted": 0.06803951621172072,
+              "observed": 0
+            },
+            {
+              "lower": 0.1,
+              "selections": 27,
+              "predicted": 0.14621033031698252,
+              "observed": 0.14814814814814808
+            },
+            {
+              "lower": 0.2,
+              "selections": 39,
+              "predicted": 0.24711962152588532,
+              "observed": 0.2820512820512819
+            },
+            {
+              "lower": 0.3,
+              "selections": 24,
+              "predicted": 0.3544155359682125,
+              "observed": 0.5833333333333331
+            },
+            {
+              "lower": 0.4,
+              "selections": 26,
+              "predicted": 0.4400895990934393,
+              "observed": 0.46153846153846134
+            },
+            {
+              "lower": 0.5,
+              "selections": 33,
+              "predicted": 0.547479697714163,
+              "observed": 0.5757575757575757
+            },
+            {
+              "lower": 0.6,
+              "selections": 24,
+              "predicted": 0.6598452405598177,
+              "observed": 0.6666666666666666
+            },
+            {
+              "lower": 0.7,
+              "selections": 23,
+              "predicted": 0.7426865439816817,
+              "observed": 0.7391304347826086
+            },
+            {
+              "lower": 0.8,
+              "selections": 23,
+              "predicted": 0.8430017294174518,
+              "observed": 0.8695652173913043
+            },
+            {
+              "lower": 0.9,
+              "selections": 5,
+              "predicted": 0.9326711855148921,
+              "observed": 0.8
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "total",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "status": "insufficient evidence",
+            "trainingGames": 12
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 120,
+              "intercept": -0.007318626817075697,
+              "slope": 1.0151116912491622,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17040319616666685,
+              "logLoss": 0.5191382037843651
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17049167864463988,
+              "logLoss": 0.519299163224381
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 180,
+              "intercept": 0.11943870848640661,
+              "slope": 1.0510265489957582,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17643022050000018,
+              "logLoss": 0.5307569865684831
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17594011450565877,
+              "logLoss": 0.5286657330829536
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 240,
+              "intercept": 0.11853263310051333,
+              "slope": 1.056550306777676,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1405944930000001,
+              "logLoss": 0.4464441012525272
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.14404808258324792,
+              "logLoss": 0.4534641093223814
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 300,
+              "intercept": 0.0011806648611134916,
+              "slope": 1.1347486274038878,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16588909000000013,
+              "logLoss": 0.5002024818726662
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16562608640299267,
+              "logLoss": 0.4960167609798592
+            }
+          }
+        ],
+        "raw": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.16332924991666614,
+          "logLoss": 0.4991354433695084,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.1,
+              "selections": 48,
+              "predicted": 0.1503854166666667,
+              "observed": 0.08333333333333336
+            },
+            {
+              "lower": 0.2,
+              "selections": 4,
+              "predicted": 0.29405,
+              "observed": 0.25
+            },
+            {
+              "lower": 0.3,
+              "selections": 44,
+              "predicted": 0.30835,
+              "observed": 0.24999999999999994
+            },
+            {
+              "lower": 0.4,
+              "selections": 5,
+              "predicted": 0.49716000000000005,
+              "observed": 0.2
+            },
+            {
+              "lower": 0.5,
+              "selections": 43,
+              "predicted": 0.5120302325581394,
+              "observed": 0.5348837209302326
+            },
+            {
+              "lower": 0.6,
+              "selections": 2,
+              "predicted": 0.69705,
+              "observed": 0.5
+            },
+            {
+              "lower": 0.7,
+              "selections": 46,
+              "predicted": 0.7126847826086962,
+              "observed": 0.6956521739130439
+            },
+            {
+              "lower": 0.8,
+              "selections": 48,
+              "predicted": 0.8620083333333337,
+              "observed": 0.916666666666667
+            },
+            {
+              "lower": 0.9,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.16402649053413412,
+          "logLoss": 0.4993614416523919,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.1,
+              "selections": 48,
+              "predicted": 0.14422463412694625,
+              "observed": 0.08333333333333336
+            },
+            {
+              "lower": 0.2,
+              "selections": 18,
+              "predicted": 0.28720299234439783,
+              "observed": 0.3333333333333332
+            },
+            {
+              "lower": 0.3,
+              "selections": 30,
+              "predicted": 0.32146126463228003,
+              "observed": 0.1999999999999999
+            },
+            {
+              "lower": 0.4,
+              "selections": 6,
+              "predicted": 0.49739081242800015,
+              "observed": 0.33333333333333337
+            },
+            {
+              "lower": 0.5,
+              "selections": 42,
+              "predicted": 0.5295760011245513,
+              "observed": 0.5238095238095238
+            },
+            {
+              "lower": 0.6,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.7,
+              "selections": 48,
+              "predicted": 0.7350248194958754,
+              "observed": 0.6875000000000004
+            },
+            {
+              "lower": 0.8,
+              "selections": 48,
+              "predicted": 0.8812293155309431,
+              "observed": 0.916666666666667
+            },
+            {
+              "lower": 0.9,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_points",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.3244916728234086,
+              "slope": 0.47424814554416567,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.08320374187755336,
+              "logLoss": 0.3186523396977065
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07895870968564395,
+              "logLoss": 0.2569734368419157
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.2544870197842348,
+              "slope": 0.49769116879875624,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.10952462944348093,
+              "logLoss": 0.4422007250792929
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.09851499216172277,
+              "logLoss": 0.31990621980325185
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.27186354767374354,
+              "slope": 0.48579093268457785,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.09612533728800259,
+              "logLoss": 0.38149726465459166
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.0875773779927758,
+              "logLoss": 0.2851985836433487
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.2506635564840983,
+              "slope": 0.4818816125836331,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.09460563816949379,
+              "logLoss": 0.3439885280472976
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.08574349981181509,
+              "logLoss": 0.27309150154418205
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.24702102945040402,
+              "slope": 0.48938811986560504,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.10496550012396955,
+              "logLoss": 0.4359227199370633
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09569255226863992,
+              "logLoss": 0.3131967034864106
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.09753574188859439,
+          "logLoss": 0.38389434497229136,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4451,
+              "predicted": 0.007821410918894083,
+              "observed": 0.060885194338346715
+            },
+            {
+              "lower": 0.1,
+              "selections": 300,
+              "predicted": 0.1445403333333326,
+              "observed": 0.3566666666666641
+            },
+            {
+              "lower": 0.2,
+              "selections": 186,
+              "predicted": 0.24506236559139796,
+              "observed": 0.4247311827956984
+            },
+            {
+              "lower": 0.3,
+              "selections": 137,
+              "predicted": 0.3486116788321175,
+              "observed": 0.4817518248175188
+            },
+            {
+              "lower": 0.4,
+              "selections": 145,
+              "predicted": 0.4531579310344839,
+              "observed": 0.5379310344827591
+            },
+            {
+              "lower": 0.5,
+              "selections": 110,
+              "predicted": 0.5460990909090921,
+              "observed": 0.5545454545454552
+            },
+            {
+              "lower": 0.6,
+              "selections": 119,
+              "predicted": 0.6482075630252117,
+              "observed": 0.6638655462184878
+            },
+            {
+              "lower": 0.7,
+              "selections": 111,
+              "predicted": 0.7521270270270287,
+              "observed": 0.7567567567567571
+            },
+            {
+              "lower": 0.8,
+              "selections": 126,
+              "predicted": 0.850058730158732,
+              "observed": 0.7619047619047622
+            },
+            {
+              "lower": 0.9,
+              "selections": 330,
+              "predicted": 0.969114242424237,
+              "observed": 0.9181818181818175
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.0891859851811771,
+          "logLoss": 0.28934311313378536,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3543,
+              "predicted": 0.02412862080592707,
+              "observed": 0.02681343494213847
+            },
+            {
+              "lower": 0.1,
+              "selections": 483,
+              "predicted": 0.1474600300014276,
+              "observed": 0.15320910973084734
+            },
+            {
+              "lower": 0.2,
+              "selections": 394,
+              "predicted": 0.2468479161284425,
+              "observed": 0.23096446700507403
+            },
+            {
+              "lower": 0.3,
+              "selections": 329,
+              "predicted": 0.34948686156001024,
+              "observed": 0.36778115501519454
+            },
+            {
+              "lower": 0.4,
+              "selections": 275,
+              "predicted": 0.44670507533694,
+              "observed": 0.42909090909090625
+            },
+            {
+              "lower": 0.5,
+              "selections": 283,
+              "predicted": 0.5501295165347563,
+              "observed": 0.5159010600706677
+            },
+            {
+              "lower": 0.6,
+              "selections": 211,
+              "predicted": 0.6491401347242717,
+              "observed": 0.7203791469194285
+            },
+            {
+              "lower": 0.7,
+              "selections": 185,
+              "predicted": 0.7484582639048941,
+              "observed": 0.7405405405405391
+            },
+            {
+              "lower": 0.8,
+              "selections": 154,
+              "predicted": 0.8489916316400208,
+              "observed": 0.9090909090909092
+            },
+            {
+              "lower": 0.9,
+              "selections": 158,
+              "predicted": 0.9546771635539401,
+              "observed": 0.949367088607595
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_rebounds",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.3522001254312885,
+              "slope": 0.4829685406634694,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.10269461441632911,
+              "logLoss": 0.3667894654967654
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.09826682473277752,
+              "logLoss": 0.311673860721413
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.20443754670269557,
+              "slope": 0.4983212244929225,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.1259167268434812,
+              "logLoss": 0.4262622977807414
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.11267686891980357,
+              "logLoss": 0.34662208219855367
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.16989041969215538,
+              "slope": 0.4971993407723489,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.1257870080480032,
+              "logLoss": 0.493208611984818
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.11528963502784928,
+              "logLoss": 0.36756447976739376
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.15048339703337427,
+              "slope": 0.47616943390634314,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.11950745104237549,
+              "logLoss": 0.438665374595161
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.10977588924210918,
+              "logLoss": 0.3459015908066195
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.16319117687879559,
+              "slope": 0.4793489805365963,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.13369544260330893,
+              "logLoss": 0.49552229329030684
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.11713053494228341,
+              "logLoss": 0.3636250439828897
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.12146785974561876,
+          "logLoss": 0.44442836568005334,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3865,
+              "predicted": 0.010504269081500152,
+              "observed": 0.07347994825355422
+            },
+            {
+              "lower": 0.1,
+              "selections": 341,
+              "predicted": 0.1453170087976531,
+              "observed": 0.34310850439882407
+            },
+            {
+              "lower": 0.2,
+              "selections": 252,
+              "predicted": 0.24682777777777698,
+              "observed": 0.4563492063492038
+            },
+            {
+              "lower": 0.3,
+              "selections": 187,
+              "predicted": 0.349455614973262,
+              "observed": 0.5133689839572184
+            },
+            {
+              "lower": 0.4,
+              "selections": 158,
+              "predicted": 0.444596835443039,
+              "observed": 0.5000000000000006
+            },
+            {
+              "lower": 0.5,
+              "selections": 140,
+              "predicted": 0.5480628571428583,
+              "observed": 0.5357142857142863
+            },
+            {
+              "lower": 0.6,
+              "selections": 171,
+              "predicted": 0.6537508771929836,
+              "observed": 0.6491228070175435
+            },
+            {
+              "lower": 0.7,
+              "selections": 150,
+              "predicted": 0.7518100000000019,
+              "observed": 0.6133333333333337
+            },
+            {
+              "lower": 0.8,
+              "selections": 188,
+              "predicted": 0.8565505319148937,
+              "observed": 0.7712765957446791
+            },
+            {
+              "lower": 0.9,
+              "selections": 563,
+              "predicted": 0.9714442273534558,
+              "observed": 0.8809946714031965
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.11061193681230092,
+          "logLoss": 0.3471357695747448,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 2830,
+              "predicted": 0.027526507728421416,
+              "observed": 0.028621908127208856
+            },
+            {
+              "lower": 0.1,
+              "selections": 583,
+              "predicted": 0.14454105093091613,
+              "observed": 0.15437392795883187
+            },
+            {
+              "lower": 0.2,
+              "selections": 465,
+              "predicted": 0.2456631888283815,
+              "observed": 0.25591397849462094
+            },
+            {
+              "lower": 0.3,
+              "selections": 406,
+              "predicted": 0.35111813319640406,
+              "observed": 0.35221674876846937
+            },
+            {
+              "lower": 0.4,
+              "selections": 346,
+              "predicted": 0.451017633305428,
+              "observed": 0.5057803468208054
+            },
+            {
+              "lower": 0.5,
+              "selections": 311,
+              "predicted": 0.5451714175085213,
+              "observed": 0.5209003215434042
+            },
+            {
+              "lower": 0.6,
+              "selections": 303,
+              "predicted": 0.6478804470269353,
+              "observed": 0.6204620462046171
+            },
+            {
+              "lower": 0.7,
+              "selections": 249,
+              "predicted": 0.7505148587322558,
+              "observed": 0.7670682730923669
+            },
+            {
+              "lower": 0.8,
+              "selections": 247,
+              "predicted": 0.8495143744851248,
+              "observed": 0.8340080971659901
+            },
+            {
+              "lower": 0.9,
+              "selections": 275,
+              "predicted": 0.9577361934048454,
+              "observed": 0.9272727272727266
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_assists",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.136431332047083,
+              "slope": 0.4518831160559034,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.0763606687755125,
+              "logLoss": 0.30448356860835346
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07135521781700838,
+              "logLoss": 0.23432311724903923
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.04197209327694436,
+              "slope": 0.45968474874912185,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.09909933677391533,
+              "logLoss": 0.38660192065829646
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08637048917091351,
+              "logLoss": 0.27514675601883654
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.107085289359818,
+              "slope": 0.4569558572811701,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.09560415047200242,
+              "logLoss": 0.3925267934537336
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.08637895257801032,
+              "logLoss": 0.2786310165287548
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.08879855891417737,
+              "slope": 0.4479758822640072,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.09428634777118863,
+              "logLoss": 0.34959409001785324
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.0841485044390635,
+              "logLoss": 0.26525526932714055
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.06270034885750957,
+              "slope": 0.4486070886388059,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09828612583471324,
+              "logLoss": 0.4120938707891473
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.08870903043784777,
+              "logLoss": 0.2889056656143549
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.09263430544636665,
+          "logLoss": 0.3689771707389728,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4529,
+              "predicted": 0.0063628836387718875,
+              "observed": 0.05166703466548527
+            },
+            {
+              "lower": 0.1,
+              "selections": 216,
+              "predicted": 0.14668796296296274,
+              "observed": 0.4027777777777764
+            },
+            {
+              "lower": 0.2,
+              "selections": 143,
+              "predicted": 0.24965524475524528,
+              "observed": 0.4895104895104901
+            },
+            {
+              "lower": 0.3,
+              "selections": 119,
+              "predicted": 0.34709075630252184,
+              "observed": 0.42016806722689154
+            },
+            {
+              "lower": 0.4,
+              "selections": 127,
+              "predicted": 0.451544881889765,
+              "observed": 0.45669291338582746
+            },
+            {
+              "lower": 0.5,
+              "selections": 104,
+              "predicted": 0.5480105769230779,
+              "observed": 0.5961538461538468
+            },
+            {
+              "lower": 0.6,
+              "selections": 78,
+              "predicted": 0.6503102564102573,
+              "observed": 0.628205128205129
+            },
+            {
+              "lower": 0.7,
+              "selections": 108,
+              "predicted": 0.75186851851852,
+              "observed": 0.6944444444444449
+            },
+            {
+              "lower": 0.8,
+              "selections": 114,
+              "predicted": 0.8491385964912299,
+              "observed": 0.7017543859649127
+            },
+            {
+              "lower": 0.9,
+              "selections": 477,
+              "predicted": 0.9783972746331169,
+              "observed": 0.8406708595387832
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.083348804183328,
+          "logLoss": 0.2683841117060475,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3800,
+              "predicted": 0.023775582767448743,
+              "observed": 0.02026315789473586
+            },
+            {
+              "lower": 0.1,
+              "selections": 424,
+              "predicted": 0.1492035028051316,
+              "observed": 0.1910377358490548
+            },
+            {
+              "lower": 0.2,
+              "selections": 333,
+              "predicted": 0.24634832857764374,
+              "observed": 0.2672672672672652
+            },
+            {
+              "lower": 0.3,
+              "selections": 260,
+              "predicted": 0.34689280068985157,
+              "observed": 0.3999999999999977
+            },
+            {
+              "lower": 0.4,
+              "selections": 254,
+              "predicted": 0.44929569735467656,
+              "observed": 0.45275590551180844
+            },
+            {
+              "lower": 0.5,
+              "selections": 218,
+              "predicted": 0.5437577837108482,
+              "observed": 0.5779816513761444
+            },
+            {
+              "lower": 0.6,
+              "selections": 187,
+              "predicted": 0.6498095283357658,
+              "observed": 0.6898395721925119
+            },
+            {
+              "lower": 0.7,
+              "selections": 151,
+              "predicted": 0.7523699028124137,
+              "observed": 0.7019867549668878
+            },
+            {
+              "lower": 0.8,
+              "selections": 108,
+              "predicted": 0.8495339375095288,
+              "observed": 0.8425925925925928
+            },
+            {
+              "lower": 0.9,
+              "selections": 280,
+              "predicted": 0.9608025753337943,
+              "observed": 0.8857142857142846
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pra",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.27907940318626534,
+              "slope": 0.4323440269102891,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07800437395918587,
+              "logLoss": 0.3160300965419383
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07250765215407226,
+              "logLoss": 0.24149030562309762
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.16167894800552243,
+              "slope": 0.44799359831165775,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.10257920920000245,
+              "logLoss": 0.43499434688072636
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.09095859599437012,
+              "logLoss": 0.29673160067797294
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.14573899759126702,
+              "slope": 0.43441944110503955,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.08709598096800239,
+              "logLoss": 0.34661098197959145
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.0769776349465654,
+              "logLoss": 0.2513481229511853
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.1625790504360603,
+              "slope": 0.44160738765679974,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.08829110744068026,
+              "logLoss": 0.32478871074665844
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07740456031401859,
+              "logLoss": 0.24846879069690797
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.1571950917227722,
+              "slope": 0.44912295362206933,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09516698662810157,
+              "logLoss": 0.39086489145449144
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.08335640102103425,
+              "logLoss": 0.2706127897566736
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.09006267422940925,
+          "logLoss": 0.3619021266819172,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4195,
+              "predicted": 0.005631489868891194,
+              "observed": 0.050536352800950354
+            },
+            {
+              "lower": 0.1,
+              "selections": 198,
+              "predicted": 0.14453131313131298,
+              "observed": 0.4393939393939384
+            },
+            {
+              "lower": 0.2,
+              "selections": 143,
+              "predicted": 0.24609930069930122,
+              "observed": 0.5034965034965041
+            },
+            {
+              "lower": 0.3,
+              "selections": 104,
+              "predicted": 0.3513211538461546,
+              "observed": 0.45192307692307776
+            },
+            {
+              "lower": 0.4,
+              "selections": 105,
+              "predicted": 0.4525695238095247,
+              "observed": 0.5238095238095245
+            },
+            {
+              "lower": 0.5,
+              "selections": 88,
+              "predicted": 0.55362840909091,
+              "observed": 0.636363636363637
+            },
+            {
+              "lower": 0.6,
+              "selections": 92,
+              "predicted": 0.6462510869565226,
+              "observed": 0.5978260869565224
+            },
+            {
+              "lower": 0.7,
+              "selections": 97,
+              "predicted": 0.7480711340206201,
+              "observed": 0.6597938144329902
+            },
+            {
+              "lower": 0.8,
+              "selections": 152,
+              "predicted": 0.8529407894736859,
+              "observed": 0.717105263157895
+            },
+            {
+              "lower": 0.9,
+              "selections": 841,
+              "predicted": 0.9839854934601705,
+              "observed": 0.9036860879904924
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.08010722017812441,
+          "logLoss": 0.2613278083931259,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3491,
+              "predicted": 0.026097651378181534,
+              "observed": 0.018619306788885105
+            },
+            {
+              "lower": 0.1,
+              "selections": 381,
+              "predicted": 0.14473610175340662,
+              "observed": 0.17585301837270195
+            },
+            {
+              "lower": 0.2,
+              "selections": 287,
+              "predicted": 0.24506642424492173,
+              "observed": 0.23344947735191499
+            },
+            {
+              "lower": 0.3,
+              "selections": 252,
+              "predicted": 0.34691047066850034,
+              "observed": 0.42857142857142616
+            },
+            {
+              "lower": 0.4,
+              "selections": 223,
+              "predicted": 0.4474778885166112,
+              "observed": 0.49775784753363017
+            },
+            {
+              "lower": 0.5,
+              "selections": 219,
+              "predicted": 0.5485281123051565,
+              "observed": 0.5433789954337878
+            },
+            {
+              "lower": 0.6,
+              "selections": 193,
+              "predicted": 0.6475077450600893,
+              "observed": 0.6787564766839361
+            },
+            {
+              "lower": 0.7,
+              "selections": 206,
+              "predicted": 0.7480162861362538,
+              "observed": 0.718446601941745
+            },
+            {
+              "lower": 0.8,
+              "selections": 203,
+              "predicted": 0.8505836221313607,
+              "observed": 0.8325123152709337
+            },
+            {
+              "lower": 0.9,
+              "selections": 560,
+              "predicted": 0.9666365648272683,
+              "observed": 0.9499999999999997
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pa",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.26325668874890873,
+              "slope": 0.466121839205837,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06554387120816527,
+              "logLoss": 0.24631356396854615
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.05948177852279035,
+              "logLoss": 0.19482056392526695
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.17894187929387523,
+              "slope": 0.487734440942998,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.07804606292174114,
+              "logLoss": 0.3143749242676687
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.07053129050072843,
+              "logLoss": 0.23064554431217005
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.18278777400862098,
+              "slope": 0.48485777321749424,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.06586642004000196,
+              "logLoss": 0.2586277909372273
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.05973782230832981,
+              "logLoss": 0.1983077010437888
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.1867416488027272,
+              "slope": 0.4929895870847623,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.06573604470339166,
+              "logLoss": 0.24687411778089588
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.06016536316462116,
+              "logLoss": 0.1986545935546832
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.1748972333094206,
+              "slope": 0.5002308130023055,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07822865140496077,
+              "logLoss": 0.32854749739966493
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07092813191331931,
+              "logLoss": 0.2334866749077443
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.07059059693930611,
+          "logLoss": 0.2785376472610957,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4704,
+              "predicted": 0.004584098639455411,
+              "observed": 0.039328231292513775
+            },
+            {
+              "lower": 0.1,
+              "selections": 183,
+              "predicted": 0.14137322404371594,
+              "observed": 0.30054644808743164
+            },
+            {
+              "lower": 0.2,
+              "selections": 126,
+              "predicted": 0.24645714285714332,
+              "observed": 0.4682539682539689
+            },
+            {
+              "lower": 0.3,
+              "selections": 91,
+              "predicted": 0.35238461538461613,
+              "observed": 0.5274725274725283
+            },
+            {
+              "lower": 0.4,
+              "selections": 80,
+              "predicted": 0.453181250000001,
+              "observed": 0.6000000000000008
+            },
+            {
+              "lower": 0.5,
+              "selections": 68,
+              "predicted": 0.5496838235294124,
+              "observed": 0.5588235294117657
+            },
+            {
+              "lower": 0.6,
+              "selections": 93,
+              "predicted": 0.6533591397849475,
+              "observed": 0.6236559139784953
+            },
+            {
+              "lower": 0.7,
+              "selections": 92,
+              "predicted": 0.751538043478262,
+              "observed": 0.6739130434782614
+            },
+            {
+              "lower": 0.8,
+              "selections": 103,
+              "predicted": 0.853690291262138,
+              "observed": 0.8058252427184469
+            },
+            {
+              "lower": 0.9,
+              "selections": 475,
+              "predicted": 0.9786029473684139,
+              "observed": 0.8947368421052626
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.06408422423957093,
+          "logLoss": 0.2109249360107903,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4169,
+              "predicted": 0.019445599628989934,
+              "observed": 0.015351403214199064
+            },
+            {
+              "lower": 0.1,
+              "selections": 310,
+              "predicted": 0.14719966062963172,
+              "observed": 0.19354838709677297
+            },
+            {
+              "lower": 0.2,
+              "selections": 234,
+              "predicted": 0.24735366021441915,
+              "observed": 0.2692307692307682
+            },
+            {
+              "lower": 0.3,
+              "selections": 206,
+              "predicted": 0.3456370734035559,
+              "observed": 0.33009708737864
+            },
+            {
+              "lower": 0.4,
+              "selections": 178,
+              "predicted": 0.4464232183616382,
+              "observed": 0.5168539325842693
+            },
+            {
+              "lower": 0.5,
+              "selections": 161,
+              "predicted": 0.5471863428063125,
+              "observed": 0.5465838509316775
+            },
+            {
+              "lower": 0.6,
+              "selections": 168,
+              "predicted": 0.6484348526105178,
+              "observed": 0.6666666666666665
+            },
+            {
+              "lower": 0.7,
+              "selections": 145,
+              "predicted": 0.7496717215709076,
+              "observed": 0.7655172413793107
+            },
+            {
+              "lower": 0.8,
+              "selections": 149,
+              "predicted": 0.8492030485070381,
+              "observed": 0.8456375838926176
+            },
+            {
+              "lower": 0.9,
+              "selections": 295,
+              "predicted": 0.9667449925574686,
+              "observed": 0.938983050847457
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_ra",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.303575490711174,
+              "slope": 0.5195639392599658,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.058517690155103774,
+              "logLoss": 0.2065651609615233
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.057471823596705454,
+              "logLoss": 0.1904728026779049
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.1782944410986254,
+              "slope": 0.5600031289035392,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.07372923661739318,
+              "logLoss": 0.2472453816395025
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.06765687362489424,
+              "logLoss": 0.21080502113379582
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.17402358699434098,
+              "slope": 0.5699979807794071,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.073290755896002,
+              "logLoss": 0.27334863642419793
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.0678995108025013,
+              "logLoss": 0.22115869510946684
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.17163741183390427,
+              "slope": 0.5623461081927873,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.0754001924576291,
+              "logLoss": 0.27415553859107167
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07042339171958148,
+              "logLoss": 0.22721665124775162
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.16303533219533287,
+              "slope": 0.560762529249582,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.08311720612396917,
+              "logLoss": 0.2935973247313244
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07386606602095051,
+              "logLoss": 0.23009967714548535
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.07275648943140958,
+          "logLoss": 0.25898862926942345,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4576,
+              "predicted": 0.0061477928321673776,
+              "observed": 0.035620629370626516
+            },
+            {
+              "lower": 0.1,
+              "selections": 206,
+              "predicted": 0.14338106796116484,
+              "observed": 0.2912621359223295
+            },
+            {
+              "lower": 0.2,
+              "selections": 156,
+              "predicted": 0.24782371794871869,
+              "observed": 0.4871794871794877
+            },
+            {
+              "lower": 0.3,
+              "selections": 145,
+              "predicted": 0.3468958620689664,
+              "observed": 0.44827586206896614
+            },
+            {
+              "lower": 0.4,
+              "selections": 101,
+              "predicted": 0.4455336633663378,
+              "observed": 0.5544554455445552
+            },
+            {
+              "lower": 0.5,
+              "selections": 90,
+              "predicted": 0.5551977777777787,
+              "observed": 0.6000000000000008
+            },
+            {
+              "lower": 0.6,
+              "selections": 92,
+              "predicted": 0.6519554347826101,
+              "observed": 0.6413043478260876
+            },
+            {
+              "lower": 0.7,
+              "selections": 97,
+              "predicted": 0.7555525773195888,
+              "observed": 0.7216494845360829
+            },
+            {
+              "lower": 0.8,
+              "selections": 129,
+              "predicted": 0.8593147286821726,
+              "observed": 0.7674418604651165
+            },
+            {
+              "lower": 0.9,
+              "selections": 423,
+              "predicted": 0.9756016548463272,
+              "observed": 0.9007092198581554
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.0674248244708432,
+          "logLoss": 0.21591680536813118,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4005,
+              "predicted": 0.01563824150731016,
+              "observed": 0.012234706616728395
+            },
+            {
+              "lower": 0.1,
+              "selections": 388,
+              "predicted": 0.145919911940892,
+              "observed": 0.19072164948453443
+            },
+            {
+              "lower": 0.2,
+              "selections": 270,
+              "predicted": 0.24698866997906518,
+              "observed": 0.2370370370370358
+            },
+            {
+              "lower": 0.3,
+              "selections": 212,
+              "predicted": 0.35451083113391635,
+              "observed": 0.4150943396226402
+            },
+            {
+              "lower": 0.4,
+              "selections": 220,
+              "predicted": 0.451643706339629,
+              "observed": 0.43181818181818016
+            },
+            {
+              "lower": 0.5,
+              "selections": 171,
+              "predicted": 0.5492584821688489,
+              "observed": 0.590643274853801
+            },
+            {
+              "lower": 0.6,
+              "selections": 159,
+              "predicted": 0.6510567011749538,
+              "observed": 0.666666666666667
+            },
+            {
+              "lower": 0.7,
+              "selections": 159,
+              "predicted": 0.7545381877950395,
+              "observed": 0.7421383647798745
+            },
+            {
+              "lower": 0.8,
+              "selections": 148,
+              "predicted": 0.8493020213025849,
+              "observed": 0.8310810810810813
+            },
+            {
+              "lower": 0.9,
+              "selections": 283,
+              "predicted": 0.9579279225973778,
+              "observed": 0.9363957597173139
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pr",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": 0.2838955183482568,
+              "slope": 0.45624409539668914,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07028513479183875,
+              "logLoss": 0.27229321906529047
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06544623009793586,
+              "logLoss": 0.21562817431607317
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": 0.15314518962537219,
+              "slope": 0.4719408253193793,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08877346855652388,
+              "logLoss": 0.3796366231022986
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.0813867864865808,
+              "logLoss": 0.2675672727823303
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": 0.14512276290098844,
+              "slope": 0.45935606580388505,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.07422508676000207,
+              "logLoss": 0.31642627495440123
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.0683548413038427,
+              "logLoss": 0.23147063272811583
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": 0.14161015772425198,
+              "slope": 0.46217946345851296,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07854266049152749,
+              "logLoss": 0.30009708726155154
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07065906265610986,
+              "logLoss": 0.22936896552199693
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": 0.15267261513265934,
+              "slope": 0.4692576923710974,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.08361556682644854,
+              "logLoss": 0.35830121173757923
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07514754087813619,
+              "logLoss": 0.2504526834752374
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.07894020160430802,
+          "logLoss": 0.32474367128616843,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4503,
+              "predicted": 0.00508656451254681,
+              "observed": 0.0466355762824749
+            },
+            {
+              "lower": 0.1,
+              "selections": 188,
+              "predicted": 0.14678351063829795,
+              "observed": 0.3510638297872337
+            },
+            {
+              "lower": 0.2,
+              "selections": 122,
+              "predicted": 0.24986393442623014,
+              "observed": 0.37704918032786966
+            },
+            {
+              "lower": 0.3,
+              "selections": 84,
+              "predicted": 0.34717500000000057,
+              "observed": 0.4880952380952391
+            },
+            {
+              "lower": 0.4,
+              "selections": 96,
+              "predicted": 0.44470104166666746,
+              "observed": 0.583333333333334
+            },
+            {
+              "lower": 0.5,
+              "selections": 80,
+              "predicted": 0.5464962500000007,
+              "observed": 0.5625000000000009
+            },
+            {
+              "lower": 0.6,
+              "selections": 87,
+              "predicted": 0.6535356321839094,
+              "observed": 0.6206896551724145
+            },
+            {
+              "lower": 0.7,
+              "selections": 116,
+              "predicted": 0.7485732758620711,
+              "observed": 0.698275862068966
+            },
+            {
+              "lower": 0.8,
+              "selections": 137,
+              "predicted": 0.8585386861313887,
+              "observed": 0.7518248175182485
+            },
+            {
+              "lower": 0.9,
+              "selections": 602,
+              "predicted": 0.9814199335548094,
+              "observed": 0.9053156146179397
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.07207251975993638,
+          "logLoss": 0.23855166990320553,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3886,
+              "predicted": 0.022328405374046068,
+              "observed": 0.019557385486360268
+            },
+            {
+              "lower": 0.1,
+              "selections": 375,
+              "predicted": 0.1479721660388862,
+              "observed": 0.1706666666666653
+            },
+            {
+              "lower": 0.2,
+              "selections": 242,
+              "predicted": 0.25145985210470284,
+              "observed": 0.2892561983471062
+            },
+            {
+              "lower": 0.3,
+              "selections": 213,
+              "predicted": 0.3502103564494281,
+              "observed": 0.352112676056337
+            },
+            {
+              "lower": 0.4,
+              "selections": 197,
+              "predicted": 0.4491643441326767,
+              "observed": 0.45177664974619186
+            },
+            {
+              "lower": 0.5,
+              "selections": 174,
+              "predicted": 0.5476202293983465,
+              "observed": 0.5804597701149421
+            },
+            {
+              "lower": 0.6,
+              "selections": 195,
+              "predicted": 0.6489452773546164,
+              "observed": 0.6666666666666649
+            },
+            {
+              "lower": 0.7,
+              "selections": 184,
+              "predicted": 0.7497505814056702,
+              "observed": 0.7499999999999986
+            },
+            {
+              "lower": 0.8,
+              "selections": 170,
+              "predicted": 0.8513526262588109,
+              "observed": 0.8764705882352934
+            },
+            {
+              "lower": 0.9,
+              "selections": 379,
+              "predicted": 0.9671956630017536,
+              "observed": 0.9366754617414244
+            }
+          ]
+        },
+        "eligibleForLive": false
+      }
+    ],
+    "joint": [
+      {
+        "family": "spread",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "status": "insufficient evidence",
+            "trainingGames": 12
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 120,
+              "intercept": -0.34708747101342907,
+              "slope": 0.9996906910180205,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.2029298803333335,
+              "logLoss": 0.5853793156216158
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1757615199115224,
+              "logLoss": 0.5240523251982344
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 180,
+              "intercept": -0.576848523250963,
+              "slope": 1.068782366482548,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.19758352316666686,
+              "logLoss": 0.574257286234126
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.2070612923199009,
+              "logLoss": 0.5907818339891333
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 240,
+              "intercept": -0.4537057880214778,
+              "slope": 1.0228996000569077,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16788126950000012,
+              "logLoss": 0.5080905040987477
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.2018953694029475,
+              "logLoss": 0.5867171562597854
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "spread",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 300,
+              "intercept": -0.24270690423095911,
+              "slope": 1.047728209515132,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.18005982483333346,
+              "logLoss": 0.5460832110591658
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17699124867387203,
+              "logLoss": 0.5341218817359206
+            }
+          }
+        ],
+        "raw": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.18711362445833277,
+          "logLoss": 0.5534525792534116,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 6,
+              "predicted": 0.07523333333333335,
+              "observed": 0
+            },
+            {
+              "lower": 0.1,
+              "selections": 20,
+              "predicted": 0.15076499999999998,
+              "observed": 0.04999999999999999
+            },
+            {
+              "lower": 0.2,
+              "selections": 22,
+              "predicted": 0.24386818181818176,
+              "observed": 0.18181818181818177
+            },
+            {
+              "lower": 0.3,
+              "selections": 35,
+              "predicted": 0.3455571428571426,
+              "observed": 0.3428571428571427
+            },
+            {
+              "lower": 0.4,
+              "selections": 26,
+              "predicted": 0.4589192307692307,
+              "observed": 0.3846153846153844
+            },
+            {
+              "lower": 0.5,
+              "selections": 26,
+              "predicted": 0.547030769230769,
+              "observed": 0.5769230769230768
+            },
+            {
+              "lower": 0.6,
+              "selections": 32,
+              "predicted": 0.6516406249999996,
+              "observed": 0.6249999999999999
+            },
+            {
+              "lower": 0.7,
+              "selections": 32,
+              "predicted": 0.7533624999999997,
+              "observed": 0.6562499999999999
+            },
+            {
+              "lower": 0.8,
+              "selections": 32,
+              "predicted": 0.8512374999999995,
+              "observed": 0.8124999999999999
+            },
+            {
+              "lower": 0.9,
+              "selections": 9,
+              "predicted": 0.9311333333333335,
+              "observed": 0.888888888888889
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.19042735757705992,
+          "logLoss": 0.558918299295766,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 16,
+              "predicted": 0.06697378230526521,
+              "observed": 0
+            },
+            {
+              "lower": 0.1,
+              "selections": 26,
+              "predicted": 0.14293100293661107,
+              "observed": 0.11538461538461536
+            },
+            {
+              "lower": 0.2,
+              "selections": 40,
+              "predicted": 0.24463733800225526,
+              "observed": 0.32499999999999984
+            },
+            {
+              "lower": 0.3,
+              "selections": 25,
+              "predicted": 0.35513116104383147,
+              "observed": 0.5199999999999998
+            },
+            {
+              "lower": 0.4,
+              "selections": 24,
+              "predicted": 0.43808510555883623,
+              "observed": 0.45833333333333315
+            },
+            {
+              "lower": 0.5,
+              "selections": 34,
+              "predicted": 0.5450970218358939,
+              "observed": 0.5882352941176469
+            },
+            {
+              "lower": 0.6,
+              "selections": 23,
+              "predicted": 0.6598885405030883,
+              "observed": 0.6086956521739129
+            },
+            {
+              "lower": 0.7,
+              "selections": 23,
+              "predicted": 0.7377359573548415,
+              "observed": 0.7826086956521738
+            },
+            {
+              "lower": 0.8,
+              "selections": 24,
+              "predicted": 0.8418522574749389,
+              "observed": 0.8749999999999999
+            },
+            {
+              "lower": 0.9,
+              "selections": 5,
+              "predicted": 0.934848898179401,
+              "observed": 0.8
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "total",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "status": "insufficient evidence",
+            "trainingGames": 12
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 120,
+              "intercept": -0.0023938436234285545,
+              "slope": 1.0084275269878133,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16958089816666685,
+              "logLoss": 0.51685182826496
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16956631766345598,
+              "logLoss": 0.5167737837164595
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 180,
+              "intercept": 0.12132908524714134,
+              "slope": 1.0517065575367532,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17586989166666678,
+              "logLoss": 0.5293536730853656
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.17538040405315392,
+              "logLoss": 0.5270698813409836
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 240,
+              "intercept": 0.12107322060770931,
+              "slope": 1.0588742506435787,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1407168905000001,
+              "logLoss": 0.4465107526088353
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.14422153483623426,
+              "logLoss": 0.4536328530569547
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "total",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 300,
+              "intercept": 0.0033220236627216704,
+              "slope": 1.136257629252936,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.1662467480000001,
+              "logLoss": 0.5011587147686286
+            },
+            "calibrated": {
+              "selections": 60,
+              "games": 12,
+              "brier": 0.16610700110520885,
+              "logLoss": 0.49738389151957335
+            }
+          }
+        ],
+        "raw": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.1631036070833328,
+          "logLoss": 0.4984687421819454,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.1,
+              "selections": 48,
+              "predicted": 0.1509354166666667,
+              "observed": 0.08333333333333336
+            },
+            {
+              "lower": 0.2,
+              "selections": 10,
+              "predicted": 0.2977300000000001,
+              "observed": 0.4000000000000001
+            },
+            {
+              "lower": 0.3,
+              "selections": 38,
+              "predicted": 0.3098763157894735,
+              "observed": 0.21052631578947356
+            },
+            {
+              "lower": 0.4,
+              "selections": 4,
+              "predicted": 0.4965,
+              "observed": 0.25
+            },
+            {
+              "lower": 0.5,
+              "selections": 44,
+              "predicted": 0.5126636363636363,
+              "observed": 0.5227272727272728
+            },
+            {
+              "lower": 0.6,
+              "selections": 1,
+              "predicted": 0.6988999999999999,
+              "observed": 0
+            },
+            {
+              "lower": 0.7,
+              "selections": 47,
+              "predicted": 0.7120744680851064,
+              "observed": 0.7021276595744685
+            },
+            {
+              "lower": 0.8,
+              "selections": 48,
+              "predicted": 0.8624395833333339,
+              "observed": 0.916666666666667
+            },
+            {
+              "lower": 0.9,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 240,
+          "games": 48,
+          "brier": 0.1638188144145125,
+          "logLoss": 0.49871510240849043,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.1,
+              "selections": 48,
+              "predicted": 0.14528211610621738,
+              "observed": 0.08333333333333336
+            },
+            {
+              "lower": 0.2,
+              "selections": 15,
+              "predicted": 0.2868604286964672,
+              "observed": 0.33333333333333326
+            },
+            {
+              "lower": 0.3,
+              "selections": 33,
+              "predicted": 0.31978334343277076,
+              "observed": 0.21212121212121202
+            },
+            {
+              "lower": 0.4,
+              "selections": 3,
+              "predicted": 0.4960846963900381,
+              "observed": 0
+            },
+            {
+              "lower": 0.5,
+              "selections": 45,
+              "predicted": 0.5292765490146611,
+              "observed": 0.5333333333333335
+            },
+            {
+              "lower": 0.6,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            },
+            {
+              "lower": 0.7,
+              "selections": 48,
+              "predicted": 0.7352786660350941,
+              "observed": 0.6875000000000004
+            },
+            {
+              "lower": 0.8,
+              "selections": 48,
+              "predicted": 0.881779459562104,
+              "observed": 0.916666666666667
+            },
+            {
+              "lower": 0.9,
+              "selections": 0,
+              "predicted": null,
+              "observed": null
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_points",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.14479490932577824,
+              "slope": 0.6588023664640078,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.08449820221044246,
+              "logLoss": 0.2738812800916435
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.08271615339269638,
+              "logLoss": 0.2655947987220594
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.24188218994019503,
+              "slope": 0.700907661764454,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.10099731308555009,
+              "logLoss": 0.3431813632224043
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.09873987486838079,
+              "logLoss": 0.32148398096043923
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.2169391939624015,
+              "slope": 0.6836526920054847,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.09069557799642539,
+              "logLoss": 0.30278432868040794
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.08785458746013905,
+              "logLoss": 0.282149226583005
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.2246462920566054,
+              "slope": 0.6786763083834864,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.09372449756757682,
+              "logLoss": 0.3035918376222446
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.09036409260376507,
+              "logLoss": 0.288350776408641
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_points",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.25135845604673024,
+              "slope": 0.6874136433330981,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09935211231522378,
+              "logLoss": 0.3379760264100291
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09559422599428384,
+              "logLoss": 0.3117054186905988
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.09373859406197467,
+          "logLoss": 0.31185916991165646,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3560,
+              "predicted": 0.01587746349708638,
+              "observed": 0.031741573033706685
+            },
+            {
+              "lower": 0.1,
+              "selections": 480,
+              "predicted": 0.14356313280200345,
+              "observed": 0.13749999999999865
+            },
+            {
+              "lower": 0.2,
+              "selections": 338,
+              "predicted": 0.2480759813886299,
+              "observed": 0.23668639053254253
+            },
+            {
+              "lower": 0.3,
+              "selections": 264,
+              "predicted": 0.3505846111104512,
+              "observed": 0.3371212121212102
+            },
+            {
+              "lower": 0.4,
+              "selections": 206,
+              "predicted": 0.4485239970870019,
+              "observed": 0.34951456310679524
+            },
+            {
+              "lower": 0.5,
+              "selections": 166,
+              "predicted": 0.5491334554515805,
+              "observed": 0.4397590361445786
+            },
+            {
+              "lower": 0.6,
+              "selections": 167,
+              "predicted": 0.6512783699794846,
+              "observed": 0.49700598802395224
+            },
+            {
+              "lower": 0.7,
+              "selections": 181,
+              "predicted": 0.754183732970152,
+              "observed": 0.6187845303867394
+            },
+            {
+              "lower": 0.8,
+              "selections": 202,
+              "predicted": 0.85038677890283,
+              "observed": 0.6980198019801958
+            },
+            {
+              "lower": 0.9,
+              "selections": 451,
+              "predicted": 0.9699585350176538,
+              "observed": 0.8758314855875824
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.09093849061601288,
+          "logLoss": 0.2934603844630629,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3146,
+              "predicted": 0.022422124180419178,
+              "observed": 0.021932612841703513
+            },
+            {
+              "lower": 0.1,
+              "selections": 717,
+              "predicted": 0.14672646067674053,
+              "observed": 0.11157601115760063
+            },
+            {
+              "lower": 0.2,
+              "selections": 467,
+              "predicted": 0.25049665058740445,
+              "observed": 0.21413276231263162
+            },
+            {
+              "lower": 0.3,
+              "selections": 374,
+              "predicted": 0.3482873193988213,
+              "observed": 0.31818181818181523
+            },
+            {
+              "lower": 0.4,
+              "selections": 264,
+              "predicted": 0.44366800056731853,
+              "observed": 0.4015151515151491
+            },
+            {
+              "lower": 0.5,
+              "selections": 235,
+              "predicted": 0.5473209252151052,
+              "observed": 0.47659574468084875
+            },
+            {
+              "lower": 0.6,
+              "selections": 205,
+              "predicted": 0.6498412500516211,
+              "observed": 0.6390243902439002
+            },
+            {
+              "lower": 0.7,
+              "selections": 182,
+              "predicted": 0.7459335354734072,
+              "observed": 0.725274725274724
+            },
+            {
+              "lower": 0.8,
+              "selections": 165,
+              "predicted": 0.8509620178956934,
+              "observed": 0.8060606060606059
+            },
+            {
+              "lower": 0.9,
+              "selections": 260,
+              "predicted": 0.9621174895758503,
+              "observed": 0.93076923076923
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_rebounds",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.10445404340462344,
+              "slope": 0.6195440968950818,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.10708951578601592,
+              "logLoss": 0.35498698362652586
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.1047931724705721,
+              "logLoss": 0.33429879800062984
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.27969796777436895,
+              "slope": 0.637889911033365,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.11852866053238839,
+              "logLoss": 0.3763130587479402
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.11285730510514809,
+              "logLoss": 0.34866141251062455
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.3069791045201707,
+              "slope": 0.6463825837814218,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.12017672850342899,
+              "logLoss": 0.4081051490139403
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.11474067588834762,
+              "logLoss": 0.36526206636167374
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.30572952085958394,
+              "slope": 0.6231221977812484,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.11527478986301584,
+              "logLoss": 0.3762896343058804
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.11150153112418441,
+              "logLoss": 0.35206805938784447
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_rebounds",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.3052718189066287,
+              "slope": 0.6332028783352485,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.11686964557986503,
+              "logLoss": 0.3731342385563797
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.11476200521236421,
+              "logLoss": 0.3548678288827104
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.11556941816613323,
+          "logLoss": 0.37793261943538964,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 2954,
+              "predicted": 0.01919583848088088,
+              "observed": 0.041299932295193055
+            },
+            {
+              "lower": 0.1,
+              "selections": 540,
+              "predicted": 0.14433121152425446,
+              "observed": 0.14074074074073925
+            },
+            {
+              "lower": 0.2,
+              "selections": 343,
+              "predicted": 0.2476367343498459,
+              "observed": 0.2478134110787152
+            },
+            {
+              "lower": 0.3,
+              "selections": 308,
+              "predicted": 0.3472232522999629,
+              "observed": 0.28896103896103686
+            },
+            {
+              "lower": 0.4,
+              "selections": 251,
+              "predicted": 0.4502606804263776,
+              "observed": 0.4262948207171291
+            },
+            {
+              "lower": 0.5,
+              "selections": 227,
+              "predicted": 0.5474892157302195,
+              "observed": 0.4977973568281916
+            },
+            {
+              "lower": 0.6,
+              "selections": 229,
+              "predicted": 0.650294689023411,
+              "observed": 0.5283842794759801
+            },
+            {
+              "lower": 0.7,
+              "selections": 209,
+              "predicted": 0.7524826571627534,
+              "observed": 0.6124401913875576
+            },
+            {
+              "lower": 0.8,
+              "selections": 259,
+              "predicted": 0.8527004862887287,
+              "observed": 0.6640926640926605
+            },
+            {
+              "lower": 0.9,
+              "selections": 695,
+              "predicted": 0.9703136716153353,
+              "observed": 0.8589928057553999
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.11172356027285274,
+          "logLoss": 0.3511030121222811,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 2431,
+              "predicted": 0.02837805868277631,
+              "observed": 0.02180172768408147
+            },
+            {
+              "lower": 0.1,
+              "selections": 803,
+              "predicted": 0.14612269034465888,
+              "observed": 0.12951432129514343
+            },
+            {
+              "lower": 0.2,
+              "selections": 553,
+              "predicted": 0.24824327121034492,
+              "observed": 0.2133815551537046
+            },
+            {
+              "lower": 0.3,
+              "selections": 472,
+              "predicted": 0.3481584562622606,
+              "observed": 0.30296610169491195
+            },
+            {
+              "lower": 0.4,
+              "selections": 370,
+              "predicted": 0.4487332446903714,
+              "observed": 0.48378378378378
+            },
+            {
+              "lower": 0.5,
+              "selections": 308,
+              "predicted": 0.549374671715734,
+              "observed": 0.5324675324675283
+            },
+            {
+              "lower": 0.6,
+              "selections": 252,
+              "predicted": 0.6502552728137394,
+              "observed": 0.6547619047619011
+            },
+            {
+              "lower": 0.7,
+              "selections": 236,
+              "predicted": 0.7510796821896895,
+              "observed": 0.716101694915251
+            },
+            {
+              "lower": 0.8,
+              "selections": 236,
+              "predicted": 0.849153357239449,
+              "observed": 0.826271186440676
+            },
+            {
+              "lower": 0.9,
+              "selections": 354,
+              "predicted": 0.9628955849602079,
+              "observed": 0.9039548022598862
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_assists",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.20761531810872086,
+              "slope": 0.5672452619529184,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.075457700038706,
+              "logLoss": 0.2723705360990417
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07234849789113065,
+              "logLoss": 0.2385463810272813
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.32168333445517344,
+              "slope": 0.5700996278817073,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08846773750174766,
+              "logLoss": 0.30400249138876867
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08506652067234984,
+              "logLoss": 0.26788870186377095
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.2525802784217893,
+              "slope": 0.5691730468993984,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.09193607406945034,
+              "logLoss": 0.3407288710565015
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.08750178501645166,
+              "logLoss": 0.2835404968251852
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.2641393217752536,
+              "slope": 0.5475110460048949,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.09220685190400985,
+              "logLoss": 0.3191819815068721
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.08604644897517259,
+              "logLoss": 0.2727315460421841
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_assists",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.30349629380762044,
+              "slope": 0.5466274345914212,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.09309207885249549,
+              "logLoss": 0.3317891346622666
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.0887548672035725,
+              "logLoss": 0.2883751694370907
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.0882026889309048,
+          "logLoss": 0.3137601748558849,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3927,
+              "predicted": 0.009934152468206092,
+              "observed": 0.02724726254137869
+            },
+            {
+              "lower": 0.1,
+              "selections": 351,
+              "predicted": 0.1465382197735777,
+              "observed": 0.19088319088318942
+            },
+            {
+              "lower": 0.2,
+              "selections": 233,
+              "predicted": 0.2484214795856135,
+              "observed": 0.21888412017167316
+            },
+            {
+              "lower": 0.3,
+              "selections": 159,
+              "predicted": 0.348226767457145,
+              "observed": 0.42767295597484334
+            },
+            {
+              "lower": 0.4,
+              "selections": 182,
+              "predicted": 0.44783130943797067,
+              "observed": 0.41208791208791173
+            },
+            {
+              "lower": 0.5,
+              "selections": 144,
+              "predicted": 0.551036038582133,
+              "observed": 0.4375000000000006
+            },
+            {
+              "lower": 0.6,
+              "selections": 153,
+              "predicted": 0.6498305798372731,
+              "observed": 0.509803921568628
+            },
+            {
+              "lower": 0.7,
+              "selections": 146,
+              "predicted": 0.7558778668491787,
+              "observed": 0.5958904109589046
+            },
+            {
+              "lower": 0.8,
+              "selections": 164,
+              "predicted": 0.8502644028078234,
+              "observed": 0.676829268292683
+            },
+            {
+              "lower": 0.9,
+              "selections": 556,
+              "predicted": 0.9770623936239689,
+              "observed": 0.8255395683453229
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.08391668147420861,
+          "logLoss": 0.27023676214159403,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3451,
+              "predicted": 0.018356927880814968,
+              "observed": 0.016227180527382888
+            },
+            {
+              "lower": 0.1,
+              "selections": 558,
+              "predicted": 0.14721148115267219,
+              "observed": 0.11827956989247188
+            },
+            {
+              "lower": 0.2,
+              "selections": 417,
+              "predicted": 0.24705627715127473,
+              "observed": 0.19904076738608925
+            },
+            {
+              "lower": 0.3,
+              "selections": 319,
+              "predicted": 0.3485477719598922,
+              "observed": 0.3981191222570501
+            },
+            {
+              "lower": 0.4,
+              "selections": 274,
+              "predicted": 0.446641013391966,
+              "observed": 0.4051094890510923
+            },
+            {
+              "lower": 0.5,
+              "selections": 218,
+              "predicted": 0.5443225204869866,
+              "observed": 0.5412844036697226
+            },
+            {
+              "lower": 0.6,
+              "selections": 191,
+              "predicted": 0.646495963604449,
+              "observed": 0.6492146596858623
+            },
+            {
+              "lower": 0.7,
+              "selections": 145,
+              "predicted": 0.7490640022307734,
+              "observed": 0.7034482758620693
+            },
+            {
+              "lower": 0.8,
+              "selections": 133,
+              "predicted": 0.849392225788212,
+              "observed": 0.8120300751879701
+            },
+            {
+              "lower": 0.9,
+              "selections": 309,
+              "predicted": 0.9694833598945409,
+              "observed": 0.8770226537216818
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pra",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.22522627858996647,
+              "slope": 0.5833499858825969,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07858337997002815,
+              "logLoss": 0.2818571755804828
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07643073890436197,
+              "logLoss": 0.2555581213461457
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.36203840818677774,
+              "slope": 0.6119244583938684,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.09473686267042934,
+              "logLoss": 0.33385563266125245
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.0897213389056358,
+              "logLoss": 0.29062558705273867
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.3659206720490375,
+              "slope": 0.5993023791328024,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.08175451851835334,
+              "logLoss": 0.2674596151572106
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.07822671348061203,
+              "logLoss": 0.24763582691735164
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.3431432375654081,
+              "slope": 0.6179066683337495,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.0853591219647441,
+              "logLoss": 0.2953932654064651
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.08086276954622128,
+              "logLoss": 0.2649881474304053
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.37250521193075115,
+              "slope": 0.6266217268787397,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.0859555178240937,
+              "logLoss": 0.3027500113064779
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.08265207171086052,
+              "logLoss": 0.27298671696740706
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.0851429960378522,
+          "logLoss": 0.2956650213554774,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3348,
+              "predicted": 0.012686349977756974,
+              "observed": 0.017323775388291107
+            },
+            {
+              "lower": 0.1,
+              "selections": 367,
+              "predicted": 0.1448062129811297,
+              "observed": 0.12806539509536696
+            },
+            {
+              "lower": 0.2,
+              "selections": 292,
+              "predicted": 0.2481972923700092,
+              "observed": 0.20547945205479332
+            },
+            {
+              "lower": 0.3,
+              "selections": 188,
+              "predicted": 0.34786129968625146,
+              "observed": 0.3085106382978721
+            },
+            {
+              "lower": 0.4,
+              "selections": 177,
+              "predicted": 0.44947241118862746,
+              "observed": 0.406779661016949
+            },
+            {
+              "lower": 0.5,
+              "selections": 166,
+              "predicted": 0.5551456479656651,
+              "observed": 0.44578313253012075
+            },
+            {
+              "lower": 0.6,
+              "selections": 172,
+              "predicted": 0.651235936878156,
+              "observed": 0.48837209302325574
+            },
+            {
+              "lower": 0.7,
+              "selections": 193,
+              "predicted": 0.7514374650386472,
+              "observed": 0.5803108808290142
+            },
+            {
+              "lower": 0.8,
+              "selections": 181,
+              "predicted": 0.8532875959321107,
+              "observed": 0.6519337016574576
+            },
+            {
+              "lower": 0.9,
+              "selections": 931,
+              "predicted": 0.9807725164174589,
+              "observed": 0.8958109559613366
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.08146594540061598,
+          "logLoss": 0.2659722109567035,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 2949,
+              "predicted": 0.019263817900021993,
+              "observed": 0.011529331976941398
+            },
+            {
+              "lower": 0.1,
+              "selections": 613,
+              "predicted": 0.1451432400328721,
+              "observed": 0.09461663947797616
+            },
+            {
+              "lower": 0.2,
+              "selections": 439,
+              "predicted": 0.24941374325308344,
+              "observed": 0.17312072892938332
+            },
+            {
+              "lower": 0.3,
+              "selections": 320,
+              "predicted": 0.34847857786954933,
+              "observed": 0.33124999999999744
+            },
+            {
+              "lower": 0.4,
+              "selections": 266,
+              "predicted": 0.44920166525454014,
+              "observed": 0.44736842105262875
+            },
+            {
+              "lower": 0.5,
+              "selections": 258,
+              "predicted": 0.5489757693176305,
+              "observed": 0.5232558139534852
+            },
+            {
+              "lower": 0.6,
+              "selections": 187,
+              "predicted": 0.6471630900791115,
+              "observed": 0.604278074866309
+            },
+            {
+              "lower": 0.7,
+              "selections": 179,
+              "predicted": 0.7499626526857259,
+              "observed": 0.8212290502793284
+            },
+            {
+              "lower": 0.8,
+              "selections": 206,
+              "predicted": 0.8531155814034609,
+              "observed": 0.7961165048543662
+            },
+            {
+              "lower": 0.9,
+              "selections": 598,
+              "predicted": 0.9749934218035101,
+              "observed": 0.9448160535117054
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pa",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.15485690498670507,
+              "slope": 0.6251214311055434,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06494751900047019,
+              "logLoss": 0.21946287714016444
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.0627181946447729,
+              "logLoss": 0.20396414837947366
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.26605063849639,
+              "slope": 0.6500548799058857,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.07285961156336504,
+              "logLoss": 0.24962954180039162
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.06996665651517972,
+              "logLoss": 0.22707619547163585
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.26399068363274225,
+              "slope": 0.6487564440403809,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.061277920027227546,
+              "logLoss": 0.2015653679021444
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.059255543936175,
+              "logLoss": 0.1912792537741918
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.2524521773171798,
+              "slope": 0.6696123471787694,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.06649470948687584,
+              "logLoss": 0.23418027221665427
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.06429946949137083,
+              "logLoss": 0.21475252945080278
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pa",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.28665588887928595,
+              "slope": 0.6733021382059282,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07323134664590125,
+              "logLoss": 0.2526792585622951
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07039991513747162,
+              "logLoss": 0.22854388386412008
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.06766755623332744,
+          "logLoss": 0.23108018811647363,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 4057,
+              "predicted": 0.009230121476229402,
+              "observed": 0.01577520335222977
+            },
+            {
+              "lower": 0.1,
+              "selections": 337,
+              "predicted": 0.14836080055542136,
+              "observed": 0.13353115727002884
+            },
+            {
+              "lower": 0.2,
+              "selections": 209,
+              "predicted": 0.2474899641479257,
+              "observed": 0.22966507177033457
+            },
+            {
+              "lower": 0.3,
+              "selections": 160,
+              "predicted": 0.3509631681482792,
+              "observed": 0.27500000000000074
+            },
+            {
+              "lower": 0.4,
+              "selections": 149,
+              "predicted": 0.4463526004471708,
+              "observed": 0.4026845637583899
+            },
+            {
+              "lower": 0.5,
+              "selections": 134,
+              "predicted": 0.5485437783482097,
+              "observed": 0.41791044776119474
+            },
+            {
+              "lower": 0.6,
+              "selections": 114,
+              "predicted": 0.6503925272184596,
+              "observed": 0.5175438596491235
+            },
+            {
+              "lower": 0.7,
+              "selections": 119,
+              "predicted": 0.7491703219586118,
+              "observed": 0.6050420168067232
+            },
+            {
+              "lower": 0.8,
+              "selections": 169,
+              "predicted": 0.8534422217907099,
+              "observed": 0.6508875739644968
+            },
+            {
+              "lower": 0.9,
+              "selections": 567,
+              "predicted": 0.9769624956371149,
+              "observed": 0.8871252204585532
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.06523992430068708,
+          "logLoss": 0.21280779019158108,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3745,
+              "predicted": 0.013867264997292607,
+              "observed": 0.010146862483310636
+            },
+            {
+              "lower": 0.1,
+              "selections": 489,
+              "predicted": 0.14602175288979316,
+              "observed": 0.10020449897750422
+            },
+            {
+              "lower": 0.2,
+              "selections": 343,
+              "predicted": 0.24707850208834528,
+              "observed": 0.18950437317784116
+            },
+            {
+              "lower": 0.3,
+              "selections": 249,
+              "predicted": 0.35156525924643667,
+              "observed": 0.301204819277107
+            },
+            {
+              "lower": 0.4,
+              "selections": 209,
+              "predicted": 0.4480085648622,
+              "observed": 0.3923444976076544
+            },
+            {
+              "lower": 0.5,
+              "selections": 163,
+              "predicted": 0.5481603387557986,
+              "observed": 0.5337423312883439
+            },
+            {
+              "lower": 0.6,
+              "selections": 142,
+              "predicted": 0.6508291768609221,
+              "observed": 0.6267605633802821
+            },
+            {
+              "lower": 0.7,
+              "selections": 154,
+              "predicted": 0.7476554833666307,
+              "observed": 0.7207792207792211
+            },
+            {
+              "lower": 0.8,
+              "selections": 153,
+              "predicted": 0.8513332481741783,
+              "observed": 0.8496732026143793
+            },
+            {
+              "lower": 0.9,
+              "selections": 368,
+              "predicted": 0.970338843273069,
+              "observed": 0.9103260869565211
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_ra",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.13266498231224635,
+              "slope": 0.6901251123095715,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06334284174496094,
+              "logLoss": 0.2151709963665114
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06250310598786434,
+              "logLoss": 0.20857155360808297
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.2892001167649114,
+              "slope": 0.7335787689453598,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.07135666033491109,
+              "logLoss": 0.2250866305438681
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.06871628584375024,
+              "logLoss": 0.21436022079072295
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.29582386098825925,
+              "slope": 0.7512060442333214,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.06855121873541004,
+              "logLoss": 0.22811395076182503
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.0672130312938399,
+              "logLoss": 0.21658035183458277
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.2830006574464295,
+              "slope": 0.7513212565925209,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.075138304301177,
+              "logLoss": 0.24869514103044052
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07195908795397059,
+              "logLoss": 0.2330800572545436
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_ra",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.30349740349536575,
+              "slope": 0.7503681668786912,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07324493570738815,
+              "logLoss": 0.2312860325874312
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07153025060865524,
+              "logLoss": 0.2228149239864701
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.070263297626475,
+          "logLoss": 0.22957487946353658,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3909,
+              "predicted": 0.011425387659927844,
+              "observed": 0.012790995139421175
+            },
+            {
+              "lower": 0.1,
+              "selections": 372,
+              "predicted": 0.146445371795218,
+              "observed": 0.1290322580645152
+            },
+            {
+              "lower": 0.2,
+              "selections": 241,
+              "predicted": 0.24862684127932375,
+              "observed": 0.19087136929460521
+            },
+            {
+              "lower": 0.3,
+              "selections": 190,
+              "predicted": 0.34547687273129923,
+              "observed": 0.31578947368421023
+            },
+            {
+              "lower": 0.4,
+              "selections": 164,
+              "predicted": 0.45001899088258,
+              "observed": 0.3780487804878054
+            },
+            {
+              "lower": 0.5,
+              "selections": 152,
+              "predicted": 0.5506213775198535,
+              "observed": 0.4671052631578953
+            },
+            {
+              "lower": 0.6,
+              "selections": 142,
+              "predicted": 0.6468265169857386,
+              "observed": 0.5563380281690146
+            },
+            {
+              "lower": 0.7,
+              "selections": 160,
+              "predicted": 0.7487062975149461,
+              "observed": 0.6250000000000003
+            },
+            {
+              "lower": 0.8,
+              "selections": 159,
+              "predicted": 0.8533271162187805,
+              "observed": 0.6729559748427676
+            },
+            {
+              "lower": 0.9,
+              "selections": 526,
+              "predicted": 0.9728546003595681,
+              "observed": 0.8745247148288967
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.06834075639149338,
+          "logLoss": 0.21901585576995666,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3716,
+              "predicted": 0.015893412568549377,
+              "observed": 0.00914962325080693
+            },
+            {
+              "lower": 0.1,
+              "selections": 494,
+              "predicted": 0.14629592582438497,
+              "observed": 0.11336032388663861
+            },
+            {
+              "lower": 0.2,
+              "selections": 342,
+              "predicted": 0.24881818125881405,
+              "observed": 0.19298245614034945
+            },
+            {
+              "lower": 0.3,
+              "selections": 244,
+              "predicted": 0.3481835776092008,
+              "observed": 0.32786885245901487
+            },
+            {
+              "lower": 0.4,
+              "selections": 208,
+              "predicted": 0.4490458701895372,
+              "observed": 0.44230769230769096
+            },
+            {
+              "lower": 0.5,
+              "selections": 194,
+              "predicted": 0.5486163016666391,
+              "observed": 0.5360824742268029
+            },
+            {
+              "lower": 0.6,
+              "selections": 151,
+              "predicted": 0.647055596670309,
+              "observed": 0.6423841059602653
+            },
+            {
+              "lower": 0.7,
+              "selections": 145,
+              "predicted": 0.7477778187280534,
+              "observed": 0.6758620689655176
+            },
+            {
+              "lower": 0.8,
+              "selections": 169,
+              "predicted": 0.8479967628085615,
+              "observed": 0.7751479289940824
+            },
+            {
+              "lower": 0.9,
+              "selections": 352,
+              "predicted": 0.9688520845523937,
+              "observed": 0.9232954545454539
+            }
+          ]
+        },
+        "eligibleForLive": false
+      },
+      {
+        "family": "player_pr",
+        "source": "Diagnostic thresholds; not historical bookmaker prices",
+        "folds": [
+          {
+            "season": 2021,
+            "status": "insufficient evidence",
+            "trainingGames": 0
+          },
+          {
+            "season": 2022,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2021-10-20T23:00:00.000Z",
+              "games": 12,
+              "selections": 1195,
+              "intercept": -0.19253596605290618,
+              "slope": 0.6012358839308882,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.07190216319961762,
+              "logLoss": 0.25127740168441665
+            },
+            "calibrated": {
+              "selections": 1225,
+              "games": 12,
+              "brier": 0.06937985429059398,
+              "logLoss": 0.22969827797054537
+            }
+          },
+          {
+            "season": 2023,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2022-10-31T23:00:00.000Z",
+              "games": 24,
+              "selections": 2420,
+              "intercept": -0.3405046679094406,
+              "slope": 0.6265253244223273,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08583488009888025,
+              "logLoss": 0.29391390132363876
+            },
+            "calibrated": {
+              "selections": 1150,
+              "games": 12,
+              "brier": 0.08082607187852633,
+              "logLoss": 0.2602297601650922
+            }
+          },
+          {
+            "season": 2024,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2023-11-01T01:30:00.000Z",
+              "games": 36,
+              "selections": 3570,
+              "intercept": -0.3376244708657358,
+              "slope": 0.6190257228086987,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.07168794328820502,
+              "logLoss": 0.24781311577773182
+            },
+            "calibrated": {
+              "selections": 1250,
+              "games": 12,
+              "brier": 0.06869965908188169,
+              "logLoss": 0.22569454890383917
+            }
+          },
+          {
+            "season": 2025,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2024-11-09T00:00:00.000Z",
+              "games": 48,
+              "selections": 4820,
+              "intercept": -0.33095630558148126,
+              "slope": 0.6298862395492605,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07839406325479152,
+              "logLoss": 0.2658838625990293
+            },
+            "calibrated": {
+              "selections": 1180,
+              "games": 12,
+              "brier": 0.07451359934093449,
+              "logLoss": 0.24280968305222114
+            }
+          },
+          {
+            "season": 2026,
+            "model": {
+              "family": "player_pr",
+              "status": "diagnostic research fit",
+              "trainedThrough": "2025-10-27T00:00:00.000Z",
+              "games": 60,
+              "selections": 6000,
+              "intercept": -0.341203752708484,
+              "slope": 0.6391351767040507,
+              "eligibleForLive": false
+            },
+            "raw": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07570880709792092,
+              "logLoss": 0.2672639561112768
+            },
+            "calibrated": {
+              "selections": 1210,
+              "games": 12,
+              "brier": 0.07360192097807686,
+              "logLoss": 0.24442841302857404
+            }
+          }
+        ],
+        "raw": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.0765607385490535,
+          "logLoss": 0.2647904477255131,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3739,
+              "predicted": 0.010526066292935825,
+              "observed": 0.016849424979940398
+            },
+            {
+              "lower": 0.1,
+              "selections": 364,
+              "predicted": 0.14253352470088754,
+              "observed": 0.11538461538461463
+            },
+            {
+              "lower": 0.2,
+              "selections": 243,
+              "predicted": 0.24531537031646022,
+              "observed": 0.2757201646090523
+            },
+            {
+              "lower": 0.3,
+              "selections": 192,
+              "predicted": 0.3464470455053185,
+              "observed": 0.31249999999999967
+            },
+            {
+              "lower": 0.4,
+              "selections": 139,
+              "predicted": 0.44552378096950446,
+              "observed": 0.35251798561151154
+            },
+            {
+              "lower": 0.5,
+              "selections": 155,
+              "predicted": 0.5491007419202377,
+              "observed": 0.35483870967742004
+            },
+            {
+              "lower": 0.6,
+              "selections": 158,
+              "predicted": 0.6501549988347036,
+              "observed": 0.4430379746835449
+            },
+            {
+              "lower": 0.7,
+              "selections": 146,
+              "predicted": 0.7528778207957062,
+              "observed": 0.6506849315068497
+            },
+            {
+              "lower": 0.8,
+              "selections": 161,
+              "predicted": 0.8553879826229629,
+              "observed": 0.7204968944099381
+            },
+            {
+              "lower": 0.9,
+              "selections": 718,
+              "predicted": 0.9773365409305101,
+              "observed": 0.8774373259052988
+            }
+          ]
+        },
+        "calibrated": {
+          "selections": 6015,
+          "games": 60,
+          "brier": 0.07328333327088321,
+          "logLoss": 0.2402388373399097,
+          "bins": [
+            {
+              "lower": 0,
+              "selections": 3413,
+              "predicted": 0.01726979897178193,
+              "observed": 0.01084090243187783
+            },
+            {
+              "lower": 0.1,
+              "selections": 545,
+              "predicted": 0.14719447605889235,
+              "observed": 0.07889908256880662
+            },
+            {
+              "lower": 0.2,
+              "selections": 387,
+              "predicted": 0.2482818890466619,
+              "observed": 0.23772609819121232
+            },
+            {
+              "lower": 0.3,
+              "selections": 289,
+              "predicted": 0.3477667237277875,
+              "observed": 0.32871972318338877
+            },
+            {
+              "lower": 0.4,
+              "selections": 237,
+              "predicted": 0.4526146883912873,
+              "observed": 0.3797468354430362
+            },
+            {
+              "lower": 0.5,
+              "selections": 197,
+              "predicted": 0.5487336230586897,
+              "observed": 0.4873096446700496
+            },
+            {
+              "lower": 0.6,
+              "selections": 159,
+              "predicted": 0.6463467055188897,
+              "observed": 0.7106918238993714
+            },
+            {
+              "lower": 0.7,
+              "selections": 161,
+              "predicted": 0.7500581423261895,
+              "observed": 0.7329192546583854
+            },
+            {
+              "lower": 0.8,
+              "selections": 207,
+              "predicted": 0.8498946040328337,
+              "observed": 0.8260869565217369
+            },
+            {
+              "lower": 0.9,
+              "selections": 420,
+              "predicted": 0.9743724048922469,
+              "observed": 0.9333333333333329
+            }
+          ]
+        },
+        "eligibleForLive": false
+      }
+    ]
+  },
+  "promotion": {
+    "passed": false,
+    "status": "Research only",
+    "reason": "Proxy rosters, reused seasons and diagnostic thresholds cannot establish production injury/transaction or bookmaker calibration validity."
+  },
+  "limitations": [
+    "Player pools remain previous-box-score proxies with omissions documented in allocation-research-artifact.json. No target-game roster or injury status enters prediction.",
+    "A zero-support issue in the initial research replay prompted a fixed 5% independent support component before this run. These reused seasons are not an untouched test. Joint templates preserve observed past participation/minute dependence but cannot anticipate an unobserved current injury or transaction.",
+    "Family calibration uses model-independent fixed diagnostic thresholds and earlier seasons; historical Sportsbet quote coverage is unavailable. These fits are never marked eligible for live use.",
+    "Calibration uncertainty is limited by the 72-game sample and within-game/alternate-line dependence. Actual matched-time forward comparisons remain the acceptance evidence."
+  ],
+  "codeHashes": {
+    "scripts/research-advanced.js": "803601af0c1ec1ba267e55d1392eb13532b2c285efb21964f13bbf63566595ed",
+    "src/model.js": "e35dbf80043b227dbe8e2d5ee2bcddbcea8223e4141ed1b1a7db03f8d76e62fa",
+    "src/joint-rotation.js": "c78c17734df2da122adbf8d6bf3bca72f556ce93c2d2ecefbf9deb94a93db3ee",
+    "src/allocation-replay.js": "be85e0f6b1d8d9876cba3316a4f66d43a9ba2a2887a2f65924664911b12071a6",
+    "src/market-calibration.js": "52dabf434457073097c195ef0ff5d15e094315c5e1e5f9868816fbe0fba4fc4c",
+    "experiments/advanced-v1.json": "38ab676f801eb79dbf2a77ed4151c5472305b4620fe01d076ac62a4621465f40",
+    "experiments/allocation-v1.json": "fa438969146c848e1d62f08e95f4eb7c5597c59971ab489c9c9c77ed83b864ed"
+  },
+  "experimentManifest": "experiments/advanced-v1.json"
+}

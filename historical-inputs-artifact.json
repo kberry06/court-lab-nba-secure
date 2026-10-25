@@ -1,0 +1,23 @@
+{
+  "version": "historical-input-evidence-1",
+  "generatedAt": "2026-10-25T10:21:37.255Z",
+  "source": {
+    "url": "https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-03-04_05_15AM.pdf",
+    "sha256": "0f7701db9a278712fdb887b5c2b78bb1ec51a6d2f6eed2739c0c81f4b3423947",
+    "reportAt": "2026-03-04T10:15:00.000Z",
+    "pages": 4
+  },
+  "extractedRows": 53,
+  "mappedRows": 53,
+  "playerDesignations": 30,
+  "notSubmittedTeams": 23,
+  "quarantinedRows": 0,
+  "historicalBacktestEligibleRows": 0,
+  "status": "Pilot import; publication and roster-anchor verification pending",
+  "limitations": [
+    "A timestamped official report has been parsed and identities mapped; this is not a multi-season historical injury archive.",
+    "NOT YET SUBMITTED is retained as missing team coverage, never treated as healthy.",
+    "Publication delivery timing is not independently verified, so historical as-of queries exclude these pilot rows.",
+    "Historical roster anchors and dated transactions remain incomplete; postgame rosters are not silently promoted into verified pregame inputs."
+  ]
+}

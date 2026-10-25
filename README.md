@@ -32,11 +32,13 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 - Final-allocation research audit: 7,222 chronological plug-in game replays and 72 paired 10,000-draw simulations. Reports final minute/score allocation, participation error, interval coverage and player-pool omissions. The candidate remains research only; player-prop confidence is held Low pending calibration. Matchup refreshes now archive compact roster/injury observations with observed/received timestamps for future as-of evaluation. See [allocation evidence](docs/ALLOCATION-RESEARCH.md).
 - Render Blueprint, persistent disk, health check, GitHub Actions CI, secret placeholders, tests and deployment/runbook documentation.
 
-## Pending before real predictions
+- Joint rotation research, nine separate market-family calibration diagnostics, reviewed pregame evidence imports, and immutable matched-time quote/forecast settlement tracking. The candidate was not promoted; historical injury reconstruction and forward validation remain incomplete. See [this accuracy stage](docs/NEXT-ACCURACY.md).
+
+## Pending validation and integrations
 
 - Guaranteed licensed NBA feed availability and historical point-in-time lineup/injury snapshots. Current public-data integration provides schedules, current rosters and completed player logs; it does not establish a historical injury archive.
 - Fitting lineup/transaction impacts, player covariance and prop distribution tails, plus broader validation of final allocated player scores with verified pregame inputs after the first proxy-roster audit. Player component MAE does not establish accuracy of final simulated props.
-- Prospective validation, point-in-time lineup/injury features, market-family calibration, timestamped closing-line comparison and settlement-rule-specific ROI analysis. All historical seasons have already been inspected and are labelled reused research; future frozen forecasts provide the next untouched test.
+- Accumulating and validating real prospective outcomes, completing verified historical lineup/injury coverage, promoting market-family calibration only after forward evidence, and timestamped closing-line/settlement-rule-specific ROI analysis. All historical seasons have already been inspected and are labelled reused research; future frozen forecasts provide the next untouched test.
 - Sportsbet player-market availability depends on the approved Odds API subscription and the individual event. Empty or unsupported markets remain unavailable. No direct Sportsbet API is assumed, and there is no scraper.
 - Automated off-host backup and restore verification; real-account authenticated live simulation acceptance. Render reports the NBA deployment live, and the public root redirects to the secure login. Local inherited-login/security smoke checks and GitHub CI pass. The separate repository is `kberry06/court-lab-nba-secure`; the NFL repository and service are unaffected.
 

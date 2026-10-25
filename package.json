@@ -16,6 +16,8 @@
     "history:players": "node scripts/fetch-player-history.js && node scripts/repair-player-history.js",
     "history:refresh": "npm run history:fetch && npm run history:players && npm run history:backtest",
     "research:accuracy": "node scripts/backtest-history.js && node scripts/research-accuracy.js && node scripts/research-players.js",
-    "research:allocation": "node scripts/research-allocation.js"
+    "research:allocation": "node scripts/research-allocation.js",
+    "research:advanced": "node scripts/research-advanced.js",
+    "research:injury-pilot": "node scripts/import-injury-pilot.js"
   }
 }

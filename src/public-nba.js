@@ -44,6 +44,7 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
     const body=await response.json();store.saveCache('espn:'+path,body);return body;
   }
   return {
+    async settlementBody(eventId){assert(/^espn:game:\d+$/.test(eventId),'Invalid settlement event');return get('summary?event='+eventId.split(':').at(-1),5*60000);},
     async schedule(force=false) {
       const previous=store.cache('nba-schedule');if(!force&&previous&&clock()-previous.savedAt<30*60000)return previous.body;
       const date=n=>new Date(n).toISOString().slice(0,10).replaceAll('-','');

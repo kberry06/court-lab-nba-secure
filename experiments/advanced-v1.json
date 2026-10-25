@@ -1,0 +1,84 @@
+{
+  "version": "advanced-research-1",
+  "status": "Reused historical research; support mixture revised after initial diagnostic; not an untouched test",
+  "baseProtocol": "experiments/allocation-v1.json",
+  "rotation": {
+    "templates": 20,
+    "halfLifeGames": 6,
+    "independentSupportProbability": 0.05,
+    "maxAttempts": 32
+  },
+  "calibration": {
+    "method": "Regularized logistic per family, earlier seasons only",
+    "diagnosticMinimumGames": 10,
+    "diagnosticMinimumSelections": 100,
+    "liveCandidateMinimumGames": 100,
+    "liveCandidateMinimumSelections": 500,
+    "livePromotion": false
+  },
+  "thresholds": {
+    "player_points": [
+      9.5,
+      14.5,
+      19.5,
+      24.5,
+      29.5
+    ],
+    "player_rebounds": [
+      2.5,
+      4.5,
+      6.5,
+      8.5,
+      10.5
+    ],
+    "player_assists": [
+      1.5,
+      3.5,
+      5.5,
+      7.5,
+      9.5
+    ],
+    "player_pra": [
+      9.5,
+      19.5,
+      29.5,
+      39.5,
+      49.5
+    ],
+    "player_pa": [
+      9.5,
+      19.5,
+      29.5,
+      39.5,
+      49.5
+    ],
+    "player_ra": [
+      4.5,
+      9.5,
+      14.5,
+      19.5,
+      24.5
+    ],
+    "player_pr": [
+      9.5,
+      19.5,
+      29.5,
+      39.5,
+      49.5
+    ],
+    "spread": [
+      -10.5,
+      -5.5,
+      -0.5,
+      4.5,
+      9.5
+    ],
+    "totalOffsetsFromRoundedForecast": [
+      -20.5,
+      -10.5,
+      -0.5,
+      9.5,
+      19.5
+    ]
+  }
+}

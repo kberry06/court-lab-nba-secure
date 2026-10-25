@@ -9,3 +9,7 @@ Court Lab changes: selected seasons ending 2019–2026; restricted records to th
 Game schedules and repair summaries: publicly accessible ESPN NBA JSON, accessed for the owner's private research. Raw ESPN responses remain outside Git; public accessibility alone is not represented as an open redistribution licence. Endpoints and normalization rules are recorded in `data/source-manifest.json`. NBA Cup and 2020 restart treatment follows the NBA's published competition/restart rules.
 
 This historical import contains no Sportsbet scraping or historical bookmaker prices. Sportsbet odds continue to use the separately approved Odds API connection.
+
+## Official injury-report pilot
+
+Official NBA PDF: https://ak-static.cms.nba.com/referee/injury/Injury-Report_2026-03-04_05_15AM.pdf . SHA-256 and coverage are in historical-inputs-artifact.json. Public access is not an open redistribution licence. Raw PDF/player medical rows remain private ignored local research inputs. Header timestamp is not independently verified delivery timing; no rows are admitted to historical as-of evaluation. The extraction script uses pdfplumber locally; production does not fetch or parse PDFs.

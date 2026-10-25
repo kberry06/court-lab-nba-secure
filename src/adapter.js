@@ -26,7 +26,7 @@ export function mapProviderEvents(events,store,{rightsBasis,now=Date.now()}={}) 
   const eventQuotes=[];
   for(const b of e.bookmakers||[]){if(b.key!=='sportsbet')continue;for(const m of b.markets||[]){const market={h2h:'moneyline',spreads:'spread',totals:'total',player_points:'player_points',player_rebounds:'player_rebounds',player_assists:'player_assists',player_points_rebounds_assists:'player_pra',player_points_assists:'player_pa',player_rebounds_assists:'player_ra',player_points_rebounds:'player_pr'}[m.key.replace(/_alternate$/,'')];if(!market){quarantine.push({sourceEventId:e.id,market:m.key,reason:'Unsupported provider market'});continue;}
    for(const o of m.outcomes||[]){try{const player=market.startsWith('player_');const selection=['moneyline','spread'].includes(market)?(o.name===e.home_team?'home':o.name===e.away_team?'away':null):o.name?.toLowerCase();
-    const q={source:'the-odds-api',sourceEventId:e.id,eventId:id,bookmaker:b.key,snapshotId:`${e.id}:${m.last_update||b.last_update}`,observedAt:m.last_update||b.last_update,market,selection,price:o.price,period:'full_game',includesOvertime:true,rightsBasis,providerMarket:m.key};
+    const q={source:'the-odds-api',ingestMethod:'approved-provider',sourceEventId:e.id,eventId:id,bookmaker:b.key,snapshotId:`${e.id}:${m.last_update||b.last_update}`,observedAt:m.last_update||b.last_update,market,selection,price:o.price,period:'full_game',includesOvertime:true,rightsBasis,providerMarket:m.key};
     if(market!=='moneyline')q.line=o.point;
     if(player){q.playerId=store.resolve('the-odds-api','player',`${e.id}:${o.description}`);q.dnpRule='void';}
     eventQuotes.push(normalizeQuote(q,s,now));

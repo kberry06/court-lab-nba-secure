@@ -11,12 +11,12 @@ export function allocateExpectedMinutes(players,{participation=false}={}){
  return out;
 }
 export function proxyRoster(state,teamId,cutoff){const roster=state.rosters.get(teamId);if(!roster)return null;if(roster.at>=cutoff)throw new Error('Roster snapshot must predate cutoff');return {...roster,players:roster.players.filter(p=>!state.lastTeam?.has(p.id)||state.lastTeam.get(p.id)===teamId)};}
-export function createAllocationState(){return {history:new Map(),listed:new Map(),rosters:new Map(),lastTeam:new Map(),league:{minutes:0,points:0,rebounds:0,assists:0}};}
+export function createAllocationState(){return {history:new Map(),listed:new Map(),rosters:new Map(),lastTeam:new Map(),teamRotations:new Map(),league:{minutes:0,points:0,rebounds:0,assists:0}};}
 export function releaseBefore(state,pending,cutoff,embargoHours=24){while(pending.length&&Date.parse(pending[0][0].datetime)+embargoHours*3600000<cutoff)releasePlayerGame(state,pending.shift());}
 export function releasePlayerGame(state,rows){
  const teams=new Map();for(const r of rows){state.lastTeam.set(r.playerId,r.teamId);if(!teams.has(r.teamId))teams.set(r.teamId,[]);teams.get(r.teamId).push(r);const listed=state.listed.get(r.playerId)||[];listed.unshift(r);listed.splice(20);state.listed.set(r.playerId,listed);
   if(r.minutes>0&&!r.didNotPlay){const h=state.history.get(r.playerId)||[];h.unshift({minutes:r.minutes,points:r.points,rebounds:r.rebounds,assists:r.assists});h.splice(20);state.history.set(r.playerId,h);state.league.minutes+=r.minutes;for(const k of components)state.league[k]+=r[k];}}
- for(const [teamId,roster] of teams)state.rosters.set(teamId,{at:Date.parse(rows[0].datetime),players:roster.map(r=>({id:r.playerId,name:r.name}))});
+ for(const [teamId,roster] of teams){state.rosters.set(teamId,{at:Date.parse(rows[0].datetime),players:roster.map(r=>({id:r.playerId,name:r.name}))});const history=state.teamRotations.get(teamId)||[];history.unshift({observedAt:rows[0].datetime,minutes:Object.fromEntries(roster.map(r=>['espn:player:'+r.playerId,r.minutes]))});history.splice(20);state.teamRotations.set(teamId,history);}
 }
 export function buildReplayTeam(state,team,cutoff,parameters,{candidate=false}={}){
  const roster=proxyRoster(state,team.id,cutoff);if(!roster)return null;

@@ -1,0 +1,12 @@
+import {assert} from './validation.js';
+import {normalizeEvent} from './public-nba.js';
+export function normalizeSettlement(body,expectedEventId,now=Date.now()){
+ const g=normalizeEvent(body.header);assert('espn:game:'+g.id===expectedEventId,'Settlement event mapping mismatch');assert(g.status_state==='final'&&Number.isFinite(g.home_team_score)&&Number.isFinite(g.visitor_team_score)&&g.home_team_score!==g.visitor_team_score,'Game is not a verified final');
+ assert(Number.isFinite(Date.parse(g.datetime))&&Date.parse(g.datetime)<now&&g.home_team_score>0&&g.visitor_team_score>0,'Final-game timing or scores invalid');
+ const players=new Map(),totals=new Map();
+ for(const t of body.boxscore?.players||[])for(const group of t.statistics||[]){const ix=k=>(group.labels||[]).indexOf(k);assert(['MIN','PTS','REB','AST'].every(k=>ix(k)>=0),'Settlement box-score labels missing');for(const p of group.athletes||[]){const dnp=p.didNotPlay===true,stats=p.stats||[],minute=String(stats[ix('MIN')]??'').split(':').map(Number),minutes=dnp?0:minute[0]+(minute[1]||0)/60;const row={id:'espn:player:'+p.athlete.id,teamId:Number(t.team.id),didNotPlay:dnp,minutes,...Object.fromEntries([['points','PTS'],['rebounds','REB'],['assists','AST']].map(([k,label])=>[k,dnp?0:Number(stats[ix(label)])]))};assert([row.minutes,row.points,row.rebounds,row.assists].every(n=>Number.isFinite(n)&&n>=0)&&row.minutes<=80,'Incomplete settlement player statistics');const old=players.get(row.id);assert(!old||JSON.stringify(old)===JSON.stringify(row),'Conflicting settlement player records');players.set(row.id,row);}}
+ for(const p of players.values())totals.set(p.teamId,(totals.get(p.teamId)||0)+p.points);
+ assert(totals.size===2&&totals.get(g.home_team.id)===g.home_team_score&&totals.get(g.visitor_team.id)===g.visitor_team_score,'Incomplete settlement box: player/team points do not reconcile');
+ assert([g.home_team.id,g.visitor_team.id].every(id=>[...players.values()].filter(p=>p.teamId===id&&p.minutes>0).length>=5),'Settlement needs five observed participants per team');
+ return {eventId:expectedEventId,start:g.datetime,status:'final',complete:true,includesOvertime:true,homeTeamId:'espn:team:'+g.home_team.id,awayTeamId:'espn:team:'+g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,players:[...players.values()].sort((a,b)=>a.id.localeCompare(b.id)),source:'ESPN public final box score',receivedAt:new Date(now).toISOString()};
+}

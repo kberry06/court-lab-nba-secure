@@ -1,4 +1,5 @@
 import { validateScenario } from './validation.js';
+import {sampleJointMinutes} from './joint-rotation.js';
 export const MODEL_VERSION = 'trained-opponent-rest-player-1';
 export function rng(seed=42) { let a=seed>>>0; return () => { a+=0x6D2B79F5; let t=a; t=Math.imul(t^t>>>15,t|1); t^=t+Math.imul(t^t>>>7,t|61); return ((t^t>>>14)>>>0)/4294967296; }; }
 export function normal(random) { return Math.sqrt(-2*Math.log(Math.max(random(),1e-12)))*Math.cos(2*Math.PI*random()); }
@@ -17,11 +18,12 @@ function minutesFor(players, random) {
 }
 export function simulate(scenario, {seed=42,draws=10000}={}) {
   validateScenario(scenario); if(draws!==10000) throw new Error('Production simulations require 10,000 draws');
-  const random=rng(seed), teams=scenario.teams, scores=[[],[]], minutes=[[],[]];
+  const random=rng(seed), teams=scenario.teams, scores=[[],[]], minutes=[[],[]],jointFallbackDraws=[0,0];
+  if(scenario.rotationMode){if(scenario.rotationMode!=='joint-rotation-research-1')throw new Error('Unknown rotation model');for(const t of teams)for(const h of t.rotationHistory||[])if(!Number.isFinite(Date.parse(h.observedAt))||Date.parse(h.observedAt)+86400000>=Date.parse(scenario.asOf))throw new Error('Rotation history must clear the 24-hour cutoff');}
   const playerSamples=Object.fromEntries(teams.flatMap(t=>t.players.map(p=>[p.id,{points:[],rebounds:[],assists:[],minutes:[],active:[]}])));
   for(let d=0;d<draws;d++) {
     const pace=(teams[0].pace+teams[1].pace)/2 + 3.5*normal(random), shared=normal(random);
-    const ms=teams.map(t=>minutesFor(t.players,random));
+    const ms=teams.map((t,side)=>{if(scenario.rotationMode){const m=sampleJointMinutes(t.players,t.rotationHistory,random);if(m)return m;jointFallbackDraws[side]++;}return minutesFor(t.players,random);});
     const teamShock=[normal(random),normal(random)];
     let trainedScores=null;
     if(scenario.gameForecast){const g=scenario.gameForecast,z=normal(random),u=Math.max(1e-9,Math.min(1-1e-9,normalCdf(z))),margin=g.marginMean+g.marginScale*Math.log(u/(1-u)),total=g.totalMean+g.totalSd*(g.rho*z+Math.sqrt(1-g.rho*g.rho)*normal(random));trainedScores=[(total+margin)/2,(total-margin)/2];}
@@ -53,5 +55,5 @@ export function simulate(scenario, {seed=42,draws=10000}={}) {
   }
   const margin=scores[0].map((h,i)=>h-scores[1][i]),total=scores[0].map((h,i)=>h+scores[1][i]);
   const p=margin.filter(m=>m>0).length/draws;
-  return {propSummaryVersion:2,modelVersion:scenario.gameForecast?MODEL_VERSION:scenario.playerEstimatorVersion?'trained-player-recent-game-0.3':'form-rotation-correlated-0.2',trainingLastGameAt:scenario.gameForecast?.trainingLastGameAt||null,gameBaseProbability:scenario.gameForecast?.probability??null,seed,draws,generatedAt:new Date().toISOString(),asOf:scenario.asOf,demo:scenario.demo,eventId:scenario.id,homeWin:p,mc95HalfWidth:1.96*Math.sqrt(p*(1-p)/draws),home:summary(scores[0]),away:summary(scores[1]),margin:summary(margin),total:summary(total),players:teams.flatMap(t=>t.players.map(p=>({id:p.id,name:p.name,teamId:t.id,appearanceProbability:playerSamples[p.id].active.filter(Boolean).length/draws,conditional:Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>{const v=playerSamples[p.id],values=v[k].filter((_,i)=>v.active[i]);return [k,values.length?summary(values):{mean:null,p10:null,p50:null,p90:null}];})),thresholds:Object.fromEntries([['points',20],['rebounds',8],['assists',5]].map(([stat,line])=>{const v=playerSamples[p.id],active=v.active.filter(Boolean).length;return [stat,{line,probability:active?v[stat].filter((n,i)=>v.active[i]&&n>=line).length/active:null}];})),...Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>[k,summary(playerSamples[p.id][k])]))}))),samples:{scores,margin,total,players:playerSamples,minutes}};
+  return {propSummaryVersion:2,jointFallbackDraws,modelVersion:scenario.rotationMode|| (scenario.gameForecast?MODEL_VERSION:scenario.playerEstimatorVersion?'trained-player-recent-game-0.3':'form-rotation-correlated-0.2'),trainingLastGameAt:scenario.gameForecast?.trainingLastGameAt||null,gameBaseProbability:scenario.gameForecast?.probability??null,seed,draws,generatedAt:new Date().toISOString(),asOf:scenario.asOf,demo:scenario.demo,eventId:scenario.id,homeWin:p,mc95HalfWidth:1.96*Math.sqrt(p*(1-p)/draws),home:summary(scores[0]),away:summary(scores[1]),margin:summary(margin),total:summary(total),players:teams.flatMap(t=>t.players.map(p=>({id:p.id,name:p.name,teamId:t.id,appearanceProbability:playerSamples[p.id].active.filter(Boolean).length/draws,conditional:Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>{const v=playerSamples[p.id],values=v[k].filter((_,i)=>v.active[i]);return [k,values.length?summary(values):{mean:null,p10:null,p50:null,p90:null}];})),thresholds:Object.fromEntries([['points',20],['rebounds',8],['assists',5]].map(([stat,line])=>{const v=playerSamples[p.id],active=v.active.filter(Boolean).length;return [stat,{line,probability:active?v[stat].filter((n,i)=>v.active[i]&&n>=line).length/active:null}];})),...Object.fromEntries(['points','rebounds','assists','minutes'].map(k=>[k,summary(playerSamples[p.id][k])]))}))),samples:{scores,margin,total,players:playerSamples,minutes}};
 }
