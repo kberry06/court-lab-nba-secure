@@ -1,0 +1,35 @@
+const day=86400000;
+const average=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:null;
+const dateKey=at=>new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(at));
+const metrics=['minutes','points','rebounds','assists'];
+export function livePerformance(forecasts,{now=Date.now(),days=3}={}){
+ if(!Number.isInteger(days)||days<1||days>30)throw new Error('Use 1–30 days');
+ const since=now-days*day,excluded={},rows=[];
+ const omit=reason=>excluded[reason]=(excluded[reason]||0)+1;
+ for(const f of forecasts){const start=Date.parse(f.start),freeze=Date.parse(f.frozenAt),input=Date.parse(f.trainingCutoff);
+  if(!Number.isFinite(start)||start<since||start>now)continue;
+  if(f.synthetic!==false||!Number.isFinite(freeze)||freeze>=start||!Number.isFinite(input)||input>freeze){omit('not an original pregame forecast');continue;}
+  if(![f.probability,f.predictedHome,f.predictedAway].every(Number.isFinite)||f.probability<0||f.probability>1){omit('invalid prediction');continue;}
+  const actual=f.fullOutcome;
+  const scheduleChanged=actual&&(!Number.isFinite(Date.parse(actual.start))||Math.abs(Date.parse(actual.start)-start)>30*60000);
+  const home=actual?.homeScore??f.actualHome,away=actual?.awayScore??f.actualAway;
+  const settled=!scheduleChanged&&Number.isFinite(home)&&Number.isFinite(away)&&home!==away&&Number.isFinite(Date.parse(f.settledAt))&&Date.parse(f.settledAt)<=now;
+  const run=f.run,scenario=run?.scenario;
+  const runMatches=run&&!scenario.demo&&scenario.id===f.eventId&&run.summary.modelVersion===f.modelVersion&&run.summary.homeWin===f.probability&&run.summary.home.mean===f.predictedHome&&run.summary.away.mean===f.predictedAway&&Number.isFinite(Date.parse(run.createdAt))&&Date.parse(run.createdAt)>=freeze&&Date.parse(run.createdAt)-freeze<5000&&Date.parse(run.summary.generatedAt)<=freeze;
+  const row={eventId:f.eventId,modelVersion:f.modelVersion,start:f.start,sydneyDate:dateKey(start),frozenAt:f.frozenAt,horizonHours:(start-freeze)/3600000,inputAgeHours:(freeze-input)/3600000,home:runMatches?scenario.teams[0].name:f.eventId,away:runMatches?scenario.teams[1].name:'Away',probability:f.probability,predictedHome:f.predictedHome,predictedAway:f.predictedAway,status:settled?'settled':scheduleChanged?'schedule changed; review':'awaiting final result',players:[],playerCoverage:null};
+  if(settled){const y=Number(home>away);Object.assign(row,{actualHome:home,actualAway:away,correct:Number(f.probability>=.5)===y,brier:(f.probability-y)**2,logLoss:-(y*Math.log(Math.max(1e-6,f.probability))+(1-y)*Math.log(Math.max(1e-6,1-f.probability))),marginError:(f.predictedHome-f.predictedAway)-(home-away),totalError:(f.predictedHome+f.predictedAway)-(home+away)});
+   if(actual&&runMatches){const predicted=run.summary.players||[],index=new Map(predicted.map(p=>[p.id,p]));let missingActual=0;
+    for(const p of predicted){const a=actual.players.find(x=>x.id===p.id);if(!a){missingActual++;continue;}const played=a.minutes>0&&!a.didNotPlay;
+     const recent=scenario.teams.flatMap(t=>t.players||[]).find(x=>x.id===p.id)?.recent?.slice(0,5)||[];
+     const item={id:p.id,name:p.name,played,appearanceProbability:p.appearanceProbability,errors:{},baselineErrors:{},covered:{},predicted:{},actual:{}};
+     for(const k of metrics){const value=p.conditional?.[k]?.mean,range=p.conditional?.[k];if(played&&Number.isFinite(value)&&Number.isFinite(a[k])){item.predicted[k]=value;item.actual[k]=a[k];item.errors[k]=value-a[k];item.covered[k]=a[k]>=range.p10&&a[k]<=range.p90;if(recent.length===5&&recent.every(r=>Number.isFinite(r[k])&&Date.parse(r.date+'T23:59:59Z')<freeze))item.baselineErrors[k]=average(recent.map(r=>r[k]))-a[k];}}
+     row.players.push(item);
+    }
+    row.playerCoverage={predicted:predicted.length,matched:row.players.length,missingActual,positiveActual:actual.players.filter(p=>p.minutes>0).length,unmodelledPositive:actual.players.filter(p=>p.minutes>0&&!index.has(p.id)).length};
+   }
+  }rows.push(row);
+ }
+ const summarize=rs=>{const settled=rs.filter(r=>r.status==='settled'),ps=settled.flatMap(r=>r.players),playing=ps.filter(p=>p.played),participation=ps.filter(p=>Number.isFinite(p.appearanceProbability));return {games:rs.length,settled:settled.length,pending:rs.length-settled.length,wins:settled.filter(r=>r.correct).length,accuracy:average(settled.map(r=>Number(r.correct))),brier:average(settled.map(r=>r.brier)),logLoss:average(settled.map(r=>r.logLoss)),marginMAE:average(settled.map(r=>Math.abs(r.marginError))),totalMAE:average(settled.map(r=>Math.abs(r.totalError))),marginBias:average(settled.map(r=>r.marginError)),totalBias:average(settled.map(r=>r.totalError)),staleInputs:rs.filter(r=>r.inputAgeHours>6).length,players:{games:settled.filter(r=>r.playerCoverage).length,matched:ps.length,playing:playing.length,missingActual:settled.reduce((n,r)=>n+(r.playerCoverage?.missingActual||0),0),unmodelledPositive:settled.reduce((n,r)=>n+(r.playerCoverage?.unmodelledPositive||0),0),participationBrier:average(participation.map(p=>(p.appearanceProbability-Number(p.played))**2)),metrics:Object.fromEntries(metrics.map(k=>{const valid=playing.filter(p=>Number.isFinite(p.errors[k]));return [k,{n:valid.length,mae:average(valid.map(p=>Math.abs(p.errors[k]))),bias:average(valid.map(p=>p.errors[k])),recentFive:{n:valid.filter(p=>Number.isFinite(p.baselineErrors[k])).length,modelMAE:average(valid.filter(p=>Number.isFinite(p.baselineErrors[k])).map(p=>Math.abs(p.errors[k]))),baselineMAE:average(valid.filter(p=>Number.isFinite(p.baselineErrors[k])).map(p=>Math.abs(p.baselineErrors[k])))},coverage80:average(valid.map(p=>Number(p.covered[k])))}];}))}};};
+ const models=[...new Set(rows.map(r=>r.modelVersion))].map(modelVersion=>{const rs=rows.filter(r=>r.modelVersion===modelVersion);return {modelVersion,...summarize(rs),daily:[...new Set(rs.map(r=>r.sydneyDate))].sort().map(date=>({date,...summarize(rs.filter(r=>r.sydneyDate===date))})),largestPlayerErrors:rs.flatMap(r=>r.players.filter(p=>Number.isFinite(p.errors.points)).map(p=>({...p,eventId:r.eventId,sydneyDate:r.sydneyDate}))).sort((a,b)=>Math.abs(b.errors.points)-Math.abs(a.errors.points)).slice(0,15)};});
+ return {generatedAt:new Date(now).toISOString(),since:new Date(since).toISOString(),days,timezone:'Australia/Sydney',selection:'First stored pregame forecast per event/model version; rolling start-time window; no retrospective regeneration',models,rows:rows.sort((a,b)=>a.start.localeCompare(b.start)),excluded,limitations:['Only saved forecasts are evaluated; unsaved slate games are not invented. Each model version is reported separately.','This is a small descriptive live sample, not evidence of stable accuracy or profitability.','Player errors use original saved conditional projections and verified final boxes. Missing players remain missing, and DNPs are scored separately.','Legacy forecasts do not prove default-scenario or historical input provenance; do not use this descriptive audit for calibration promotion.']};
+}

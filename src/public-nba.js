@@ -6,8 +6,8 @@ const team=t=>({id:Number(t.id),full_name:t.displayName||t.name,abbreviation:t.a
 export function normalizeEvent(e) {
   const c=e.competitions?.[0],home=c?.competitors?.find(t=>t.homeAway==='home'),away=c?.competitors?.find(t=>t.homeAway==='away');
   assert(home&&away,'Incomplete public NBA event');
-  const st=c.status?.type||e.status?.type||{};
-  return {id:Number(e.id),date:e.date?.slice(0,10),datetime:c.timeValid===false?null:e.date,status_state:st.completed?'final':st.name==='STATUS_SCHEDULED'?'scheduled':st.state==='in'?'in_progress':'unknown',home_team:team(home.team),visitor_team:team(away.team),home_team_score:Number(home.score?.value??home.score),visitor_team_score:Number(away.score?.value??away.score),season:e.season?.year,neutralSite:Boolean(c.neutralSite)};
+  const st=c.status?.type||e.status?.type||{},date=e.date||c.date;
+  return {id:Number(e.id),date:date?.slice(0,10),datetime:c.timeValid===false||e.timeValid===false?null:date,status_state:st.completed?'final':st.name==='STATUS_SCHEDULED'?'scheduled':st.state==='in'?'in_progress':'unknown',home_team:team(home.team),visitor_team:team(away.team),home_team_score:Number(home.score?.value??home.score),visitor_team_score:Number(away.score?.value??away.score),season:e.season?.year,neutralSite:Boolean(c.neutralSite)};
 }
 export function normalizeRoster(body,t) {
   assert(Array.isArray(body.athletes)&&body.athletes.length,'Roster unavailable from public source');
@@ -58,15 +58,15 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       const bundle=validateBundle({provider:'espn',fetchedAt:new Date(clock()).toISOString(),rightsBasis:'User-requested private research from publicly accessible sports data',games:[...events.values()].map(normalizeEvent),players:[],injuries:[],stats:[]},clock());
       store.saveCache('nba-schedule',bundle);return bundle;
     },
-    async matchup(game) {
-      const cached=store.cache('matchup:'+game.id);if(cached?.body.coverageVersion===3&&clock()-cached.savedAt<30*60000)return cached.body;
+    async matchup(game,{force=false}={}) {
+      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===3&&clock()-cached.savedAt<30*60000)return cached.body;
       const games=new Map(),players=[],injuries=[],stats=[];
       const season=game.season||new Date(game.datetime).getUTCFullYear()+(new Date(game.datetime).getUTCMonth()>=8?1:0);
       for(const t of [game.home_team,game.visitor_team]) {
-        const roster=normalizeRoster(await get(`teams/${t.id}/roster`,30*60000),t);players.push(...roster.players);injuries.push(...roster.injuries);
+        const roster=normalizeRoster(await get(`teams/${t.id}/roster`,force?0:30*60000),t);players.push(...roster.players);injuries.push(...roster.injuries);
         let history=[];
         for(const year of [season,season-1]) {
-          const raw=await get(`teams/${t.id}/schedule?season=${year}&seasontype=2`,6*3600000);
+          const raw=await get(`teams/${t.id}/schedule?season=${year}&seasontype=2`,force?0:6*3600000);
           assert(Array.isArray(raw.events),'Historical schedule unavailable');
           history.push(...raw.events.filter(e=>e.competitions?.[0]?.type?.id!=='39').map(normalizeEvent).filter(g=>g.status_state==='final'&&Date.parse(g.datetime)<clock()-day));
           if(history.length>=20)break;
@@ -79,7 +79,7 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       const playerGames=playerId=>new Set(stats.filter(s=>s.player.id===playerId&&parseFloat(s.min)>0).map(s=>s.game.id)).size;
       for(const p of players)if(playerGames(p.id)<20){
         for(const year of [season,season-1]){
-          const rows=normalizePlayerLog(await get(`athletes/${p.id}/gamelog?season=${year}`,6*3600000),p.id,clock()-day);stats.push(...rows);
+          const rows=normalizePlayerLog(await get(`athletes/${p.id}/gamelog?season=${year}`,force?0:6*3600000),p.id,clock()-day);stats.push(...rows);
           if(playerGames(p.id)>=20)break;
         }
       }

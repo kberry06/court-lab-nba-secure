@@ -34,6 +34,8 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 
 - Joint rotation research, nine separate market-family calibration diagnostics, reviewed pregame evidence imports, and immutable matched-time quote/forecast settlement tracking. The candidate was not promoted; historical injury reconstruction and forward validation remain incomplete. See [this accuracy stage](docs/NEXT-ACCURACY.md).
 
+- Recent live performance report using original saved pregame forecasts, complete player-box audits and a paired last-five benchmark; manual prediction refresh reloads roster/injury and recent player inputs. See [live performance](docs/LIVE-PERFORMANCE.md).
+
 ## Pending validation and integrations
 
 - Guaranteed licensed NBA feed availability and historical point-in-time lineup/injury snapshots. Current public-data integration provides schedules, current rosters and completed player logs; it does not establish a historical injury archive.
