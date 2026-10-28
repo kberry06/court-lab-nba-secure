@@ -18,7 +18,7 @@ export function normalizeBox(body,g) {
   for(const t of body.boxscore.players)for(const group of t.statistics||[]) {
     const labels=group.labels||[];const ix=k=>labels.indexOf(k);
     assert(['MIN','PTS','REB','AST'].every(k=>ix(k)>=0),'Unsupported box-score columns');
-    for(const p of group.athletes||[]){if(p.didNotPlay||!p.stats?.length)continue;const teamId=Number(t.team.id),opponent=g.home_team&&g.visitor_team?(g.home_team.id===teamId?g.visitor_team:g.home_team):{};rows.push({player:{id:Number(p.athlete.id)},game:{id:g.id,date:g.date},team:{id:teamId},opponent:{id:opponent.id,name:opponent.full_name,abbreviation:opponent.abbreviation},min:p.stats[ix('MIN')],pts:Number(p.stats[ix('PTS')]),reb:Number(p.stats[ix('REB')]),ast:Number(p.stats[ix('AST')])});}
+    for(const p of group.athletes||[]){if(p.didNotPlay!==true&&!p.stats?.length)continue;const dnp=p.didNotPlay===true;const teamId=Number(t.team.id),opponent=g.home_team&&g.visitor_team?(g.home_team.id===teamId?g.visitor_team:g.home_team):{};rows.push({player:{id:Number(p.athlete.id)},game:{id:g.id,date:g.date,datetime:g.datetime,final:true},team:{id:teamId},opponent:{id:opponent.id,name:opponent.full_name,abbreviation:opponent.abbreviation},min:dnp?'0':p.stats[ix('MIN')],pts:dnp?0:Number(p.stats[ix('PTS')]),reb:dnp?0:Number(p.stats[ix('REB')]),ast:dnp?0:Number(p.stats[ix('AST')]),didNotPlay:dnp,...(typeof p.starter==='boolean'?{starterObserved:p.starter}:{})});}
   }
   return rows;
 }
@@ -59,7 +59,7 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       store.saveCache('nba-schedule',bundle);return bundle;
     },
     async matchup(game,{force=false}={}) {
-      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===3&&clock()-cached.savedAt<30*60000)return cached.body;
+      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===4&&clock()-cached.savedAt<30*60000)return cached.body;
       const games=new Map(),players=[],injuries=[],stats=[];
       const season=game.season||new Date(game.datetime).getUTCFullYear()+(new Date(game.datetime).getUTCMonth()>=8?1:0);
       for(const t of [game.home_team,game.visitor_team]) {
@@ -87,7 +87,7 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       const leagueKey=`nba-league-results:${season}`,leagueCache=store.cache(leagueKey);let league=leagueCache&&clock()-leagueCache.savedAt<6*3600000?leagueCache.body:null;
       if(!league){const events=new Map();for(let teamId=1;teamId<=30;teamId++){const raw=await get(`teams/${teamId}/schedule?season=${season}&seasontype=2`,6*3600000);assert(Array.isArray(raw.events),'League-wide NBA results unavailable');for(const event of raw.events){if(event.competitions?.[0]?.type?.id==='39')continue;const row=normalizeEvent(event);if(['final','in_progress'].includes(row.status_state)&&row.season===season&&Date.parse(row.datetime)<clock())events.set(row.id,row);}}league={games:[...events.values()]};store.saveCache(leagueKey,league);}
       for(const row of league.games)games.set(row.id,row);
-      const bundle=validateBundle({provider:'espn',coverageVersion:3,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
+      const bundle=validateBundle({provider:'espn',coverageVersion:4,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
       store.saveCache('matchup:'+game.id,bundle);return bundle;
     }
   };

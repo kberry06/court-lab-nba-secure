@@ -46,19 +46,20 @@ export function buildScenario(bundle,gameId,now=Date.now(),{roleBudget=true}={})
     const roster=bundle.players.filter(p=>p.team.id===t.id);assert(roster.length>=6,`${name(t)} roster is missing`);
     let priorModeled=[];
     const players=roster.map(p=>{
-      const unique=new Map();for(const s of bundle.stats)if(s.player?.id===p.id&&(historicalIds.has(s.game?.id)||(s.provenance==='espn-player-gamelog'&&s.game?.final&&Date.parse(s.game.datetime)<cutoff-day))&&minutes(s.min)>0)unique.set(s.game.id,s);
+      const unique=new Map();for(const s of bundle.stats)if(s.player?.id===p.id&&(historicalIds.has(s.game?.id)||(s.provenance==='espn-player-gamelog'&&s.game?.final&&Date.parse(s.game.datetime)<cutoff-day))&&minutes(s.min)>0)unique.set(s.game.id,{...s,...(unique.get(s.game.id)?.starterObserved!==undefined&&s.starterObserved===undefined?{starterObserved:unique.get(s.game.id).starterObserved}:{}),...(unique.get(s.game.id)?.team&&!s.team?{team:unique.get(s.game.id).team}:{})});
       const rows=[...unique.values()].sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
       for(const r of rows)assert(Number.isFinite(minutes(r.min))&&minutes(r.min)<=80&&['pts','reb','ast'].every(k=>Number.isFinite(r[k])&&r[k]>=0),'Invalid historical player statistics');
       const totalMinutes=rows.reduce((n,r)=>n+minutes(r.min),0);
       const injury=bundle.injuries.find(i=>i.player?.id===p.id);const status=injury?.status||'Not listed';
       const availability={out:0,doubtful:.25,questionable:.5,probable:.9,'day-to-day':.5}[status.toLowerCase()]??(injury?.status? .5:1);
+      const pastRoles=new Map();for(const r of bundle.stats)if(r.player?.id===p.id&&(historicalIds.has(r.game?.id)||(r.provenance==='espn-player-gamelog'&&r.game?.final&&Date.parse(r.game.datetime)<cutoff-day))){const old=pastRoles.get(r.game.id);if((!old||r.starterObserved!==undefined)&&r.min!=null&&String(r.min).trim()!==''&&Number.isFinite(minutes(r.min))&&minutes(r.min)>=0&&minutes(r.min)<=80)pastRoles.set(r.game.id,r);}const recentRoles=[...pastRoles.values()].sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,10).map(r=>({gameId:r.game.id,date:r.game.date,minutes:minutes(r.min),didNotPlay:r.didNotPlay===true,started:typeof r.starterObserved==='boolean'?r.starterObserved:null,teamId:r.team?.id??null}));
       const recent=rows.slice(0,10).map(r=>({gameId:r.game.id,date:r.game.date,opponent:r.opponent?.abbreviation||r.opponent?.name||'Opponent',points:r.pts,rebounds:r.reb,assists:r.ast}));
       if(rows.length<3)priorModeled.push(`${p.first_name} ${p.last_name}`);
       const priorMinutes=rows.length?12:6,roleMinutes=rows.length?average(rows.map(r=>minutes(r.min))):priorMinutes;
       const priorPossessions=rows.length<3?120:0,denominator=totalMinutes+priorPossessions;
       const estimated=playerModelEligible?estimatePlayer(rows.map(r=>({minutes:minutes(r.min),points:r.pts,rebounds:r.reb,assists:r.ast})),playerArtifact.parameters):{minutes:roleMinutes,points:(rows.reduce((n,r)=>n+r.pts,0)+.45*priorPossessions)/denominator,rebounds:(rows.reduce((n,r)=>n+r.reb,0)+.15*priorPossessions)/denominator,assists:(rows.reduce((n,r)=>n+r.ast,0)+.10*priorPossessions)/denominator};
       const {points,rebounds,assists}=estimated;
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),roleMinutes:clamp(estimated.minutes,0,48),minuteSd:roleMinuteSd(rows.map(r=>({minutes:minutes(r.min)}))),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent};
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),roleMinutes:clamp(estimated.minutes,0,48),minuteSd:roleMinuteSd(rows.map(r=>({minutes:minutes(r.min)}))),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent,recentRoles};
     }).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
     const budget=roleBudget?roleMinuteBudget(players.map(p=>p.roleMinutes)):null,rotation=roleBudget?players.map((p,i)=>({...p,minutes:budget[i]})):normalizeRotation(players);
     assert(rotation.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible roster players`);
