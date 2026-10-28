@@ -1,0 +1,485 @@
+{
+  "version": "role-budget-research-1",
+  "generatedAt": "2026-10-26T11:21:22.145Z",
+  "games": 72,
+  "listedPlayers": 1738,
+  "playingPlayers": 1442,
+  "protocol": {
+    "version": "allocation-replay-1",
+    "status": "Fixed candidate; previously inspected seasons, proxy rosters; no untouched claim",
+    "evaluationStarts": 2021,
+    "resultEmbargoHours": 24,
+    "forecastHoursBeforeStart": 1,
+    "rosterSource": "Last eligible team box-score roster; not a verified pregame roster or transaction history",
+    "appearanceWindow": 10,
+    "appearancePrior": {
+      "played": 1,
+      "missed": 1
+    },
+    "monteCarloGamesPerSeason": 12,
+    "monteCarloSelection": "Lowest deterministic game-ID hash per season, chosen without outcomes",
+    "monteCarloDraws": 10000,
+    "seed": 92571,
+    "candidate": "Equal absolute correction of raw role minute targets to a 240-minute team budget; individual targets 0–48; SD shrunk from earlier positive-minute histories to a six-minute prior, bounded 4–12",
+    "gate": "Research only: missing point-in-time roster, injury and transaction evidence prevents promotion regardless of retrospective improvements"
+  },
+  "models": {
+    "baseline": {
+      "all": {
+        "players": 1738,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 6.397931459184863,
+          "points": 4.535320138089747,
+          "rebounds": 1.9280647871116237,
+          "assists": 1.2519568469505156,
+          "pra": 6.40263348676639,
+          "pa": 5.190664787111617,
+          "ra": 2.6611804372842376,
+          "pr": 5.755606329113927
+        },
+        "bias": {
+          "minutes": -0.24017897233919622,
+          "points": -0.06918078250863045,
+          "rebounds": -0.033569620253164616,
+          "assists": -0.031284464902186414,
+          "pra": -0.1340348676639814,
+          "pa": -0.1004652474108172,
+          "ra": -0.064854085155351,
+          "pr": -0.10275040276179508
+        }
+      },
+      "ifPlaying": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 5.526005556325888,
+          "points": 4.553790915395281,
+          "rebounds": 1.917803398058252,
+          "assists": 1.3078309292649082,
+          "pra": 6.197256726768376,
+          "pa": 5.142542787794722,
+          "ra": 2.600290360610259,
+          "pr": 5.618529680998612
+        },
+        "bias": {
+          "minutes": -2.4747128417246027,
+          "points": -0.9958780166435498,
+          "rebounds": -0.44649660194174706,
+          "assists": -0.23882191400832173,
+          "pra": -1.6811965325936173,
+          "pa": -1.2346999306518711,
+          "ra": -0.6853185159500703,
+          "pr": -1.4423746185852981
+        }
+      },
+      "participationBrier": 0.17031070195627157,
+      "pointsCoverage80": 0.45700416088765605,
+      "minutesCoverage80": 0.21844660194174756
+    },
+    "role": {
+      "all": {
+        "players": 1738,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 6.184324377899151,
+          "points": 4.467329286536247,
+          "rebounds": 1.8978188722669769,
+          "assists": 1.2375542577675485,
+          "pra": 6.279224626006904,
+          "pa": 5.100103912543153,
+          "ra": 2.608504545454547,
+          "pr": 5.651676006904497
+        },
+        "bias": {
+          "minutes": -0.23562457002435738,
+          "points": -0.06737830840046036,
+          "rebounds": -0.04297146144994251,
+          "assists": -0.024438492520138064,
+          "pra": -0.13478826237054073,
+          "pa": -0.09181680092059817,
+          "ra": -0.06740995397008052,
+          "pr": -0.11034976985040278
+        }
+      },
+      "ifPlaying": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 5.3781675106759605,
+          "points": 4.537772414826195,
+          "rebounds": 1.9097844409109188,
+          "assists": 1.304460492674752,
+          "pra": 6.150723810159863,
+          "pa": 5.109451331384804,
+          "ra": 2.5749025268719667,
+          "pr": 5.5856456817751265
+        },
+        "bias": {
+          "minutes": -2.083251915096922,
+          "points": -0.8367599311753852,
+          "rebounds": -0.38252536075349314,
+          "assists": -0.19844274022462915,
+          "pra": -1.4177280321535075,
+          "pa": -1.0352026714000155,
+          "ra": -0.5809681009781228,
+          "pr": -1.2192852919288815
+        }
+      },
+      "participationBrier": 0.13562183336018419,
+      "pointsCoverage80": 0.6171983356449375,
+      "minutesCoverage80": 0.7191400832177531
+    }
+  },
+  "folds": [
+    {
+      "season": 2021,
+      "baseline": {
+        "players": 239,
+        "positiveAppearances": 239,
+        "mae": {
+          "minutes": 5.834167595060927,
+          "points": 4.8391514644351465,
+          "rebounds": 2.0125100418410042,
+          "assists": 1.258908786610879,
+          "pra": 6.555228033472804,
+          "pa": 5.4525138075313775,
+          "ra": 2.7653686192468623,
+          "pr": 5.909893305439326
+        },
+        "bias": {
+          "minutes": -3.4800340988632303,
+          "points": -1.317899581589958,
+          "rebounds": -0.7862857740585766,
+          "assists": -0.38153974895397497,
+          "pra": -2.485725104602511,
+          "pa": -1.6994393305439328,
+          "ra": -1.167825523012552,
+          "pr": -2.1041853556485357
+        }
+      },
+      "role": {
+        "players": 239,
+        "positiveAppearances": 239,
+        "mae": {
+          "minutes": 5.5901539978174295,
+          "points": 4.767956228446484,
+          "rebounds": 1.9888858777785698,
+          "assists": 1.2498978451135998,
+          "pra": 6.388065831460269,
+          "pa": 5.339713320117043,
+          "ra": 2.715668675259657,
+          "pr": 5.792052318812868
+        },
+        "bias": {
+          "minutes": -3.117835447015349,
+          "points": -1.1721706716937894,
+          "rebounds": -0.7209984042052198,
+          "assists": -0.3431886908847605,
+          "pra": -2.23635776678377,
+          "pa": -1.5153593625785486,
+          "ra": -1.0641870950899803,
+          "pr": -1.8931690758990103
+        }
+      }
+    },
+    {
+      "season": 2022,
+      "baseline": {
+        "players": 245,
+        "positiveAppearances": 245,
+        "mae": {
+          "minutes": 5.168756606575926,
+          "points": 4.202895510204081,
+          "rebounds": 1.688008163265307,
+          "assists": 1.1487216326530614,
+          "pra": 5.573434285714283,
+          "pa": 4.740496326530616,
+          "ra": 2.2714506122448967,
+          "pr": 5.047440816326533
+        },
+        "bias": {
+          "minutes": -1.131925245960252,
+          "points": -0.2902522448979593,
+          "rebounds": -0.07969632653061225,
+          "assists": -0.02855673469387757,
+          "pra": -0.3985053061224484,
+          "pa": -0.31880897959183685,
+          "ra": -0.10825306122448987,
+          "pr": -0.36994857142857174
+        }
+      },
+      "role": {
+        "players": 245,
+        "positiveAppearances": 245,
+        "mae": {
+          "minutes": 5.29907141922867,
+          "points": 4.291257076423198,
+          "rebounds": 1.7056575275552448,
+          "assists": 1.1742483871697573,
+          "pra": 5.6915904409776745,
+          "pa": 4.825060364208388,
+          "ra": 2.3072031799989428,
+          "pr": 5.146072910407817
+        },
+        "bias": {
+          "minutes": -0.7335058195175038,
+          "points": -0.12086521830637961,
+          "rebounds": -0.01033686921501608,
+          "assists": 0.014044119272189903,
+          "pra": -0.11715796824920587,
+          "pa": -0.10682109903418982,
+          "ra": 0.003707250057173722,
+          "pr": -0.13120208752139567
+        }
+      }
+    },
+    {
+      "season": 2023,
+      "baseline": {
+        "players": 230,
+        "positiveAppearances": 230,
+        "mae": {
+          "minutes": 5.445800853982856,
+          "points": 4.879397826086955,
+          "rebounds": 1.9526908695652174,
+          "assists": 1.4108030434782592,
+          "pra": 6.672982173913049,
+          "pa": 5.516918260869569,
+          "ra": 2.6546234782608686,
+          "pr": 6.046728695652175
+        },
+        "bias": {
+          "minutes": -2.540263574994496,
+          "points": -1.3235039130434783,
+          "rebounds": -0.2717213043478261,
+          "assists": -0.36647434782608707,
+          "pra": -1.9616995652173908,
+          "pa": -1.689978260869565,
+          "ra": -0.6381956521739136,
+          "pr": -1.5952252173913044
+        }
+      },
+      "role": {
+        "players": 230,
+        "positiveAppearances": 230,
+        "mae": {
+          "minutes": 5.210022069375719,
+          "points": 4.83027233602022,
+          "rebounds": 1.9353680700372977,
+          "assists": 1.3846649341340098,
+          "pra": 6.576117126405618,
+          "pa": 5.4450548800013205,
+          "ra": 2.614511522441431,
+          "pr": 5.974931085706379
+        },
+        "bias": {
+          "minutes": -2.1538084131810162,
+          "points": -1.1684753223832005,
+          "rebounds": -0.21506590559326905,
+          "assists": -0.3299947752010367,
+          "pra": -1.713536003177506,
+          "pa": -1.4984700975842373,
+          "ra": -0.545060680794306,
+          "pr": -1.3835412279764692
+        }
+      }
+    },
+    {
+      "season": 2024,
+      "baseline": {
+        "players": 250,
+        "positiveAppearances": 250,
+        "mae": {
+          "minutes": 5.664234027728371,
+          "points": 4.3563904,
+          "rebounds": 1.972944000000001,
+          "assists": 1.3268027999999998,
+          "pra": 5.878015599999997,
+          "pa": 4.929813200000001,
+          "ra": 2.557211599999998,
+          "pr": 5.385039200000001
+        },
+        "bias": {
+          "minutes": -2.5450871370519663,
+          "points": -1.1308976000000002,
+          "rebounds": -0.3785248000000001,
+          "assists": -0.2061332000000001,
+          "pra": -1.7155556000000003,
+          "pa": -1.3370307999999995,
+          "ra": -0.5846579999999999,
+          "pr": -1.5094224
+        }
+      },
+      "role": {
+        "players": 250,
+        "positiveAppearances": 250,
+        "mae": {
+          "minutes": 5.410570480453645,
+          "points": 4.2940618154713075,
+          "rebounds": 1.9451728693367907,
+          "assists": 1.3266757500816257,
+          "pra": 5.763779742576211,
+          "pa": 4.847721402908776,
+          "ra": 2.506375798412573,
+          "pr": 5.306103930928276
+        },
+        "bias": {
+          "minutes": -2.0781771435647287,
+          "points": -0.9462930130255626,
+          "rebounds": -0.31294690217605103,
+          "assists": -0.15394868574281992,
+          "pra": -1.4131886009444345,
+          "pa": -1.1002416987683823,
+          "ra": -0.4668955879188711,
+          "pr": -1.2592399152016132
+        }
+      }
+    },
+    {
+      "season": 2025,
+      "baseline": {
+        "players": 236,
+        "positiveAppearances": 236,
+        "mae": {
+          "minutes": 5.080743021338827,
+          "points": 4.390117796610172,
+          "rebounds": 1.8754394067796616,
+          "assists": 1.3541385593220336,
+          "pra": 5.975947457627121,
+          "pa": 4.845311440677963,
+          "ra": 2.5681381355932205,
+          "pr": 5.487697033898305
+        },
+        "bias": {
+          "minutes": -2.2663277319819763,
+          "points": -0.8359618644067798,
+          "rebounds": -0.4193911016949152,
+          "assists": -0.06912076271186442,
+          "pra": -1.3244737288135586,
+          "pa": -0.9050826271186444,
+          "ra": -0.48851186440677963,
+          "pr": -1.255352966101696
+        }
+      },
+      "role": {
+        "players": 236,
+        "positiveAppearances": 236,
+        "mae": {
+          "minutes": 4.911354499813377,
+          "points": 4.359876816949607,
+          "rebounds": 1.881010599095338,
+          "assists": 1.339658676014421,
+          "pra": 5.947992115768013,
+          "pa": 4.806392773063225,
+          "ra": 2.542231021973641,
+          "pr": 5.45442736067196
+        },
+        "bias": {
+          "minutes": -1.920008788681506,
+          "points": -0.6920359546054453,
+          "rebounds": -0.3521357850096558,
+          "assists": -0.03536791146233669,
+          "pra": -1.0795396510774378,
+          "pa": -0.727403866067782,
+          "ra": -0.3875036964719927,
+          "pr": -1.0441717396151011
+        }
+      }
+    },
+    {
+      "season": 2026,
+      "baseline": {
+        "players": 242,
+        "positiveAppearances": 242,
+        "mae": {
+          "minutes": 5.950993933913844,
+          "points": 4.681293388429752,
+          "rebounds": 2.0081074380165305,
+          "assists": 1.3546037190082636,
+          "pra": 6.56875991735537,
+          "pa": 5.397257438016528,
+          "ra": 2.794393801652891,
+          "pr": 5.870778512396691
+        },
+        "bias": {
+          "minutes": -2.9095055025571472,
+          "points": -1.0973099173553713,
+          "rebounds": -0.7450280991735541,
+          "assists": -0.3886855371900827,
+          "pra": -2.231023553719008,
+          "pa": -1.4859954545454555,
+          "ra": -1.1337136363636362,
+          "pr": -1.8423380165289254
+        }
+      },
+      "role": {
+        "players": 242,
+        "positiveAppearances": 242,
+        "mae": {
+          "minutes": 5.83045821975025,
+          "points": 4.707269751671039,
+          "rebounds": 2.0055081401824624,
+          "assists": 1.3566705400314845,
+          "pra": 6.574290613443761,
+          "pa": 5.416925122096899,
+          "ra": 2.7719079764963737,
+          "pr": 5.873585604588479
+        },
+        "bias": {
+          "minutes": -2.5253527640481552,
+          "points": -0.9429916902628789,
+          "rebounds": -0.6857210312027577,
+          "assists": -0.35057994490532646,
+          "pra": -1.9792926663709627,
+          "pa": -1.2935716351682058,
+          "ra": -1.0363009761080848,
+          "pr": -1.6287127214656363
+        }
+      }
+    }
+  ],
+  "uncertainty": {
+    "minutes": {
+      "method": "Paired UTC-day cluster bootstrap; candidate minus baseline minute absolute error",
+      "days": 71,
+      "draws": 1000,
+      "difference": -0.14783804564992706,
+      "interval95": [
+        -0.22278925609923028,
+        -0.07767597870210469
+      ]
+    },
+    "points": {
+      "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+      "days": 71,
+      "draws": 1000,
+      "difference": -0.01601850056909116,
+      "interval95": [
+        -0.04413360932778118,
+        0.009485099915666026
+      ]
+    }
+  },
+  "deployment": {
+    "enabled": true,
+    "modelVersion": "trained-opponent-rest-role-budget-1",
+    "scope": "Newly prepared inputs only; independent live validation and prop calibration pending"
+  },
+  "sourceHashes": {
+    "games": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+    "players": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7"
+  },
+  "codeHashes": {
+    "src/model.js": "376c0ffe3cf02b1123ce6f204157c75c709b70ac578112e39e6b957da9bd8b07",
+    "src/rotation-minutes.js": "2cdf324b2724ce6c14200797c64d5f6333bad307ec8d6916c16b24cda73cf640",
+    "src/allocation-replay.js": "be85e0f6b1d8d9876cba3316a4f66d43a9ba2a2887a2f65924664911b12071a6",
+    "scripts/research-minutes.js": "808d0b7b6c4fdc7270dcf7d702bf2b7da45f56499763106d106406202cd24f50"
+  },
+  "promotion": {
+    "passed": false,
+    "reason": "Candidate must improve conditional minutes without worsening conditional points; proxy-roster audit alone cannot validate complete current rosters or prop calibration.",
+    "retrospectiveMinutesImproves": true,
+    "retrospectivePointsImproves": true
+  }
+}

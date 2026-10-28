@@ -13,6 +13,7 @@ export function validateScenario(s) {
     assert(Array.isArray(t.players) && t.players.length >= 6 && t.players.length <= 20, '6–20 players per team required');
     let available = 0;
     for (const p of t.players) { string(p.id, 'player ID'); string(p.name, 'player name'); assert(!ids.has(p.id), 'Duplicate player ID'); ids.add(p.id); number(p.minutes, 0, 48, 'minutes'); number(p.availability, 0, 1, 'availability'); number(p.impact, -10, 10, 'impact'); for (const stat of ['points','rebounds','assists']) number(p[stat], 0, 2, `${stat}/minute`); if (p.availability > 0) available++; }
+    for(const p of t.players){if(p.roleMinutes!==undefined||s.rotationMode==='role-budget-1')number(p.roleMinutes,0,48,'conditional role minutes');if(p.minuteSd!==undefined||s.rotationMode==='role-budget-1')number(p.minuteSd,0,12,'minute uncertainty');}
     assert(available >= 5, 'At least five eligible players required');
     assert(t.players.every(p=>p.availability===0||p.points>0), 'Eligible players require a positive scoring rate');
   }

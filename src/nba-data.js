@@ -1,6 +1,7 @@
 import {assert, timestamp, string, validateScenario} from './validation.js';
 import {buildGameForecast,playerArtifact,TRAINED_MODEL_VERSION} from './trained-forecast.js';
 import {estimatePlayer} from './player-estimator.js';
+import {roleMinuteBudget,roleMinuteSd} from './rotation-minutes.js';
 
 const day=86400000;
 const id=(kind,value)=>`espn:${kind}:${value}`;
@@ -32,7 +33,7 @@ export function validateBundle(b,now=Date.now()) {
   return b;
 }
 
-export function buildScenario(bundle,gameId,now=Date.now()) {
+export function buildScenario(bundle,gameId,now=Date.now(),{roleBudget=true}={}) {
   validateBundle(bundle,now);const g=bundle.games.find(g=>String(g.id)===String(gameId));assert(g,'Game not found');
   assert(start(g)&&Date.parse(start(g))>now,'Predictions require a confirmed future tip-off');
   assert(!g.postponed&&!['final','in_progress','postponed','canceled','suspended','abandoned','unknown'].includes(g.status_state),'Game is not available for a pregame prediction');
@@ -57,9 +58,9 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
       const priorPossessions=rows.length<3?120:0,denominator=totalMinutes+priorPossessions;
       const estimated=playerModelEligible?estimatePlayer(rows.map(r=>({minutes:minutes(r.min),points:r.pts,rebounds:r.reb,assists:r.ast})),playerArtifact.parameters):{minutes:roleMinutes,points:(rows.reduce((n,r)=>n+r.pts,0)+.45*priorPossessions)/denominator,rebounds:(rows.reduce((n,r)=>n+r.reb,0)+.15*priorPossessions)/denominator,assists:(rows.reduce((n,r)=>n+r.ast,0)+.10*priorPossessions)/denominator};
       const {points,rebounds,assists}=estimated;
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent};
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),roleMinutes:clamp(estimated.minutes,0,48),minuteSd:roleMinuteSd(rows.map(r=>({minutes:minutes(r.min)}))),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent};
     }).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
-    const rotation=normalizeRotation(players);
+    const budget=roleBudget?roleMinuteBudget(players.map(p=>p.roleMinutes)):null,rotation=roleBudget?players.map((p,i)=>({...p,minutes:budget[i]})):normalizeRotation(players);
     assert(rotation.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible roster players`);
     if(priorModeled.length)warnings.push(`${name(t)}: limited history for ${priorModeled.join(', ')}. Their rates are shrunk toward conservative NBA priors; review rotation minutes.`);
     if(cutoff-Date.parse(history[0].datetime||history[0].date)>45*day)warnings.push(`${name(t)} history ends ${history[0].date}; offseason changes may weaken these estimates.`);
@@ -70,10 +71,11 @@ export function buildScenario(bundle,gameId,now=Date.now()) {
   const gameForecast=buildGameForecast(bundle,g);
   if(gameForecast)warnings[0]='Historically trained opponent/rest game model and recency-weighted player estimates. Live prospective validation is pending. Injury probabilities, player impacts, minute reallocation and player-prop distributions remain assumptions; confirm lineups.';
   else warnings.push('Trained game forecast unavailable for these inputs; the recent-score game baseline is retained.');
-  return validateScenario({id:id('game',g.id),source:gameForecast?'ESPN public data · trained opponent/rest model':'ESPN public data · recent-game baseline',demo:false,asOf:bundle.fetchedAt,start:g.datetime,teams,warnings,gameForecast,playerEstimatorVersion:playerModelEligible?playerArtifact.modelVersion:null});
+  if(roleBudget)warnings.push('Role-based team minute budget with history-based minute uncertainty. Recent allocations improve in reused historical research; live improvement and prop calibration remain unestablished.');
+  return validateScenario({id:id('game',g.id),source:gameForecast?'ESPN public data · trained opponent/rest model':'ESPN public data · recent-game baseline',demo:false,asOf:bundle.fetchedAt,start:g.datetime,teams,warnings,gameForecast,...(roleBudget?{rotationMode:'role-budget-1'}:{}),playerEstimatorVersion:playerModelEligible?playerArtifact.modelVersion:null});
 }
 
 export function scheduleView(bundle,store,now=Date.now()) {
   if(!bundle)return {games:[],fetchedAt:null};
-  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>{const eventId=id('game',g.id),run=store.latestRun?.(eventId);return {id:eventId,providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(eventId),projection:run?{runId:run.id,generatedAt:run.summary.generatedAt,home:run.summary.home.mean,away:run.summary.away.mean,homeWin:run.summary.homeWin,total:run.summary.total.mean,modelVersion:run.summary.modelVersion,needsRefresh:run.summary.modelVersion!==TRAINED_MODEL_VERSION}:null};}).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
+  return {fetchedAt:bundle.fetchedAt,stale:now-Date.parse(bundle.fetchedAt)>6*3600000,games:bundle.games.map(g=>{const eventId=id('game',g.id),run=store.latestRun?.(eventId);return {id:eventId,providerId:g.id,start:start(g),date:g.date,status:g.status_state||g.status,home:name(g.home_team),away:name(g.visitor_team),homeId:g.home_team.id,awayId:g.visitor_team.id,homeScore:g.home_team_score,awayScore:g.visitor_team_score,ready:!!store.scenario(eventId),projection:run?{runId:run.id,generatedAt:run.summary.generatedAt,home:run.summary.home.mean,away:run.summary.away.mean,homeWin:run.summary.homeWin,total:run.summary.total.mean,modelVersion:run.summary.modelVersion,needsRefresh:store.scenario(eventId)?.rotationMode!=='role-budget-1'||![TRAINED_MODEL_VERSION,'recent-game-role-budget-1'].includes(run.summary.modelVersion)}:null};}).sort((a,b)=>(a.start||a.date).localeCompare(b.start||b.date))};
 }

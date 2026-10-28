@@ -36,6 +36,8 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 
 - Recent live performance report using original saved pregame forecasts, complete player-box audits and a paired last-five benchmark; manual prediction refresh reloads roster/injury and recent player inputs. See [live performance](docs/LIVE-PERFORMANCE.md).
 
+- Updated role-based minute budgets and history-based minute uncertainty for new matchups, with a 72-game paired allocation audit and separate forward model version. Player props remain uncalibrated. See [minute model evidence and limits](docs/MINUTE-MODEL.md).
+
 ## Pending validation and integrations
 
 - Guaranteed licensed NBA feed availability and historical point-in-time lineup/injury snapshots. Current public-data integration provides schedules, current rosters and completed player logs; it does not establish a historical injury archive.

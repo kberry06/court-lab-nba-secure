@@ -1,9 +1,10 @@
 import {readFileSync} from 'node:fs';
 import {createFeatureState,enterSeason,gameFeatures,recordScheduledStart,updateFinalScore} from './accuracy-features.js';
 import {predictRegression,sigmoid,logit} from './regression.js';
+import {ROLE_MODEL_VERSION} from './rotation-minutes.js';
 export const gameArtifact=JSON.parse(readFileSync(new URL('../game-model-artifact.json',import.meta.url),'utf8'));
 export const playerArtifact=JSON.parse(readFileSync(new URL('../player-model-artifact.json',import.meta.url),'utf8'));
-export const TRAINED_MODEL_VERSION='trained-opponent-rest-player-1';
+export const TRAINED_MODEL_VERSION=ROLE_MODEL_VERSION;
 export function buildGameForecast(bundle,g,artifact=gameArtifact){
  const asOf=Date.parse(bundle.fetchedAt);
  if(!artifact.summary.promotion.passed||asOf<=Date.parse(artifact.trainingLastGameAt)+86400000||!bundle.leagueHistoryComplete)return null;
