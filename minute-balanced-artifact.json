@@ -1,0 +1,885 @@
+{
+  "version": "minutes-45-balanced-1",
+  "generatedAt": "2026-10-28T19:30:14.981291+00:00",
+  "protocol": {
+    "version": "minutes-45-balanced-1",
+    "status": "Third fixed consistency test after unbalanced participation failed; reused seasons",
+    "acceptance": {
+      "finalConditionalMinuteMAE": 4.5,
+      "conditionalPointMAENoWorseThanIncumbent": true,
+      "sameEvaluatedPlayerCohort": true,
+      "reportAllListedErrorsAndMissingness": true
+    },
+    "forecastHoursBeforeStart": 1,
+    "resultEmbargoHours": 24,
+    "evaluationStarts": 2021,
+    "learner": {
+      "loss": "absolute_error",
+      "learning_rate": 0.05,
+      "max_iter": 150,
+      "max_leaf_nodes": 15,
+      "min_samples_leaf": 100,
+      "l2_regularization": 20,
+      "early_stopping": false,
+      "random_state": 4545
+    },
+    "allocation": {
+      "draws": 10000,
+      "gamesPerSeason": 12,
+      "selection": "Existing lowest game-ID hash sample; no selection on outcomes",
+      "seed": 92571,
+      "incumbent": "trained-opponent-rest-role-budget-1"
+    },
+    "limits": [
+      "Raw role MAE is not the final allocation acceptance metric",
+      "Historical rosters remain earlier-box proxies",
+      "Current-game starter, injury and actual participation information cannot enter feature generation",
+      "A failed gate does not change live model defaults"
+    ],
+    "participation": {
+      "method": "Beta(1,1) smoothed frequency of observed positive-minute appearances in the last ten earlier complete team reports",
+      "missingness": "An absent player is an unobserved appearance exposure, never a confirmed DNP label; target-game missing records are excluded and reported",
+      "recentTeamChangeFallback": "Use earlier global listed-game frequency when the two latest observed teams differ",
+      "balance": "KL projection of appearance priors subject to the expected pregame role-minute sum equalling 240 when feasible; insufficient role mass is reported, not filled with fabricated player observations"
+    }
+  },
+  "libraryVersion": "1.9.1",
+  "sourceHashes": {
+    "sourceSha256": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7",
+    "forecastSha256": "775be301ac06eec0980715433bf60e0405f3a6bc25d40ac314c2cea43e1e0ba6",
+    "parametersSha256": "e3a1c42075c2c9566e39aa5e0964812808b4e28217df276619216eaf21c7934f"
+  },
+  "datasetSha256": "626f227973382b8bcce1ecfcf0eb3a2506fcd42edd7672e972ba45334c1451e3",
+  "codeHashes": {
+    "src/role-regime-features.js": "e638f33d15fd780ac5529a27debc45f214a3f0ebbdd5ecaf78b7f38216c6520d",
+    "scripts/prepare-minute-regimes.js": "6339a4868b7884ed06fe7269e553cb897086a225701c26a1d51e0ebccc61f0e7",
+    "scripts/research-minute-regimes.py": "a8ac271df19a499ea91f42fbf30b86089202652d891ec3aa06cb19b2d288233b",
+    "experiments/minutes-45-v1.json": "1d5f71020fa01add1b949a127107e07bc67834f53baacb24d2119c9370162ccf"
+  },
+  "rawRole": {
+    "baseline": {
+      "n": 153620,
+      "mae": 5.0480039225072115,
+      "bias": -0.07001191907776996,
+      "rmse": 6.65550897468959
+    },
+    "candidate": {
+      "n": 153620,
+      "mae": 4.883728861876463,
+      "bias": -0.0377521358880099,
+      "rmse": 6.476104977252128
+    },
+    "missingStarterMetadata": {
+      "n": 153620,
+      "mae": 4.906757797341416,
+      "bias": -0.08509810901383362,
+      "rmse": 6.495347876658673
+    },
+    "cohorts": [
+      {
+        "cohort": "changing role",
+        "baseline": {
+          "n": 33760,
+          "mae": 5.842252488653029,
+          "bias": -0.1401711740540715,
+          "rmse": 7.432602008435032
+        },
+        "candidate": {
+          "n": 33760,
+          "mae": 5.480553725382656,
+          "bias": -0.19991950935916816,
+          "rmse": 7.123733844451549
+        }
+      },
+      {
+        "cohort": "cold start",
+        "baseline": {
+          "n": 1875,
+          "mae": 5.731979626705368,
+          "bias": -2.1097144677144186,
+          "rmse": 8.467886412157975
+        },
+        "candidate": {
+          "n": 1875,
+          "mae": 5.719963921696295,
+          "bias": -0.17623206714796252,
+          "rmse": 7.927303676977873
+        }
+      },
+      {
+        "cohort": "other appearance",
+        "baseline": {
+          "n": 88282,
+          "mae": 4.998049639737455,
+          "bias": -0.29749897366205996,
+          "rmse": 6.552791417335758
+        },
+        "candidate": {
+          "n": 88282,
+          "mae": 4.897098978479623,
+          "bias": -0.19329859961641568,
+          "rmse": 6.448304411915282
+        }
+      },
+      {
+        "cohort": "return after long gap",
+        "baseline": {
+          "n": 3046,
+          "mae": 7.112391326379497,
+          "bias": 3.2934652838687195,
+          "rmse": 9.187990827924708
+        },
+        "candidate": {
+          "n": 3046,
+          "mae": 6.157865789236616,
+          "bias": 0.4378450413463287,
+          "rmse": 7.956068547658217
+        }
+      },
+      {
+        "cohort": "stable starter",
+        "baseline": {
+          "n": 26657,
+          "mae": 3.9235583330121537,
+          "bias": 0.5313640541873738,
+          "rmse": 5.330233559780479
+        },
+        "candidate": {
+          "n": 26657,
+          "mae": 3.879185595798867,
+          "bias": 0.6381567926678678,
+          "rmse": 5.297594134824188
+        }
+      }
+    ],
+    "folds": [
+      {
+        "season": 2021,
+        "baseline": {
+          "n": 22950,
+          "mae": 4.986388029391182,
+          "bias": -0.11433263179562649,
+          "rmse": 6.564568699681001
+        },
+        "candidate": {
+          "n": 22950,
+          "mae": 4.8551595802500165,
+          "bias": 0.0003869597312084842,
+          "rmse": 6.410629369898514
+        },
+        "missingStarterMetadata": {
+          "n": 22950,
+          "mae": 4.871259042661291,
+          "bias": -0.09111743309389218,
+          "rmse": 6.427195064007052
+        }
+      },
+      {
+        "season": 2022,
+        "baseline": {
+          "n": 25955,
+          "mae": 5.143304223226021,
+          "bias": -0.06370266141398964,
+          "rmse": 6.7822536766209405
+        },
+        "candidate": {
+          "n": 25955,
+          "mae": 4.974683350650844,
+          "bias": -0.009238462766586393,
+          "rmse": 6.591811119866675
+        },
+        "missingStarterMetadata": {
+          "n": 25955,
+          "mae": 5.007431389417286,
+          "bias": -0.049808997400204225,
+          "rmse": 6.623136356658026
+        }
+      },
+      {
+        "season": 2023,
+        "baseline": {
+          "n": 25818,
+          "mae": 5.137038056209802,
+          "bias": -0.021877908199150413,
+          "rmse": 6.789005019674489
+        },
+        "candidate": {
+          "n": 25818,
+          "mae": 4.954732245279885,
+          "bias": -0.05343217167414582,
+          "rmse": 6.6148322800141575
+        },
+        "missingStarterMetadata": {
+          "n": 25818,
+          "mae": 4.982585442965146,
+          "bias": -0.10461723092993803,
+          "rmse": 6.632702952498929
+        }
+      },
+      {
+        "season": 2024,
+        "baseline": {
+          "n": 26283,
+          "mae": 5.027709031088414,
+          "bias": -0.02738431378284221,
+          "rmse": 6.575530883126414
+        },
+        "candidate": {
+          "n": 26283,
+          "mae": 4.839442094354926,
+          "bias": -0.016373756909481948,
+          "rmse": 6.360746582293724
+        },
+        "missingStarterMetadata": {
+          "n": 26283,
+          "mae": 4.864471130163898,
+          "bias": -0.043904956419216004,
+          "rmse": 6.381069134754744
+        }
+      },
+      {
+        "season": 2025,
+        "baseline": {
+          "n": 26206,
+          "mae": 5.001756705400325,
+          "bias": -0.14240182293324766,
+          "rmse": 6.635914074098285
+        },
+        "candidate": {
+          "n": 26206,
+          "mae": 4.844122284190326,
+          "bias": -0.12244261621659053,
+          "rmse": 6.461975419790992
+        },
+        "missingStarterMetadata": {
+          "n": 26206,
+          "mae": 4.865871224415311,
+          "bias": -0.15547976243571515,
+          "rmse": 6.4793565819189505
+        }
+      },
+      {
+        "season": 2026,
+        "baseline": {
+          "n": 26408,
+          "mae": 4.986933314380356,
+          "bias": -0.0553440853979286,
+          "rmse": 6.5744662380574725
+        },
+        "candidate": {
+          "n": 26408,
+          "mae": 4.833126581888951,
+          "bias": -0.02082645706352558,
+          "rmse": 6.408342868299844
+        },
+        "missingStarterMetadata": {
+          "n": 26408,
+          "mae": 4.847188317880437,
+          "bias": -0.06662259912042745,
+          "rmse": 6.419875837975911
+        }
+      }
+    ]
+  },
+  "training": [
+    {
+      "season": 2020,
+      "trainedBefore": "2019-10-22T23:00:00.000Z",
+      "trainingLastSettledAt": "2019-04-12T02:30:00.000Z",
+      "trainingRows": 25510
+    },
+    {
+      "season": 2021,
+      "trainedBefore": "2020-12-22T23:00:00.000Z",
+      "trainingLastSettledAt": "2020-08-16T01:00:00.000Z",
+      "trainingRows": 47783
+    },
+    {
+      "season": 2022,
+      "trainedBefore": "2021-10-19T22:30:00.000Z",
+      "trainingLastSettledAt": "2021-05-18T01:00:00.000Z",
+      "trainingRows": 70733
+    },
+    {
+      "season": 2023,
+      "trainedBefore": "2022-10-18T22:30:00.000Z",
+      "trainingLastSettledAt": "2022-04-12T01:30:00.000Z",
+      "trainingRows": 96688
+    },
+    {
+      "season": 2024,
+      "trainedBefore": "2023-10-24T22:30:00.000Z",
+      "trainingLastSettledAt": "2023-04-10T19:30:00.000Z",
+      "trainingRows": 122506
+    },
+    {
+      "season": 2025,
+      "trainedBefore": "2024-10-22T22:30:00.000Z",
+      "trainingLastSettledAt": "2024-04-15T19:30:00.000Z",
+      "trainingRows": 148789
+    },
+    {
+      "season": 2026,
+      "trainedBefore": "2025-10-21T22:30:00.000Z",
+      "trainingLastSettledAt": "2025-04-14T19:30:00.000Z",
+      "trainingRows": 174995
+    }
+  ],
+  "promotion": {
+    "passed": false,
+    "targetMinuteMAE": 4.5,
+    "blockers": [
+      "standard: minute MAE exceeds 4.5",
+      "expanded: minute MAE exceeds 4.5"
+    ],
+    "prospectiveValidationPending": true,
+    "scope": "Paired historical final allocations; not bookmaker calibration or live accuracy proof"
+  },
+  "finalAllocation": [
+    {
+      "pool": "standard",
+      "games": 72,
+      "incumbent": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 5.3781675106759605,
+          "points": 4.537772414826195,
+          "rebounds": 1.9097844409109188,
+          "assists": 1.304460492674752,
+          "pra": 6.150723810159863,
+          "pa": 5.109451331384804,
+          "ra": 2.5749025268719667,
+          "pr": 5.5856456817751265
+        },
+        "bias": {
+          "minutes": -2.083251915096922,
+          "points": -0.8367599311753852,
+          "rebounds": -0.38252536075349314,
+          "assists": -0.19844274022462915,
+          "pra": -1.4177280321535075,
+          "pa": -1.0352026714000155,
+          "ra": -0.5809681009781228,
+          "pr": -1.2192852919288815
+        }
+      },
+      "candidate": {
+        "players": 1442,
+        "positiveAppearances": 1442,
+        "mae": {
+          "minutes": 4.831742007791733,
+          "points": 4.529634620367744,
+          "rebounds": 1.8907123653466067,
+          "assists": 1.3234708439947591,
+          "pra": 5.9988410049103775,
+          "pa": 5.048326428793964,
+          "ra": 2.5313019954739504,
+          "pr": 5.472646187436003
+        },
+        "bias": {
+          "minutes": 0.1857897579761079,
+          "points": 0.15888779178160134,
+          "rebounds": 0.04006111251303897,
+          "assists": 0.03175774672735755,
+          "pra": 0.23070665102199814,
+          "pa": 0.190645538508959,
+          "ra": 0.07181885924039656,
+          "pr": 0.19894890429464038
+        }
+      },
+      "allListed": {
+        "incumbent": {
+          "players": 1738,
+          "positiveAppearances": 1442,
+          "mae": {
+            "minutes": 6.184324377899151,
+            "points": 4.467329286536247,
+            "rebounds": 1.8978188722669769,
+            "assists": 1.2375542577675485,
+            "pra": 6.279224626006904,
+            "pa": 5.100103912543153,
+            "ra": 2.608504545454547,
+            "pr": 5.651676006904497
+          },
+          "bias": {
+            "minutes": -0.23562457002435738,
+            "points": -0.06737830840046036,
+            "rebounds": -0.04297146144994251,
+            "assists": -0.024438492520138064,
+            "pra": -0.13478826237054073,
+            "pa": -0.09181680092059817,
+            "ra": -0.06740995397008052,
+            "pr": -0.11034976985040278
+          }
+        },
+        "candidate": {
+          "players": 1738,
+          "positiveAppearances": 1442,
+          "mae": {
+            "minutes": 5.570059911160183,
+            "points": 4.294188147295745,
+            "rebounds": 1.8106539700805522,
+            "assists": 1.2137590333716908,
+            "pra": 5.950712082853851,
+            "pa": 4.867453970080549,
+            "ra": 2.4962821634062147,
+            "pr": 5.36807928653625
+          },
+          "bias": {
+            "minutes": -0.14051709644151947,
+            "points": -0.024580897583429132,
+            "rebounds": -0.019197698504027593,
+            "assists": -0.011075143843498279,
+            "pra": -0.05485373993095506,
+            "pa": -0.035656041426927514,
+            "ra": -0.030272842347525895,
+            "pr": -0.04377859608745684
+          }
+        }
+      },
+      "coverage": {
+        "positiveActual": 1547,
+        "missingPositive": 105,
+        "covered": 1442,
+        "missingTarget": 149,
+        "insufficientRoleMassTeams": 9
+      },
+      "uncertainty": {
+        "method": "Paired UTC-day cluster bootstrap; candidate minus baseline minute absolute error",
+        "days": 71,
+        "draws": 1000,
+        "difference": -0.5464255028842283,
+        "interval95": [
+          -0.7377021117312303,
+          -0.37532110714005545
+        ]
+      },
+      "pointsUncertainty": {
+        "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+        "days": 71,
+        "draws": 1000,
+        "difference": -0.008137794458452743,
+        "interval95": [
+          -0.06970046870119341,
+          0.0500913902015274
+        ]
+      }
+    },
+    {
+      "pool": "expanded",
+      "games": 72,
+      "incumbent": {
+        "players": 1516,
+        "positiveAppearances": 1516,
+        "mae": {
+          "minutes": 7.855867271773234,
+          "points": 4.981924065480096,
+          "rebounds": 2.0845016013844555,
+          "assists": 1.361584079953552,
+          "pra": 7.143178342726691,
+          "pa": 5.7143457248517855,
+          "ra": 2.9212165534294323,
+          "pr": 6.388106069020687
+        },
+        "bias": {
+          "minutes": -6.699595100107039,
+          "points": -2.987214600962199,
+          "rebounds": -1.2327804765145793,
+          "assists": -0.6761234503117044,
+          "pra": -4.896118527788484,
+          "pa": -3.6633380512739073,
+          "ra": -1.9089039268262857,
+          "pr": -4.219995077476774
+        }
+      },
+      "candidate": {
+        "players": 1516,
+        "positiveAppearances": 1516,
+        "mae": {
+          "minutes": 4.860929514442723,
+          "points": 4.536172335134099,
+          "rebounds": 1.9019442500307584,
+          "assists": 1.3288056537925397,
+          "pra": 6.032246783298759,
+          "pa": 5.0634997763876335,
+          "ra": 2.5438653742340733,
+          "pr": 5.511126999942102
+        },
+        "bias": {
+          "minutes": 0.2235934816036604,
+          "points": 0.15894644540445213,
+          "rebounds": 0.05177722092000344,
+          "assists": 0.04469612287054674,
+          "pra": 0.255419789195002,
+          "pa": 0.20364256827499838,
+          "ra": 0.09647334379055009,
+          "pr": 0.21072366632445505
+        }
+      },
+      "allListed": {
+        "incumbent": {
+          "players": 1850,
+          "positiveAppearances": 1516,
+          "mae": {
+            "minutes": 7.856231019961046,
+            "points": 4.60796097297297,
+            "rebounds": 1.94000318918919,
+            "assists": 1.2296408108108112,
+            "pra": 6.761992000000015,
+            "pa": 5.336787729729728,
+            "ra": 2.75572443243243,
+            "pr": 6.010180378378376
+          },
+          "bias": {
+            "minutes": -4.870983517449663,
+            "points": -2.1759144864864894,
+            "rebounds": -0.901731405405406,
+            "assists": -0.4840222162162168,
+            "pra": -3.5616681081081083,
+            "pa": -2.659936702702699,
+            "ra": -1.3857536216216246,
+            "pr": -3.07764589189189
+          }
+        },
+        "candidate": {
+          "players": 1850,
+          "positiveAppearances": 1516,
+          "mae": {
+            "minutes": 6.511247810857035,
+            "points": 4.448603675675679,
+            "rebounds": 1.846051621621618,
+            "assists": 1.227407297297295,
+            "pra": 6.3197302702702665,
+            "pa": 5.110955405405395,
+            "ra": 2.604453081081075,
+            "pr": 5.6455004864864735
+          },
+          "bias": {
+            "minutes": -2.582236849554456,
+            "points": -1.1788252972972975,
+            "rebounds": -0.46372491891891876,
+            "assists": -0.2628670810810818,
+            "pra": -1.9054172972972983,
+            "pa": -1.4416923783783795,
+            "ra": -0.7265919999999995,
+            "pr": -1.6425502162162167
+          }
+        }
+      },
+      "coverage": {
+        "positiveActual": 1547,
+        "missingPositive": 31,
+        "covered": 1516,
+        "missingTarget": 1030,
+        "insufficientRoleMassTeams": 0
+      },
+      "uncertainty": {
+        "method": "Paired UTC-day cluster bootstrap; candidate minus baseline minute absolute error",
+        "days": 71,
+        "draws": 1000,
+        "difference": -2.9949377573305203,
+        "interval95": [
+          -3.425104919138557,
+          -2.575336799041069
+        ]
+      },
+      "pointsUncertainty": {
+        "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+        "days": 71,
+        "draws": 1000,
+        "difference": -0.4457517303460113,
+        "interval95": [
+          -0.6282599550543145,
+          -0.27971048935198733
+        ]
+      }
+    }
+  ],
+  "finalAuditAt": "2026-10-31T01:49:22.533Z",
+  "finalAuditCodeHashes": {
+    "scripts/audit-minute-balance.js": "c549509cf34b8778400313b46a43c466ed5329e2fde18253f8c05f89dbf83652",
+    "src/model.js": "376c0ffe3cf02b1123ce6f204157c75c709b70ac578112e39e6b957da9bd8b07",
+    "src/rotation-minutes.js": "2cdf324b2724ce6c14200797c64d5f6333bad307ec8d6916c16b24cda73cf640",
+    "src/role-regime-features.js": "e638f33d15fd780ac5529a27debc45f214a3f0ebbdd5ecaf78b7f38216c6520d",
+    "src/minute-acceptance.js": "650095e074e9c35a12299f2eb6fff79f6b94d0b12c87abff76f8fff3b1911aa3",
+    "src/participation-balance.js": "abb64aeb6f133c690af0ec93448fe46e9dda2cb5b57c9444cc3127777823c8ca"
+  },
+  "runtimeValidation": {
+    "cases": 28,
+    "maximumAbsoluteDifference": 0,
+    "source": "Native scikit-learn full-model predictions compared with the JavaScript tree evaluator",
+    "verifiedAt": "2026-10-31T01:57:28.706Z",
+    "verifierSha256": "aefa9bf2b0476ec27c8e40fdff9cadb4359f289c6301d3b964089fcd8ba32a7d"
+  },
+  "predecessor": {
+    "version": "minutes-45-regime-1",
+    "finalAllocation": [
+      {
+        "pool": "standard",
+        "games": 72,
+        "incumbent": {
+          "players": 1442,
+          "positiveAppearances": 1442,
+          "mae": {
+            "minutes": 5.3781675106759605,
+            "points": 4.537772414826195,
+            "rebounds": 1.9097844409109188,
+            "assists": 1.304460492674752,
+            "pra": 6.150723810159863,
+            "pa": 5.109451331384804,
+            "ra": 2.5749025268719667,
+            "pr": 5.5856456817751265
+          },
+          "bias": {
+            "minutes": -2.083251915096922,
+            "points": -0.8367599311753852,
+            "rebounds": -0.38252536075349314,
+            "assists": -0.19844274022462915,
+            "pra": -1.4177280321535075,
+            "pa": -1.0352026714000155,
+            "ra": -0.5809681009781228,
+            "pr": -1.2192852919288815
+          }
+        },
+        "candidate": {
+          "players": 1442,
+          "positiveAppearances": 1442,
+          "mae": {
+            "minutes": 5.153366604904078,
+            "points": 4.49563089849564,
+            "rebounds": 1.8878845407036182,
+            "assists": 1.3076371864429088,
+            "pra": 6.045844593835607,
+            "pa": 5.0435160367514955,
+            "ra": 2.5363943087749425,
+            "pr": 5.492409561138823
+          },
+          "bias": {
+            "minutes": -1.8162818229185038,
+            "points": -0.7280478010434785,
+            "rebounds": -0.3261167864432811,
+            "assists": -0.17358478364988525,
+            "pra": -1.2277493711366434,
+            "pa": -0.9016325846933647,
+            "ra": -0.4997015700931662,
+            "pr": -1.0541645874867602
+          }
+        },
+        "allListed": {
+          "incumbent": {
+            "players": 1738,
+            "positiveAppearances": 1442,
+            "mae": {
+              "minutes": 6.184324377899151,
+              "points": 4.467329286536247,
+              "rebounds": 1.8978188722669769,
+              "assists": 1.2375542577675485,
+              "pra": 6.279224626006904,
+              "pa": 5.100103912543153,
+              "ra": 2.608504545454547,
+              "pr": 5.651676006904497
+            },
+            "bias": {
+              "minutes": -0.23562457002435738,
+              "points": -0.06737830840046036,
+              "rebounds": -0.04297146144994251,
+              "assists": -0.024438492520138064,
+              "pra": -0.13478826237054073,
+              "pa": -0.09181680092059817,
+              "ra": -0.06740995397008052,
+              "pr": -0.11034976985040278
+            }
+          },
+          "candidate": {
+            "players": 1738,
+            "positiveAppearances": 1442,
+            "mae": {
+              "minutes": 5.808412842768313,
+              "points": 4.359304200230145,
+              "rebounds": 1.847255523590335,
+              "assists": 1.2227142692750297,
+              "pra": 6.067626467203682,
+              "pa": 4.951096375143841,
+              "ra": 2.526372899884926,
+              "pr": 5.4691376294591585
+            },
+            "bias": {
+              "minutes": -0.21492922899414987,
+              "points": -0.058254142692750165,
+              "rebounds": -0.03140017261219801,
+              "assists": -0.022763866513233585,
+              "pra": -0.11241818181818175,
+              "pa": -0.081018009205984,
+              "ra": -0.05416403912543155,
+              "pr": -0.08965431530494822
+            }
+          }
+        },
+        "coverage": {
+          "positiveActual": 1547,
+          "missingPositive": 105,
+          "covered": 1442,
+          "missingTarget": 149
+        },
+        "uncertainty": {
+          "method": "Paired UTC-day cluster bootstrap; candidate minus baseline minute absolute error",
+          "days": 71,
+          "draws": 1000,
+          "difference": -0.2248009057718816,
+          "interval95": [
+            -0.3195780475524665,
+            -0.1405728473903155
+          ]
+        },
+        "pointsUncertainty": {
+          "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+          "days": 71,
+          "draws": 1000,
+          "difference": -0.04214151633055141,
+          "interval95": [
+            -0.07564262536136679,
+            -0.012616085249490481
+          ]
+        }
+      },
+      {
+        "pool": "expanded",
+        "games": 72,
+        "incumbent": {
+          "players": 1516,
+          "positiveAppearances": 1516,
+          "mae": {
+            "minutes": 7.855867271773234,
+            "points": 4.981924065480096,
+            "rebounds": 2.0845016013844555,
+            "assists": 1.361584079953552,
+            "pra": 7.143178342726691,
+            "pa": 5.7143457248517855,
+            "ra": 2.9212165534294323,
+            "pr": 6.388106069020687
+          },
+          "bias": {
+            "minutes": -6.699595100107039,
+            "points": -2.987214600962199,
+            "rebounds": -1.2327804765145793,
+            "assists": -0.6761234503117044,
+            "pra": -4.896118527788484,
+            "pa": -3.6633380512739073,
+            "ra": -1.9089039268262857,
+            "pr": -4.219995077476774
+          }
+        },
+        "candidate": {
+          "players": 1516,
+          "positiveAppearances": 1516,
+          "mae": {
+            "minutes": 7.377042984261931,
+            "points": 4.878871251545122,
+            "rebounds": 2.0246945466104647,
+            "assists": 1.345246552957405,
+            "pra": 6.911301498126985,
+            "pa": 5.567294785426824,
+            "ra": 2.8306444156862653,
+            "pr": 6.196715992073141
+          },
+          "bias": {
+            "minutes": -6.189658860285466,
+            "points": -2.774366190402255,
+            "rebounds": -1.1316805144759898,
+            "assists": -0.6247141824128114,
+            "pra": -4.530760887291068,
+            "pa": -3.3990803728150656,
+            "ra": -1.7563946968888033,
+            "pr": -3.9060467048782446
+          }
+        },
+        "allListed": {
+          "incumbent": {
+            "players": 1850,
+            "positiveAppearances": 1516,
+            "mae": {
+              "minutes": 7.856231019961046,
+              "points": 4.60796097297297,
+              "rebounds": 1.94000318918919,
+              "assists": 1.2296408108108112,
+              "pra": 6.761992000000015,
+              "pa": 5.336787729729728,
+              "ra": 2.75572443243243,
+              "pr": 6.010180378378376
+            },
+            "bias": {
+              "minutes": -4.870983517449663,
+              "points": -2.1759144864864894,
+              "rebounds": -0.901731405405406,
+              "assists": -0.4840222162162168,
+              "pra": -3.5616681081081083,
+              "pa": -2.659936702702699,
+              "ra": -1.3857536216216246,
+              "pr": -3.07764589189189
+            }
+          },
+          "candidate": {
+            "players": 1850,
+            "positiveAppearances": 1516,
+            "mae": {
+              "minutes": 7.319886055942345,
+              "points": 4.467969513513515,
+              "rebounds": 1.8677269729729737,
+              "assists": 1.2044843783783772,
+              "pra": 6.475046054054064,
+              "pa": 5.149023945945952,
+              "ra": 2.6487340540540547,
+              "pr": 5.774297027027019
+            },
+            "bias": {
+              "minutes": -4.553884027118268,
+              "points": -2.0427100540540546,
+              "rebounds": -0.8354845945945943,
+              "assists": -0.451203405405405,
+              "pra": -3.329398054054052,
+              "pa": -2.4939134594594603,
+              "ra": -1.2866880000000016,
+              "pr": -2.878194648648648
+            }
+          }
+        },
+        "coverage": {
+          "positiveActual": 1547,
+          "missingPositive": 31,
+          "covered": 1516,
+          "missingTarget": 1030
+        },
+        "uncertainty": {
+          "method": "Paired UTC-day cluster bootstrap; candidate minus baseline minute absolute error",
+          "days": 71,
+          "draws": 1000,
+          "difference": -0.4788242875113032,
+          "interval95": [
+            -0.5746598738939463,
+            -0.39389990076340575
+          ]
+        },
+        "pointsUncertainty": {
+          "method": "Paired UTC-day cluster bootstrap; candidate minus baseline point absolute error",
+          "days": 71,
+          "draws": 1000,
+          "difference": -0.10305281393497712,
+          "interval95": [
+            -0.14055753260153053,
+            -0.06890872953610536
+          ]
+        }
+      }
+    ],
+    "promotion": {
+      "passed": false,
+      "targetMinuteMAE": 4.5,
+      "blockers": [
+        "standard: minute MAE exceeds 4.5",
+        "expanded: minute MAE exceeds 4.5"
+      ],
+      "prospectiveValidationPending": true,
+      "scope": "Paired historical final allocations; not bookmaker calibration or live accuracy proof"
+    }
+  }
+}

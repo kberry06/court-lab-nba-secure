@@ -1,0 +1,101 @@
+{
+  "source": "Synthetic golden fixture from scikit-learn 1.9.1 native predictions",
+  "model": {
+    "featureNames": [
+      "role",
+      "rest"
+    ],
+    "baseline": 30.625,
+    "trees": [
+      [
+        {
+          "feature": 0,
+          "threshold": 0.39915966386554624,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "value": -3.625
+        },
+        {
+          "feature": 1,
+          "threshold": 0.0625,
+          "left": 3,
+          "right": 4
+        },
+        {
+          "leaf": true,
+          "value": -0.125
+        },
+        {
+          "leaf": true,
+          "value": 0.4375
+        }
+      ],
+      [
+        {
+          "feature": 0,
+          "threshold": 0.39915966386554624,
+          "left": 1,
+          "right": 2
+        },
+        {
+          "leaf": true,
+          "value": -2.9000000000000004
+        },
+        {
+          "feature": 1,
+          "threshold": 0.1875,
+          "left": 3,
+          "right": 4
+        },
+        {
+          "leaf": true,
+          "value": -0.09375
+        },
+        {
+          "leaf": true,
+          "value": 0.41250000000000003
+        }
+      ]
+    ]
+  },
+  "cases": [
+    {
+      "features": {
+        "role": 0.1,
+        "rest": 0.1
+      },
+      "expected": 24.1
+    },
+    {
+      "features": {
+        "role": 0.4,
+        "rest": 0.5
+      },
+      "expected": 31.475
+    },
+    {
+      "features": {
+        "role": 0.41,
+        "rest": 0.5
+      },
+      "expected": 31.475
+    },
+    {
+      "features": {
+        "role": 0.8,
+        "rest": 0.2
+      },
+      "expected": 31.475
+    },
+    {
+      "features": {
+        "role": 1.0,
+        "rest": 1.0
+      },
+      "expected": 31.475
+    }
+  ]
+}

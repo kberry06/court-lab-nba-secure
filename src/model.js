@@ -21,11 +21,11 @@ function minutesFor(players, random,roleMode=false) {
 export function simulate(scenario, {seed=42,draws=10000}={}) {
   validateScenario(scenario); if(draws!==10000) throw new Error('Production simulations require 10,000 draws');
   const random=rng(seed), teams=scenario.teams, scores=[[],[]], minutes=[[],[]],jointFallbackDraws=[0,0];
-  if(scenario.rotationMode){if(!['joint-rotation-research-1','role-budget-research-1','role-budget-1'].includes(scenario.rotationMode))throw new Error('Unknown rotation model');if(scenario.rotationMode==='joint-rotation-research-1')for(const t of teams)for(const h of t.rotationHistory||[])if(!Number.isFinite(Date.parse(h.observedAt))||Date.parse(h.observedAt)+86400000>=Date.parse(scenario.asOf))throw new Error('Rotation history must clear the 24-hour cutoff');}
+  if(scenario.rotationMode){if(!['joint-rotation-research-1','role-budget-research-1','role-budget-1','minute-shadow-balanced-1'].includes(scenario.rotationMode))throw new Error('Unknown rotation model');if(scenario.rotationMode==='joint-rotation-research-1')for(const t of teams)for(const h of t.rotationHistory||[])if(!Number.isFinite(Date.parse(h.observedAt))||Date.parse(h.observedAt)+86400000>=Date.parse(scenario.asOf))throw new Error('Rotation history must clear the 24-hour cutoff');}
   const playerSamples=Object.fromEntries(teams.flatMap(t=>t.players.map(p=>[p.id,{points:[],rebounds:[],assists:[],minutes:[],active:[]}])));
   for(let d=0;d<draws;d++) {
     const pace=(teams[0].pace+teams[1].pace)/2 + 3.5*normal(random), shared=normal(random);
-    const ms=teams.map((t,side)=>{if(scenario.rotationMode==='joint-rotation-research-1'){const m=sampleJointMinutes(t.players,t.rotationHistory,random);if(m)return m;jointFallbackDraws[side]++;}return minutesFor(t.players,random,['role-budget-research-1','role-budget-1'].includes(scenario.rotationMode));});
+    const ms=teams.map((t,side)=>{if(scenario.rotationMode==='joint-rotation-research-1'){const m=sampleJointMinutes(t.players,t.rotationHistory,random);if(m)return m;jointFallbackDraws[side]++;}return minutesFor(t.players,random,['role-budget-research-1','role-budget-1','minute-shadow-balanced-1'].includes(scenario.rotationMode));});
     const teamShock=[normal(random),normal(random)];
     let trainedScores=null;
     if(scenario.gameForecast){const g=scenario.gameForecast,z=normal(random),u=Math.max(1e-9,Math.min(1-1e-9,normalCdf(z))),margin=g.marginMean+g.marginScale*Math.log(u/(1-u)),total=g.totalMean+g.totalSd*(g.rho*z+Math.sqrt(1-g.rho*g.rho)*normal(random));trainedScores=[(total+margin)/2,(total-margin)/2];}

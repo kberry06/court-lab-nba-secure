@@ -40,6 +40,8 @@ Open http://127.0.0.1:3000. Default development mode is local-only and has no pa
 
 - Explicit 1.5-minute MAE target audit on 153,620 appearances; the richer conditional-role candidate misses the target and is withheld. Fresh matchup snapshots retain earlier starter, explicit DNP and minute facts for further modelling. See [minute target evidence](docs/MINUTE-TARGET.md).
 
+- A 4.5-minute final-allocation acceptance gate, nonlinear role/participation experiments and separate forward shadow forecasts. The strongest paired result is 4.83 minutes; the gate remains unmet and the displayed default is retained. See [4.5-minute evidence and shadow operation](docs/MINUTES-45.md).
+
 ## Pending validation and integrations
 
 - Guaranteed licensed NBA feed availability and historical point-in-time lineup/injury snapshots. Current public-data integration provides schedules, current rosters and completed player logs; it does not establish a historical injury archive.

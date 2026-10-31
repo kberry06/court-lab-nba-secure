@@ -1,0 +1,42 @@
+{
+  "version": "minutes-45-balanced-1",
+  "status": "Third fixed consistency test after unbalanced participation failed; reused seasons",
+  "acceptance": {
+    "finalConditionalMinuteMAE": 4.5,
+    "conditionalPointMAENoWorseThanIncumbent": true,
+    "sameEvaluatedPlayerCohort": true,
+    "reportAllListedErrorsAndMissingness": true
+  },
+  "forecastHoursBeforeStart": 1,
+  "resultEmbargoHours": 24,
+  "evaluationStarts": 2021,
+  "learner": {
+    "loss": "absolute_error",
+    "learning_rate": 0.05,
+    "max_iter": 150,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 100,
+    "l2_regularization": 20,
+    "early_stopping": false,
+    "random_state": 4545
+  },
+  "allocation": {
+    "draws": 10000,
+    "gamesPerSeason": 12,
+    "selection": "Existing lowest game-ID hash sample; no selection on outcomes",
+    "seed": 92571,
+    "incumbent": "trained-opponent-rest-role-budget-1"
+  },
+  "limits": [
+    "Raw role MAE is not the final allocation acceptance metric",
+    "Historical rosters remain earlier-box proxies",
+    "Current-game starter, injury and actual participation information cannot enter feature generation",
+    "A failed gate does not change live model defaults"
+  ],
+  "participation": {
+    "method": "Beta(1,1) smoothed frequency of observed positive-minute appearances in the last ten earlier complete team reports",
+    "missingness": "An absent player is an unobserved appearance exposure, never a confirmed DNP label; target-game missing records are excluded and reported",
+    "recentTeamChangeFallback": "Use earlier global listed-game frequency when the two latest observed teams differ",
+    "balance": "KL projection of appearance priors subject to the expected pregame role-minute sum equalling 240 when feasible; insufficient role mass is reported, not filled with fabricated player observations"
+  }
+}
