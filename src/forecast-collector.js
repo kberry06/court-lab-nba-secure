@@ -18,7 +18,7 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
     if(!canPrepare())break;
     const lastAttemptAt=new Date(clock()).toISOString();
     store.saveCache(receiptKey,{state:'running',lastAttemptAt});
-    try{const result=await prepare(game);const state=result.shadow?.state==='saved'?'saved':'retry';store.saveCache(receiptKey,{state,lastAttemptAt,...result});captures.push({gameId:game.id,state});}
+    try{const result=await prepare(game);const state=result.shadow?.state==='saved'?'saved':'retry';store.saveCache(receiptKey,{...result,state,lastAttemptAt});captures.push({gameId:game.id,state});}
     catch{store.saveCache(receiptKey,{state:'retry',lastAttemptAt,reason:'Input retrieval or calculation failed; retry after 15 minutes'});captures.push({gameId:game.id,state:'retry'});}
    }
    const ids=[...new Set([...store.pendingPerformanceEvents(clock()),...store.pendingMatchedEvents()])].slice(0,8),settlements=[];
