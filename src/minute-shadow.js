@@ -1,3 +1,4 @@
+import {weightedMinuteBudget,JOINT_MINUTE_VERSION} from './joint-minute-budget.js';
 import {readFileSync} from 'node:fs';import {regimeFeatures,predictRegimeTrees} from './role-regime-features.js';import {balanceParticipation} from './participation-balance.js';import {roleMinuteBudget} from './rotation-minutes.js';import {validateScenario} from './validation.js';
 export const minuteShadowModel=JSON.parse(readFileSync(new URL('../minute-shadow-model.json',import.meta.url),'utf8'));
 const minute=value=>{const parts=String(value??'').split(':');return Number(parts[0])+(Number(parts[1])||0)/60;};
@@ -13,4 +14,10 @@ export function buildMinuteShadow(bundle,scenario,artifact=minuteShadowModel){
   const balanced=balanceParticipation(players.map((p,i)=>p.roleMinutes*uppers[i]),priors),budget=roleMinuteBudget(players.map(p=>p.roleMinutes));if(!balanced.feasible)quality.insufficientRoleMassTeams++;return {...t,players:players.map((p,i)=>({...p,minutes:budget[i],availability:balanced.probabilities[i]*uppers[i]}))};
  });
  return validateScenario({...scenario,rotationMode:artifact.version,shadowOnly:true,shadowTrainingLastSettledAt:artifact.trainingLastSettledAt,source:scenario.source+' · research shadow',teams,shadowQuality:quality,warnings:[...(scenario.warnings||[]),'Research shadow only: the 4.5-minute historical acceptance gate has not passed.']});
+}
+
+export function buildJointMinuteShadow(bundle,scenario){
+ const shadow=buildMinuteShadow(bundle,scenario);
+ const teams=shadow.teams.map(t=>{if(t.players.reduce((n,p)=>n+p.availability,0)<5-1e-9)throw new Error('Insufficient participation mass for a legal joint rotation');const minutes=weightedMinuteBudget(t.players.map(p=>p.roleMinutes*p.availability),t.players.map(p=>(p.minuteSd??6)**2),t.players.map(p=>p.availability>0));return {...t,players:t.players.map((p,i)=>({...p,minutes:minutes[i]}))};});
+ return validateScenario({...shadow,rotationMode:JOINT_MINUTE_VERSION,teams,shadowQuality:{...shadow.shadowQuality,coupledParticipation:true,uncertaintyWeightedBudget:true},warnings:[...shadow.warnings,'Joint rotation candidate: dependent participation and uncertainty-weighted minute allocation; not promoted.']});
 }

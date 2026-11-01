@@ -1,0 +1,7 @@
+{
+ "version":"minutes-joint-rotation-2",
+ "status":"Fixed candidate after live minutes audit; earlier historical seasons reused, not an untouched test",
+ "changes":["Existing earlier-season role learner and balanced participation priors retained","Dependent rounding reduces rotation-count variance while preserving pre-rejection marginal probabilities","Positive sampled participants retain at least 0.1 minute; 240-minute constrained weighted allocation uses squared pregame minute SD","Expected role minutes weighted by participation form the lineup-impact reference, excluding confirmed outs"],
+ "evaluation":{"sameGameSample":true,"samePlayerIdentities":true,"draws":10000,"targetMinuteMAE":4.5,"pointMAENoWorse":true,"historicalRosterProxy":true,"minimumFuturePairedGames":100},
+ "limits":["Five-player rejection may change marginals when assumptions are infeasible","Minute SD is capped 4�12; no outcome-tuned starter floor","No injury-news or transaction reconstruction added in this change","No automatic promotion; raw role estimates are not final projections"]
+}

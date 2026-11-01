@@ -1,6 +1,6 @@
 // One serial collector on the existing single-instance service. SQLite receipts
 // survive restarts; missed pregame observations are never reconstructed later.
-export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=Date.now}) {
+export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=Date.now,candidateVersion='minute-shadow-balanced-1'}) {
  let running=false;
  const key='forecast-collector:v1', status=()=>store.cache(key)?.body||{state:'not started'};
  const save=value=>store.saveCache(key,value);
@@ -13,7 +13,7 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
    const upcoming=bundle.games.filter(g=>g.status_state==='scheduled'&&Date.parse(g.datetime)>clock()+5*60000&&Date.parse(g.datetime)<=clock()+24*3600000).sort((a,b)=>Date.parse(a.datetime)-Date.parse(b.datetime));
    const captures=[];
    for(const game of upcoming){
-    const phase=Date.parse(game.datetime)-clock()<=90*60000?'near-tip':'early',receiptKey='auto-capture:v2:'+game.id+':'+phase,receipt=store.cache(receiptKey)?.body;
+    const phase=Date.parse(game.datetime)-clock()<=90*60000?'near-tip':'early',receiptKey='auto-capture:v3:'+candidateVersion+':'+game.id+':'+phase,receipt=store.cache(receiptKey)?.body;
     if(receipt?.state==='saved'||receipt?.lastAttemptAt&&clock()-Date.parse(receipt.lastAttemptAt)<15*60000)continue;
     if(!canPrepare())break;
     const lastAttemptAt=new Date(clock()).toISOString();
@@ -25,8 +25,8 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
    for(const eventId of ids){const retryKey='auto-settle:v1:'+eventId,last=store.cache(retryKey)?.body;if(last&&clock()-Date.parse(last.at)<30*60000)continue;
     try{await nba.settle(eventId);settlements.push({eventId,state:'settled'});}catch{settlements.push({eventId,state:'unresolved'});}store.saveCache(retryKey,{at:new Date(clock()).toISOString()});
    }
-   const missing=upcoming.filter(g=>store.cache('auto-capture:v2:'+g.id+':'+(Date.parse(g.datetime)-clock()<=90*60000?'near-tip':'early'))?.body.state!=='saved').map(g=>({gameId:g.id,start:g.datetime,reason:Date.parse(g.datetime)-clock()<90*60000?'Pregame comparison missing near tip-off':'Awaiting capture'}));
-   const captured=new Set(store.shadowCapturedEvents());
+   const missing=upcoming.filter(g=>store.cache('auto-capture:v3:'+candidateVersion+':'+g.id+':'+(Date.parse(g.datetime)-clock()<=90*60000?'near-tip':'early'))?.body.state!=='saved').map(g=>({gameId:g.id,start:g.datetime,reason:Date.parse(g.datetime)-clock()<90*60000?'Pregame comparison missing near tip-off':'Awaiting capture'}));
+   const captured=new Set(store.shadowCapturedEvents(candidateVersion));
    const missed=bundle.games.filter(g=>Date.parse(g.datetime)<=clock()+5*60000&&Date.parse(g.datetime)>clock()-24*3600000&&!captured.has('espn:game:'+g.id)).map(g=>({gameId:g.id,start:g.datetime,reason:'No saved pregame shadow comparison; will not reconstruct'}));
    const result={state:'complete',missed,startedAt,completedAt:new Date(clock()).toISOString(),lastSuccessAt:new Date(clock()).toISOString(),captures,settlements,missing,upcoming:upcoming.length};save(result);return result;
   }catch{const result={...previous,state:'failed',startedAt,completedAt:new Date(clock()).toISOString(),reason:'Public schedule unavailable; saved forecasts retained'};save(result);return result;}finally{running=false;}
