@@ -1,3 +1,4 @@
+import {minuteContext} from './minute-context.js';
 const day=86400000;
 const average=xs=>xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:null;
 const dateKey=at=>new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(at));
@@ -21,7 +22,7 @@ export function livePerformance(forecasts,{now=Date.now(),days=3}={}){
    if(actual&&runMatches){const predicted=run.summary.players||[],index=new Map(predicted.map(p=>[p.id,p]));let missingActual=0;
     for(const p of predicted){const a=actual.players.find(x=>x.id===p.id);if(!a){missingActual++;continue;}const played=a.minutes>0&&!a.didNotPlay;
      const recent=scenario.teams.flatMap(t=>t.players||[]).find(x=>x.id===p.id)?.recent?.slice(0,5)||[];
-     const item={id:p.id,name:p.name,played,appearanceProbability:p.appearanceProbability,errors:{},baselineErrors:{},covered:{},predicted:{},actual:{}};
+     const item={id:p.id,name:p.name,played,appearanceProbability:p.appearanceProbability,minuteContext:minuteContext(scenario.teams.flatMap(t=>t.players||[]).find(x=>x.id===p.id),f.frozenAt),errors:{},baselineErrors:{},covered:{},predicted:{},actual:{}};
      for(const k of metrics){const value=p.conditional?.[k]?.mean,range=p.conditional?.[k];if(played&&Number.isFinite(value)&&Number.isFinite(a[k])){item.predicted[k]=value;item.actual[k]=a[k];item.errors[k]=value-a[k];item.covered[k]=a[k]>=range.p10&&a[k]<=range.p90;if(recent.length===5&&recent.every(r=>Number.isFinite(r[k])&&Date.parse(r.date+'T23:59:59Z')<freeze))item.baselineErrors[k]=average(recent.map(r=>r[k]))-a[k];}}
      row.players.push(item);
     }
