@@ -1,3 +1,4 @@
+import {playerReview} from './player-review.js';
 import {JOINT_MINUTE_VERSION} from './joint-minute-budget.js';
 import {forecastCollector} from './forecast-collector.js';
 import {minutesAudit,pairedShadowPerformance} from './minutes-audit.js';
@@ -96,6 +97,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/health'){store.db.prepare('SELECT 1').get();send(res,200,{ok:true});return;}
    if(path==='/api/nba/schedule'){send(res,200,scheduleView(store.cache('nba-schedule')?.body,store));return;}
    if(path==='/api/nba/job'){send(res,200,dataJob);return;}
+   if(path==='/api/nba/player-review'){const scenario=store.scenario(url.searchParams.get('eventId')),playerId=url.searchParams.get('playerId'),team=scenario?.teams.find(t=>t.players.some(p=>p.id===playerId));assert(scenario&&!scenario.demo&&team,'Select a real roster player');const numericPlayer=Number(playerId.split(':').at(-1)),teamId=Number(team.id.split(':').at(-1)),today=new Date(),season=today.getUTCFullYear()+(today.getUTCMonth()>=8?1:0);assert(/^espn:player:\d+$/.test(playerId)&&/^espn:team:\d+$/.test(team.id)&&Number.isSafeInteger(numericPlayer)&&numericPlayer>0&&Number.isSafeInteger(teamId)&&teamId>0,'Invalid canonical player or team');send(res,200,await playerReview({nba,store,playerId:numericPlayer,teamId,season,force:url.searchParams.get('refresh')==='1'}));return;}
    if(path==='/api/nba/roster'){const bundle=store.cache('matchup:'+url.searchParams.get('gameId'))?.body;send(res,200,bundle?{fetchedAt:bundle.fetchedAt,players:bundle.players,injuries:bundle.injuries}:{players:[],injuries:[]});return;}
    if(path==='/api/nba/projection'){const eventId=url.searchParams.get('eventId'),run=store.latestRun(eventId);assert(run,'Projection is still being prepared');let view={...run.summary,id:run.id,histogram:run.histogram,quotes:run.quotes||[]};
     if(run.summary.propSummaryVersion!==2){const key='prop-display-v2:'+run.id,cached=store.cache(key);if(cached)view=cached.body;else {const sim=await work({kind:'simulation',scenario:run.scenario,seed:run.summary.seed??42}),{samples,...summary}=sim;view={...summary,id:run.id,histogram:run.histogram,quotes:addNoVig(store.quotes(eventId).map(q=>priceQuote(q,sim,run.scenario)))};store.saveCache(key,view);}}
