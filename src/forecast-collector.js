@@ -2,6 +2,7 @@
 // survive restarts; missed pregame observations are never reconstructed later.
 export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=Date.now,candidateVersion='minute-shadow-balanced-1'}) {
  let running=false,volatileStatus=null;
+ const finalKey=(games,target)=>games.filter(g=>g.status_state==='final'&&Date.parse(g.datetime)<clock()&&[g.home_team?.id,g.visitor_team?.id].some(id=>id!=null&&[target.home_team?.id,target.visitor_team?.id].includes(id))).map(g=>g.id).sort((a,b)=>a-b).join(',');
  const key='forecast-collector:v1', status=()=>{try{return volatileStatus||store.cache(key)?.body||{state:'not started'};}catch{return volatileStatus||{state:'failed',reason:'Storage unavailable'};}};
  const save=value=>{volatileStatus=value;return store.saveCache(key,value);};
  async function tick(){
@@ -14,12 +15,13 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
    const captures=[];
    for(const game of upcoming){
     const phase=Date.parse(game.datetime)-clock()<=90*60000?'near-tip':'early',receiptKey='auto-capture:v3:'+candidateVersion+':'+game.id+':'+phase,receipt=store.cache(receiptKey)?.body;
-    if(receipt?.state==='saved'||receipt?.lastAttemptAt&&clock()-Date.parse(receipt.lastAttemptAt)<15*60000)continue;
+    const latestFinals=finalKey(bundle.games,game),changed=receipt?.latestFinals!==latestFinals;
+    if(receipt?.state==='saved'&&!changed||!changed&&receipt?.lastAttemptAt&&clock()-Date.parse(receipt.lastAttemptAt)<15*60000)continue;
     if(!canPrepare())break;
     const lastAttemptAt=new Date(clock()).toISOString();
-    store.saveCache(receiptKey,{state:'running',lastAttemptAt});
-    try{const result=await prepare(game);const state=result.shadow?.state==='saved'?'saved':'retry';store.saveCache(receiptKey,{...result,state,lastAttemptAt});captures.push({gameId:game.id,state});}
-    catch{store.saveCache(receiptKey,{state:'retry',lastAttemptAt,reason:'Input retrieval or calculation failed; retry after 15 minutes'});captures.push({gameId:game.id,state:'retry'});}
+    store.saveCache(receiptKey,{state:'running',lastAttemptAt,latestFinals});
+    try{const result=await prepare(game);const state=result.shadow?.state==='saved'?'saved':'retry';store.saveCache(receiptKey,{...result,state,lastAttemptAt,latestFinals});captures.push({gameId:game.id,state});}
+    catch{store.saveCache(receiptKey,{state:'retry',lastAttemptAt,latestFinals,reason:'Input retrieval or calculation failed; retry after 15 minutes'});captures.push({gameId:game.id,state:'retry'});}
    }
    const ids=[...new Set([...store.pendingPerformanceEvents(clock()),...store.pendingMatchedEvents()])].slice(0,8),settlements=[];
    for(const eventId of ids){const retryKey='auto-settle:v1:'+eventId,last=store.cache(retryKey)?.body;if(last&&clock()-Date.parse(last.at)<30*60000)continue;

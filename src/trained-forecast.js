@@ -1,3 +1,4 @@
+import {eligibleFinal} from './live-finals.js';
 import {readFileSync} from 'node:fs';
 import {createFeatureState,enterSeason,gameFeatures,recordScheduledStart,updateFinalScore} from './accuracy-features.js';
 import {predictRegression,sigmoid,logit} from './regression.js';
@@ -10,7 +11,7 @@ export function buildGameForecast(bundle,g,artifact=gameArtifact){
  if(!artifact.summary.promotion.passed||asOf<=Date.parse(artifact.trainingLastGameAt)+86400000||!bundle.leagueHistoryComplete)return null;
  const state=createFeatureState(artifact.state),season=g.season||new Date(g.datetime).getUTCFullYear()+(new Date(g.datetime).getUTCMonth()>=8?1:0);enterSeason(state,season);
  const history=bundle.games.filter(r=>r.id!==g.id&&['final','in_progress'].includes(r.status_state)&&Date.parse(r.datetime)>Date.parse(artifact.trainingLastGameAt)&&Date.parse(r.datetime)<asOf).sort((a,b)=>Date.parse(a.datetime)-Date.parse(b.datetime)||a.id-b.id);
- for(const row of history){if(row.status_state==='final'&&Date.parse(row.datetime)+86400000<asOf)updateFinalScore(state,row);recordScheduledStart(state,row);}
+ for(const row of history){if(eligibleFinal(bundle,row,asOf))updateFinalScore(state,row);recordScheduledStart(state,row);}
  const features=gameFeatures(state,g),m=artifact.liveModel,probability=sigmoid(m.calibration.intercept+m.calibration.slope*logit(predictRegression(m.classifier,features))),totalMean=Math.max(140,Math.min(300,predictRegression(m.totalModel,features)+m.totalOffset));
  return {modelVersion:TRAINED_MODEL_VERSION,trainingLastGameAt:artifact.trainingLastGameAt,asOf:bundle.fetchedAt,probability,marginMean:m.marginScale*logit(probability),marginScale:m.marginScale,totalMean,totalSd:m.totalSd,rho:m.rho,features,updatedGames:history.length};
 }

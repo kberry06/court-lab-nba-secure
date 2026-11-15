@@ -10,3 +10,15 @@ export function marketLines(quotes,eventId,playerId,metric,now=Date.now()){
 }
 export function compareLine(values,line){const out={over:0,under:0,equal:0,count:0};if(!Number.isFinite(line))return out;for(const v of values){if(!Number.isFinite(v))continue;out.count++;out[v>line?'over':v<line?'under':'equal']++;}return out;}
 export function chartCeiling(values,projection,line){return Math.max(5,...values.filter(Number.isFinite),...[projection,line].filter(Number.isFinite))*1.15;}
+export function minuteSeries(rows){
+ const values=rows.map(r=>typeof r.minutes==='number'&&Number.isFinite(r.minutes)&&r.minutes>=0&&r.minutes<=80?r.minutes:null);
+ return {values,ceiling:Math.max(48,Math.ceil(Math.max(0,...values.filter(Number.isFinite))/12)*12)};
+}
+export function minuteOverlay(rows,{x,top,bottom,height,width,right}){
+ const {values,ceiling}=minuteSeries(rows),y=v=>top+(ceiling-v)*(height-top-bottom)/ceiling;
+ if(!values.some(Number.isFinite))return '';
+ const axis=Array.from({length:5},(_,i)=>ceiling*(4-i)/4).map(v=>`<text class="minutes-axis" x="${width-right+8}" y="${y(v)+4}">${v}m</text>`).join('');
+ const lines=values.map((v,i)=>i&&v!==null&&values[i-1]!==null?`<line class="minutes-line" x1="${x(i-1)}" y1="${y(values[i-1])}" x2="${x(i)}" y2="${y(v)}"/>`:'').join('');
+ const dots=values.map((v,i)=>v===null?'':`<circle class="minutes-point" cx="${x(i)}" cy="${y(v)}" r="4"><title>Minutes played: ${v.toFixed(1)}</title></circle>`).join('');
+ return `<g aria-label="Minutes played, right axis"><text class="minutes-axis" x="${width-right+8}" y="${top-12}">MIN</text>${axis}${lines}${dots}</g>`;
+}

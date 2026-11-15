@@ -1,3 +1,4 @@
+import {LIVE_INPUT_VERSION} from './live-finals.js';
 import {assert} from './validation.js';
 import {validateBundle} from './nba-data.js';
 const root='https://site.api.espn.com/apis/site/v2/sports/basketball/nba/';
@@ -47,12 +48,12 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
     async reviewBody(path,force=false){return get(path,force?0:5*60000);},
     async settlementBody(eventId){assert(/^espn:game:\d+$/.test(eventId),'Invalid settlement event');return get('summary?event='+eventId.split(':').at(-1),5*60000);},
     async schedule(force=false) {
-      const previous=store.cache('nba-schedule');if(!force&&previous&&clock()-previous.savedAt<30*60000)return previous.body;
+      const previous=store.cache('nba-schedule');if(!force&&previous&&clock()-previous.savedAt<5*60000)return previous.body;
       const date=n=>new Date(n).toISOString().slice(0,10).replaceAll('-','');
       const events=new Map();
       // ESPN rejects date ranges on this endpoint. Use bounded daily requests.
       for(let offset=-1;offset<=7;offset++){
-        const raw=await get(`scoreboard?limit=1000&dates=${date(clock()+offset*day)}`,force?0:30*60000);
+        const raw=await get(`scoreboard?limit=1000&dates=${date(clock()+offset*day)}`,force?0:(offset<=0?5:30)*60000);
         assert(Array.isArray(raw.events),'Schedule unavailable from public source');
         for(const event of raw.events)events.set(event.id,event);
       }
@@ -60,35 +61,55 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       store.saveCache('nba-schedule',bundle);return bundle;
     },
     async matchup(game,{force=false}={}) {
-      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===4&&clock()-cached.savedAt<30*60000)return cached.body;
-      const games=new Map(),players=[],injuries=[],stats=[];
+      const knownFinals=(store.cache('nba-schedule')?.body.games||[]).filter(g=>g.status_state==='final'&&g.id!==game.id&&Date.parse(g.datetime)<clock()&&[g.home_team.id,g.visitor_team.id].some(id=>[game.home_team.id,game.visitor_team.id].includes(id)));
+      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===5&&clock()-cached.savedAt<5*60000&&knownFinals.every(g=>cached.body.games?.some(old=>old.id===g.id&&old.status_state==='final')))return cached.body;
+      const games=new Map(),players=[],injuries=[],stats=[],verifiedFinals={};
       const season=game.season||new Date(game.datetime).getUTCFullYear()+(new Date(game.datetime).getUTCMonth()>=8?1:0);
       for(const t of [game.home_team,game.visitor_team]) {
         const roster=normalizeRoster(await get(`teams/${t.id}/roster`,force?0:30*60000),t);players.push(...roster.players);injuries.push(...roster.injuries);
         let history=[];
         for(const year of [season,season-1]) {
-          const raw=await get(`teams/${t.id}/schedule?season=${year}&seasontype=2`,force?0:6*3600000);
+          const raw=await get(`teams/${t.id}/schedule?season=${year}&seasontype=2`,force?0:(year===season?5*60000:6*3600000));
           assert(Array.isArray(raw.events),'Historical schedule unavailable');
-          history.push(...raw.events.filter(e=>e.competitions?.[0]?.type?.id!=='39').map(normalizeEvent).filter(g=>g.status_state==='final'&&Date.parse(g.datetime)<clock()-day));
+          history.push(...raw.events.filter(e=>e.competitions?.[0]?.type?.id!=='39').map(normalizeEvent).filter(g=>g.status_state==='final'&&Date.parse(g.datetime)<clock()));
           if(history.length>=20)break;
         }
         history.sort((a,b)=>b.date.localeCompare(a.date));for(const g of history.slice(0,20))games.set(g.id,g);
       }
+      // A scoreboard final can precede the team schedule update. Verify its box
+      // now rather than marking a refresh complete with yesterday's cached form.
+      for(const g of knownFinals)games.set(g.id,g);
       // Bounded, cached requests. No scraping, proxy rotation or access bypass.
-      for(const g of games.values())stats.push(...normalizeBox(await get(`summary?event=${g.id}`,365*day),g));
+      for(const g of games.values()){
+        const recent=Date.parse(g.datetime)+2*day>=clock(),path=`summary?event=${g.id}`,body=await get(path,recent?(force?0:5*60000):365*day);
+        if(recent){const {normalizeSettlement}=await import('./settlement-data.js');const receivedAt=new Date(Math.min(clock(),store.cache('espn:'+path)?.savedAt??clock())).toISOString();const settled=normalizeSettlement(body,'espn:game:'+g.id,Date.parse(receivedAt));
+          assert(Date.parse(settled.start)===Date.parse(g.datetime)&&settled.homeTeamId==='espn:team:'+g.home_team.id&&settled.awayTeamId==='espn:team:'+g.visitor_team.id&&settled.homeScore===g.home_team_score&&settled.awayScore===g.visitor_team_score,'Latest final disagrees with schedule; refresh before predicting');
+          verifiedFinals[g.id]={start:g.datetime,receivedAt,complete:true,source:settled.source};}
+        stats.push(...normalizeBox(body,g));
+      }
       // Follow the athlete ID across trades instead of assuming current-team history.
       const playerGames=playerId=>new Set(stats.filter(s=>s.player.id===playerId&&parseFloat(s.min)>0).map(s=>s.game.id)).size;
       for(const p of players)if(playerGames(p.id)<20){
         for(const year of [season,season-1]){
-          const rows=normalizePlayerLog(await get(`athletes/${p.id}/gamelog?season=${year}`,force?0:6*3600000),p.id,clock()-day);stats.push(...rows);
+          const rows=normalizePlayerLog(await get(`athletes/${p.id}/gamelog?season=${year}`,force?0:(year===season?5*60000:6*3600000)),p.id,clock());stats.push(...rows.filter(r=>!stats.some(old=>old.player.id===p.id&&old.game.id===r.game.id)));
           if(playerGames(p.id)>=20)break;
         }
+      }
+      // A recent trade can put a player's last appearance outside both current
+      // teams' schedules. Verify that final too, following the durable athlete ID.
+      const freshPlayerGames=[...new Set(stats.filter(r=>r.provenance==='espn-player-gamelog'&&Date.parse(r.game.datetime)+day>=clock()&&!verifiedFinals[r.game.id]).map(r=>r.game.id))];
+      for(const gameId of freshPlayerGames){
+        const path=`summary?event=${gameId}`,body=await get(path,force?0:5*60000),receivedAt=new Date(Math.min(clock(),store.cache('espn:'+path)?.savedAt??clock())).toISOString();
+        const {normalizeSettlement}=await import('./settlement-data.js');normalizeSettlement(body,'espn:game:'+gameId,Date.parse(receivedAt));
+        const g=normalizeEvent(body.header);games.set(g.id,g);verifiedFinals[g.id]={start:g.datetime,receivedAt,complete:true,source:'ESPN public final box score'};
+        for(let i=stats.length-1;i>=0;i--)if(stats[i].game.id===g.id)stats.splice(i,1);
+        stats.push(...normalizeBox(body,g));
       }
       // Refresh league-wide results for opponent-adjusted ratings, sharing the six-hour cache across matchups.
       const leagueKey=`nba-league-results:${season}`,leagueCache=store.cache(leagueKey);let league=leagueCache&&clock()-leagueCache.savedAt<6*3600000?leagueCache.body:null;
       if(!league){const events=new Map();for(let teamId=1;teamId<=30;teamId++){const raw=await get(`teams/${teamId}/schedule?season=${season}&seasontype=2`,6*3600000);assert(Array.isArray(raw.events),'League-wide NBA results unavailable');for(const event of raw.events){if(event.competitions?.[0]?.type?.id==='39')continue;const row=normalizeEvent(event);if(['final','in_progress'].includes(row.status_state)&&row.season===season&&Date.parse(row.datetime)<clock())events.set(row.id,row);}}league={games:[...events.values()]};store.saveCache(leagueKey,league);}
-      for(const row of league.games)games.set(row.id,row);
-      const bundle=validateBundle({provider:'espn',coverageVersion:4,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
+      for(const row of league.games)if(!games.has(row.id))games.set(row.id,row);
+      const bundle=validateBundle({provider:'espn',coverageVersion:5,liveInputVersion:LIVE_INPUT_VERSION,verifiedFinals,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
       store.saveCache('matchup:'+game.id,bundle);return bundle;
     }
   };
