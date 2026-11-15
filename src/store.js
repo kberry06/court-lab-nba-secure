@@ -1,3 +1,4 @@
+import {encodeCache,decodeCache,recoverCacheStorage,storageStats} from './cache-storage.js';
 import {DatabaseSync} from 'node:sqlite';
 import {mkdirSync} from 'node:fs';
 import {join} from 'node:path';
@@ -39,7 +40,8 @@ export function openStore(dir) {
     CREATE TABLE IF NOT EXISTS shadow_runs(id TEXT PRIMARY KEY,event_id TEXT NOT NULL,created_at TEXT NOT NULL,body TEXT NOT NULL);
     CREATE INDEX IF NOT EXISTS shadow_runs_event ON shadow_runs(event_id,created_at);
     INSERT OR IGNORE INTO migrations VALUES(6);`);
-  return {db,
+  const recovery=recoverCacheStorage(db,dir);
+  return {db,recovery,storageStats:()=>storageStats(db,dir),
     importEvidence:(rows,at=Date.now())=>{const receivedAt=new Date(at).toISOString();let inserted=0;db.exec('BEGIN');try{for(const row of rows){const r=validateEvidence({...row,receivedAt}),{receivedAt:_,...identity}=r,id=createHash('sha256').update(JSON.stringify(identity)).digest('hex');inserted+=db.prepare('INSERT OR IGNORE INTO pit_evidence VALUES(?,?,?,?,?,?)').run(id,r.eventId||null,r.kind,r.sourceAvailableAt,r.receivedAt,JSON.stringify(r)).changes;}db.exec('COMMIT');return {inserted};}catch(e){db.exec('ROLLBACK');throw e;}},
     evidenceAt:(eventId,cutoff,options)=>evidenceAsOf(db.prepare('SELECT body FROM pit_evidence WHERE event_id=? OR event_id IS NULL').all(eventId).map(r=>JSON.parse(r.body)),cutoff,options),
     evidenceStats:()=>({rows:db.prepare('SELECT COUNT(*) AS n FROM pit_evidence').get().n,publicationVerified:db.prepare("SELECT COUNT(*) AS n FROM pit_evidence WHERE json_extract(body,'$.publicationVerified')=1").get().n}),
@@ -56,8 +58,8 @@ export function openStore(dir) {
     saveInputSnapshot:(bundle,gameId,now=Date.now())=>{const s=compactInputSnapshot(bundle,gameId,now),body=JSON.stringify(s.payload),hash=createHash('sha256').update(body).digest('hex');db.exec('BEGIN');try{db.prepare('INSERT OR IGNORE INTO input_snapshot_payloads VALUES(?,?)').run(hash,body);const inserted=db.prepare('INSERT OR IGNORE INTO input_snapshots VALUES(?,?,?,?,?)').run(randomUUID(),s.eventId,s.observedAt,s.receivedAt,hash).changes;db.exec('COMMIT');const receipt=db.prepare('SELECT received_at FROM input_snapshots WHERE event_id=? AND observed_at=? AND payload_hash=?').get(s.eventId,s.observedAt,hash);return {inserted,eventId:s.eventId,observedAt:s.observedAt,receivedAt:receipt.received_at,payloadHash:hash};}catch(error){db.exec('ROLLBACK');throw error;}},
     inputSnapshotAt:(eventId,cutoff)=>{const at=new Date(cutoff).toISOString(),row=db.prepare('SELECT s.*,p.body FROM input_snapshots s JOIN input_snapshot_payloads p ON p.hash=s.payload_hash WHERE s.event_id=? AND s.observed_at<=? AND s.received_at<=? ORDER BY s.received_at DESC,s.observed_at DESC LIMIT 1').get(eventId,at,at);return row?{id:row.id,eventId:row.event_id,observedAt:row.observed_at,receivedAt:row.received_at,payloadHash:row.payload_hash,payload:JSON.parse(row.body)}:null;},
     inputSnapshotStats:()=>({observations:db.prepare('SELECT COUNT(*) AS n FROM input_snapshots').get().n,payloads:db.prepare('SELECT COUNT(*) AS n FROM input_snapshot_payloads').get().n}),
-    cache:key=>{const r=db.prepare('SELECT saved_at,body FROM data_cache WHERE key=?').get(key);return r?{savedAt:r.saved_at,body:JSON.parse(r.body)}:null;},
-    saveCache:(key,body)=>db.prepare('INSERT INTO data_cache VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET saved_at=excluded.saved_at,body=excluded.body').run(key,Date.now(),JSON.stringify(body)),
+    cache:key=>{const r=db.prepare('SELECT saved_at,body FROM data_cache WHERE key=?').get(key);return r?{savedAt:r.saved_at,body:decodeCache(r.body)}:null;},
+    saveCache:(key,body)=>db.prepare('INSERT INTO data_cache VALUES(?,?,?) ON CONFLICT(key) DO UPDATE SET saved_at=excluded.saved_at,body=excluded.body').run(key,Date.now(),encodeCache(body)),
     scenarios:()=>db.prepare('SELECT body FROM scenarios').all().map(r=>JSON.parse(r.body)),
     scenario:id=>{const r=db.prepare('SELECT body FROM scenarios WHERE id=?').get(id);return r?JSON.parse(r.body):null;},
     saveScenario:s=>db.prepare('INSERT INTO scenarios VALUES(?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body').run(s.id,JSON.stringify(s)),
