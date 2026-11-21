@@ -31,6 +31,20 @@ test('alternates, moneylines, manual/unknown main lines, stale/started/demo inpu
  assert.equal(mostProbableSelections(f.quotes,f.result,f.scenario,{now:Date.parse(f.scenario.start)}).selections.length,0);
  assert.equal(mostProbableSelections(f.quotes,f.result,{...f.scenario,asOf:new Date(f.now-25*3600000).toISOString()},{now:f.now}).selections.length,0);
 });
+test('one highest-probability prop per player fills the shortlist with other players and game markets',()=>{
+ const f=shortlistFixture();f.quotes.push(f.quote('player_pa','under',30.5,.82,'espn:player:100','player_points_assists'),f.quote('player_pra','under',35.5,.81,'espn:player:100','player_points_rebounds_assists'),f.quote('player_pr','under',30.5,.80,'espn:player:100','player_points_rebounds'));
+ const before=structuredClone(f.quotes),r=mostProbableSelections(f.quotes,f.result,f.scenario,{now:f.now});
+ assert.deepEqual(r.selections.map(q=>q.modelProbability),[.82,.71,.67,.65]);assert.equal(r.available,5);
+ const featured=r.selections[0];assert.equal(featured.market,'player_pa');assert.deepEqual(featured.relatedProps.map(q=>q.modelProbability),[.81,.80,.78]);assert.ok(featured.relatedProps.every(q=>q.playerId===featured.playerId&&q.confidence==='Low'));
+ assert.equal(new Set(r.selections.filter(q=>q.playerId).map(q=>q.playerId)).size,3);assert.deepEqual(f.quotes,before);
+ // Identical display names must not collapse distinct durable player IDs.
+ f.scenario.teams[0].players[1].name=f.scenario.teams[0].players[0].name;assert.equal(mostProbableSelections(f.quotes,f.result,f.scenario,{now:f.now}).selections.length,4);
+});
+test('related props never pad a shortfall or reintroduce stale and alternate lines',()=>{
+ const f=shortlistFixture();f.quotes=f.quotes.filter(q=>!q.playerId||q.playerId==='espn:player:100');f.quotes.push(f.quote('player_pa','under',30.5,.82,'espn:player:100','player_points_assists'),f.quote('player_pra','under',35.5,.99,'espn:player:100','player_points_rebounds_assists_alternate'),{...f.quote('player_rebounds','under',8.5,.95,'espn:player:100'),observedAt:new Date(f.now-20*60000).toISOString()});
+ const r=mostProbableSelections(f.quotes,f.result,f.scenario,{now:f.now});assert.equal(r.selections.length,3);assert.equal(r.available,3);assert.match(r.reason,/one prop per player/);assert.equal(r.selections[0].relatedProps.length,1);assert.equal(r.selections[0].relatedProps[0].market,'player_points');
+ const props=mostProbableSelections(f.quotes,f.result,f.scenario,{now:f.now,marketFamily:'props'});assert.equal(props.selections.length,1);assert.equal(props.selections[0].relatedProps.length,1);
+});
 test('latest main wins over an older easier line; newer unpriced or ambiguous main quotes cannot fall back to old picks',()=>{
  const f=shortlistFixture(),old={...f.quotes[0],line:200.5,modelProbability:.99,observedAt:new Date(f.now-120000).toISOString(),snapshotId:'old'};
  const current=mostProbableSelections([old,...f.quotes],f.result,f.scenario,{now:f.now,marketFamily:'total'});assert.equal(current.selections[0].line,220.5);
@@ -50,9 +64,9 @@ test('Sydney date groups cross the UTC date boundary and schedule status closes 
 });
 test('selections API stays behind login, validates dates and returns the same four ranked selections as the matchup',async()=>{
  const dir=mkdtempSync(join(tmpdir(),'nba-shortlist-')),{server,store}=createApp({dataDir:dir,passwordHash:hashPassword('test-long-password-for-shortlist'),autoCollect:false});await new Promise(r=>server.listen(0,'127.0.0.1',r));const url='http://127.0.0.1:'+server.address().port;
- try{const f=shortlistFixture(Date.now()),game={id:100,datetime:f.scenario.start,status_state:'scheduled',home_team:{full_name:'Home Team'},visitor_team:{full_name:'Away Team'}};store.saveCache('nba-schedule',{fetchedAt:f.scenario.asOf,games:[game]});store.saveScenario(f.scenario);store.record('runs',{scenario:f.scenario,summary:f.result,quotes:f.quotes},f.scenario.id);store.importQuotes(f.quotes);
+ try{const f=shortlistFixture(Date.now()),game={id:100,datetime:f.scenario.start,status_state:'scheduled',home_team:{full_name:'Home Team'},visitor_team:{full_name:'Away Team'}};f.quotes.push(f.quote('player_pa','under',30.5,.85,'espn:player:100','player_points_assists'));store.saveCache('nba-schedule',{fetchedAt:f.scenario.asOf,games:[game]});store.saveScenario(f.scenario);store.record('runs',{scenario:f.scenario,summary:f.result,quotes:f.quotes},f.scenario.id);store.importQuotes(f.quotes);
   assert.equal((await fetch(url+'/api/nba/selections')).status,401);
-  const login=await fetch(url+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'admin',password:'test-long-password-for-shortlist'})});assert.equal(login.status,200);const headers={cookie:login.headers.get('set-cookie').split(';')[0]},path='/api/nba/selections?date='+sydneyDate(game.datetime),response=await fetch(url+path,{headers});assert.equal(response.status,200);const data=await response.json();assert.equal(data.games[0].selections.length,4);assert.deepEqual(data.games[0].selections.map(q=>q.modelProbability),[.78,.71,.67,.65]);
+  const login=await fetch(url+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:'admin',password:'test-long-password-for-shortlist'})});assert.equal(login.status,200);const headers={cookie:login.headers.get('set-cookie').split(';')[0]},path='/api/nba/selections?date='+sydneyDate(game.datetime),response=await fetch(url+path,{headers});assert.equal(response.status,200);const data=await response.json();assert.equal(data.games[0].selections.length,4);assert.deepEqual(data.games[0].selections.map(q=>q.modelProbability),[.85,.71,.67,.65]);assert.equal(data.games[0].selections[0].relatedProps[0].modelProbability,.78);
   assert.equal((await fetch(url+'/api/nba/selections?date=2026-02-31',{headers})).status,400);assert.equal((await fetch(url+path+'&family=moneyline',{headers})).status,400);assert.equal((await fetch(url+'/top-selections.js',{headers})).status,200);
  }finally{await new Promise(r=>server.close(r));store.db.close();rmSync(dir,{recursive:true});}
 });

@@ -42,6 +42,11 @@ export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),li
   sides.sort(compare);if(sides.length)candidates.push(sides[0]);
  }
  candidates.sort(compare);
- return {selections:candidates.slice(0,Math.max(0,Math.min(4,limit))),available:candidates.length,target:limit,reason:candidates.length<limit?'Fewer than four current main-line selections qualify. Refresh Sportsbet odds and the projection in this matchup.':null};
+ const distinct=[],players=new Map();
+ for(const candidate of candidates){
+  if(candidate.playerId&&players.has(candidate.playerId)){players.get(candidate.playerId).relatedProps.push(candidate);continue;}
+  const selection={...candidate,relatedProps:[]};distinct.push(selection);if(candidate.playerId)players.set(candidate.playerId,selection);
+ }
+ return {selections:distinct.slice(0,Math.max(0,Math.min(4,limit))),available:distinct.length,target:limit,reason:distinct.length<limit?'Fewer than four distinct selections qualify (one prop per player). Refresh Sportsbet odds and the projection in this matchup.':null};
 }
 function compare(a,b){return b.modelProbability-a.modelProbability||(b.expectedReturn??-Infinity)-(a.expectedReturn??-Infinity)||Date.parse(b.observedAt)-Date.parse(a.observedAt)||groupKey(a).localeCompare(groupKey(b))||a.selection.localeCompare(b.selection);}
