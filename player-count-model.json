@@ -1,0 +1,56 @@
+{
+  "version": "player-count-shadow-1",
+  "shadowOnly": true,
+  "trainingLastSettledAt": "2026-04-14T00:30:00.000Z",
+  "cases": 140842,
+  "rawOverdispersion": [
+    [
+      0.08618778280284815,
+      0.013026968275785776,
+      -0.004455711436962135
+    ],
+    [
+      0.013026968275785776,
+      0.020173738403906117,
+      0.016825841652321483
+    ],
+    [
+      -0.004455711436962135,
+      0.016825841652321483,
+      0.03171533848349932
+    ]
+  ],
+  "offDiagonalScale": 1,
+  "lower": [
+    [
+      0.2875310746782139,
+      0,
+      0
+    ],
+    [
+      0.04501373326002139,
+      0.13396532528196295,
+      0
+    ],
+    [
+      -0.015531078545198715,
+      0.12977214100772733,
+      0.11891497477036848
+    ]
+  ],
+  "rateCorrection": {
+    "points": 0.9943381954886951,
+    "rebounds": 0.9985702411129226,
+    "assists": 1.0004016375250595
+  },
+  "sourceHashes": {
+    "games": "a18b4963e0d8c2547ad77a9accf6b9802a5d8a4959fdf10a851b8ecf93c0a057",
+    "players": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7"
+  },
+  "codeHashes": {
+    "src/count-challenger.js": "f244c5ca592516ebdd77b1d9c150384a2cd84db9fc70a9285c5aba12a5165dea",
+    "src/player-count-model.js": "d2ba0edb4f5bfb7bcf3dec9261e5abe117c1a6577f0399810292ac304332be43",
+    "scripts/prepare-count-replay.js": "aaa0c2ad584e30602914e545300ee53a484baff5d6609ffab10ed3f44de73ea8",
+    "scripts/research-count-model.js": "bf7b4dfef1091389d312b70903c0d278265eb5cb2c10e3416854951844a76eaa"
+  }
+}

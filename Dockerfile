@@ -14,5 +14,6 @@ COPY deploy ./deploy
 COPY model-artifact.json ./
 COPY player-history-artifact.json ./
 COPY game-model-artifact.json player-model-artifact.json allocation-research-artifact.json advanced-research-artifact.json historical-inputs-artifact.json minutes-research-artifact.json minute-learning-artifact.json minute-shadow-model.json minute-regime-artifact.json minute-participation-artifact.json minute-balanced-artifact.json minute-joint-artifact.json ./
+COPY player-count-model.json player-count-research-artifact.json ./
 EXPOSE 10000
 CMD ["node", "deploy/reuse-service.mjs"]

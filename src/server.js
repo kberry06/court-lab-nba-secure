@@ -1,3 +1,4 @@
+import {COUNT_VERSION} from './player-count-model.js';
 import {playerAudit} from './player-audit.js';
 import {selectionSlate,sydneyDate} from './top-selections.js';
 import {playerReview} from './player-review.js';
@@ -36,7 +37,17 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
  const counters=new Map(),loginAttempts=new Map(),auth=sessionAuth(store.db,passwordHash,production,basePath);
  const work=data=>new Promise((resolve,reject)=>{if(busy){reject(Object.assign(new Error('A calculation is running. Try again shortly.'),{status:429}));return;}busy=true;let message,error;const w=new Worker(new URL('./worker.js',import.meta.url),{workerData:data}),timer=setTimeout(()=>w.terminate(),60000);w.once('message',m=>{message=m;});w.once('error',e=>{error=e;});w.once('exit',code=>{clearTimeout(timer);busy=false;if(error)reject(error);else if(code||!message)reject(new Error('Calculation interrupted'));else if(message.error)reject(Object.assign(new Error(message.error),{status:400}));else resolve(message.result);});});
  const project=async(scenario,seed=42)=>{validateScenario(scenario);number(seed,0,4294967295,'seed');const sim=await work({kind:'simulation',scenario,seed});const quotes=addNoVig(store.quotes(scenario.id).map(q=>priceQuote(q,sim,scenario)));const {samples,...summary}=sim;store.freezeForecast(scenario,summary);const histogram=Array.from({length:20},(_,i)=>({lower:-50+i*5,count:samples.margin.filter(m=>i===0?m< -45:i===19?m>=45:m>=-50+i*5&&m< -45+i*5).length}));const id=store.record('runs',{scenario,summary,histogram,quotes},scenario.id);store.freezeMatched(scenario,summary,quotes,{at:Date.now(),modelKey:(await algorithmKey)+':'+summary.modelVersion,inputSnapshot:store.inputSnapshotAt(scenario.id,Date.now()),variant:JSON.stringify(scenario)===JSON.stringify(store.scenario(scenario.id))?'default':'adjusted',runId:id});return {...summary,id,histogram,quotes,oddsCoverage:store.cache('odds-coverage:'+scenario.id)?.body||null};};
- const shadowProject=async(bundle,scenario,incumbentRunId)=>{if(scenario.demo||Date.now()>=Date.parse(scenario.start))return {state:'not eligible'};const research=buildJointMinuteShadow(bundle,scenario),sim=await work({kind:'simulation',scenario:research,seed:42}),{samples,...summary}=sim;if(Date.now()>=Date.parse(scenario.start))return {state:'not eligible',reason:'Tip-off reached during calculation'};store.freezeForecast(research,summary);const snapshot=store.inputSnapshotAt(scenario.id,Date.now()),{payload,...receipt}=snapshot||{};const id=store.record('shadow_runs',{scenario:research,summary,incumbentRunId,inputSnapshot:receipt,researchOnly:true},scenario.id);return {state:'saved',id,modelVersion:summary.modelVersion,quality:research.shadowQuality};};
+ const shadowProject=async(bundle,scenario,incumbentRunId)=>{
+  if(scenario.demo||Date.now()>=Date.parse(scenario.start))return {state:'not eligible'};
+  const research=buildJointMinuteShadow(bundle,scenario),comparison=await work({kind:'shadow-comparisons',scenario:research,incumbent:scenario,seed:42}),summary=comparison.rotationSummary;
+  if(Date.now()>=Date.parse(scenario.start))return {state:'not eligible',reason:'Tip-off reached during calculation'};
+  const snapshot=store.inputSnapshotAt(scenario.id,Date.now()),{payload,...receipt}=snapshot||{};
+  store.freezeForecast(research,summary);const id=store.record('shadow_runs',{scenario:research,summary,incumbentRunId,inputSnapshot:receipt,researchOnly:true},scenario.id);
+  let count={state:'unavailable',version:COUNT_VERSION};
+  if(comparison.countSummary){const countScenario={...research,countModelVersion:COUNT_VERSION},countSummary=comparison.countSummary;store.freezeForecast(countScenario,countSummary);const countId=store.record('shadow_runs',{scenario:countScenario,summary:countSummary,incumbentRunId,inputSnapshot:receipt,researchOnly:true},scenario.id);count={state:'saved',id:countId,version:COUNT_VERSION};console.info('Forecast count challenger',JSON.stringify({eventId:scenario.id,version:COUNT_VERSION,state:'saved'}));}
+  else store.record('audit',{action:'count-shadow-unavailable',eventId:scenario.id});
+  return {state:'saved',id,modelVersion:summary.modelVersion,quality:research.shadowQuality,count,versionsSaved:[summary.modelVersion,...(count.state==='saved'?[COUNT_VERSION]:[])]};
+ };
  const prepareGame=async(game,{force=false}={})=>{
   assert(dataJob.state!=='running'&&!busy,'Another calculation or matchup is loading');
   dataJob={state:'running',gameId:game.id,startedAt:new Date().toISOString()};
@@ -45,7 +56,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    dataJob={shadow,state:'complete',gameId:game.id,eventId:scenario.id,runId:projection.id,warnings:scenario.warnings};return dataJob;
   }catch(e){dataJob={state:'failed',gameId:game.id,error:e.status?e.message:'NBA data could not be prepared. Saved data retained.'};throw e;}
  };
- const collector=forecastCollector({store,candidateVersion:JOINT_MINUTE_VERSION,nba:{schedule:()=>nba.schedule(),settle:async id=>store.settleMatched(normalizeSettlement(await nba.settlementBody(id),id))},prepare:prepareGame,canPrepare:()=>dataJob.state!=='running'&&!busy});
+ const collector=forecastCollector({store,candidateVersion:JOINT_MINUTE_VERSION,additionalCaptureVersions:[COUNT_VERSION],nba:{schedule:()=>nba.schedule(),settle:async id=>store.settleMatched(normalizeSettlement(await nba.settlementBody(id),id))},prepare:prepareGame,canPrepare:()=>dataJob.state!=='running'&&!busy});
  const collectionStatus=()=>({enabled:autoCollect,candidateVersion:JOINT_MINUTE_VERSION,intervalMinutes:5,...collector.status()});
  const send=(res,status,body)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(body));};
  const server=http.createServer(async(req,res)=>{res.setHeader('X-Content-Type-Options','nosniff');res.setHeader('Referrer-Policy','no-referrer');res.setHeader('Content-Security-Policy',"default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'");
@@ -110,6 +121,7 @@ export function createApp({dataDir=process.env.DATA_DIR||'data',adminToken=proce
    if(path==='/api/mappings'){send(res,200,store.mappings());return;}
    if(path==='/api/backtest'){send(res,200,store.latestReport());return;}
    if(path==='/api/research/collection'){send(res,200,collectionStatus());return;}
+   if(path==='/api/research/count-challenger'){const days=Number(url.searchParams.get('days')||7);assert(Number.isInteger(days)&&days>=1&&days<=30,'Use 1–30 days');const pairs=store.shadowPairs({days,version:COUNT_VERSION}),research=JSON.parse(await readFile(new URL('../player-count-research-artifact.json',import.meta.url),'utf8'));send(res,200,{version:COUNT_VERSION,shadowOnly:true,promoted:false,...store.shadowRunStats(COUNT_VERSION),paired:{...pairedShadowPerformance(pairs,{days}),readCoverage:pairs.readCoverage},research});return;}
    if(path==='/api/research/shadow'){send(res,200,{version:JOINT_MINUTE_VERSION,shadowOnly:true,historicalGatePassed:false,trainingLastSettledAt:minuteShadowModel.trainingLastSettledAt,...store.shadowRunStats(JOINT_MINUTE_VERSION)});return;}
    if(path==='/api/research/player-audit'){const days=Number(url.searchParams.get('days')||7);assert(Number.isInteger(days)&&days>=1&&days<=30,'Use 1–30 days');const at=Date.now(),forecasts=store.performanceForecasts(at,{days}),matched=store.matchedRecords(new Date(at).toISOString(),{days,includeUpcoming:false}),report=playerAudit(forecasts,matched,{now:at,days});send(res,200,{...report,currentInputs:store.currentPlayerInputs({at})});return;}
    if(path==='/api/research/prospective'){send(res,200,(()=>{const data=store.matchedRecords(new Date().toISOString(),{days:30});const report=prospectiveReport(data);if(data.readCoverage.truncated)report.status='Partial report: record limit reached; request a shorter audit window. '+report.status;return {...report,readCoverage:data.readCoverage};})());return;}

@@ -1,0 +1,32 @@
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {simulate} from '../src/model.js';
+import {countChallenger} from '../src/count-challenger.js';
+import {fitCountModel} from '../src/player-count-model.js';
+import {pairedAllocationBootstrap} from '../src/allocation-replay.js';
+const root=new URL('../',import.meta.url),read=p=>fs.readFile(new URL(p,root),'utf8');
+const input=JSON.parse(await read('data/generated/count-replay-inputs.json'));
+const components={minutes:['minutes'],points:['points'],rebounds:['rebounds'],assists:['assists'],pra:['points','rebounds','assists'],pa:['points','assists'],ra:['rebounds','assists'],pr:['points','rebounds']};
+const lines={points:[9.5,14.5,19.5,24.5,29.5],rebounds:[2.5,4.5,6.5,8.5,10.5],assists:[1.5,3.5,5.5,7.5,9.5],pra:[9.5,19.5,29.5,39.5,49.5],pa:[9.5,19.5,29.5,39.5,49.5],ra:[4.5,9.5,14.5,19.5,24.5],pr:[9.5,19.5,29.5,39.5,49.5]};
+const cache=new Map(),getModel=season=>{if(!cache.has(season)){const rows=input.rateRows.filter(r=>r.season<season),last=rows.map(r=>r.date).sort().at(-1);cache.set(season,fitCountModel(rows,{trainingLastSettledAt:new Date(Date.parse(last)+86400000).toISOString()}));}return cache.get(season);};
+const tasks=input.tasks.filter(t=>t.game.season>=2022),results=[],pairs=[],probabilityPairs=[];
+for(const [i,task] of tasks.entries()){
+ const artifact=getModel(task.game.season),seed=(637+task.game.id)>>>0,s=task.standard;
+ const incumbent=simulate(s.incumbent,{seed}),rotation=simulate(s.candidate,{seed}),index=new Map(task.actual.map(p=>['espn:player:'+p.playerId,p])),game={gameId:task.game.id,season:task.game.season,date:task.game.datetime,models:{}};
+ const measure=sim=>{const out={};for(const [metric,keys] of Object.entries(components)){let n=0,absolute=0,bias=0,covered=0,brier=0,thresholdN=0;const errors={};for(const p of sim.players){const a=index.get(p.id),v=sim.samples.players[p.id];if(!a||a.minutes<=0)continue;const values=[];for(let d=0;d<10000;d++)if(v.active[d])values.push(keys.reduce((s,k)=>s+v[k][d],0));if(!values.length)continue;const actual=keys.reduce((s,k)=>s+a[k],0),mean=values.reduce((s,v)=>s+v,0)/values.length;values.sort((a,b)=>a-b);n++;absolute+=Math.abs(mean-actual);bias+=mean-actual;covered+=Number(actual>=values[Math.floor(values.length*.1)]&&actual<=values[Math.floor(values.length*.9)]);errors[p.id]=Math.abs(mean-actual);for(const line of lines[metric]||[]){let lo=0,hi=values.length;while(lo<hi){const mid=(lo+hi)>>>1;if(values[mid]<=line)lo=mid+1;else hi=mid;}const probability=1-lo/values.length;brier+=(probability-Number(actual>line))**2;thresholdN++;}}
+ out[metric]={n,mae:absolute/n,bias:bias/n,coverage80:covered/n,covered,brier:thresholdN?brier/thresholdN:null,thresholdN,errors};}return out;};
+ game.models.incumbent=measure(incumbent);game.models.rotation=measure(rotation);
+ const challenger=countChallenger(s.candidate,incumbent,rotation,artifact,{seed:seed^7381});game.models.challenger=measure(challenger);
+ for(const id of Object.keys(game.models.incumbent.points.errors)){const a=game.models.incumbent.points.errors[id],b=game.models.challenger.points.errors[id];if(Number.isFinite(b))pairs.push({date:task.game.datetime.slice(0,10),difference:b-a});}
+ probabilityPairs.push({date:task.game.datetime.slice(0,10),difference:game.models.challenger.points.brier-game.models.incumbent.points.brier});
+ for(const model of Object.values(game.models))for(const metric of Object.values(model))delete metric.errors;
+ results.push(game);console.log('Earlier-season count model '+(i+1)+'/'+tasks.length);
+}
+const aggregate=games=>Object.fromEntries(['incumbent','rotation','challenger'].map(model=>[model,Object.fromEntries(Object.keys(components).map(k=>{const rs=games.map(g=>g.models[model][k]),n=rs.reduce((s,r)=>s+r.n,0),thresholdN=rs.reduce((s,r)=>s+r.thresholdN,0);return [k,{n,mae:rs.reduce((s,r)=>s+r.mae*r.n,0)/n,bias:rs.reduce((s,r)=>s+r.bias*r.n,0)/n,coverage80:rs.reduce((s,r)=>s+r.covered,0)/n,brier:thresholdN?rs.reduce((s,r)=>s+(r.brier||0)*r.thresholdN,0)/thresholdN:null}];}))]));
+const output={version:'player-count-research-1',generatedAt:new Date().toISOString(),games:tasks.length,sourceHashes:input.sourceHashes,protocol:{fit:'Conditional rate residual moments using only prior-season earlier-game forecasts and observed exposure; Poisson variance removed before estimating joint rate covariance. Actual minutes are used only to fit conditional rate variability, never as forecast inputs.',evaluation:'Same 60-game deterministic prior-roster sample, 10,000 draws, earlier-season count parameters per season, unchanged incumbent game draws, improved rotation candidate. Final full-season parameters trained through 2025–26 are for future shadow forecasts only.',status:'Previously inspected historical seasons; development diagnostic, not an untouched test.',roster:'Previous listed roster proxy; missing players excluded, not zero-filled',thresholds:'Fixed diagnostic thresholds, not historical Sportsbet main lines; correlated cases do not establish ROI'},models:aggregate(results),folds:[...new Set(results.map(r=>r.season))].map(season=>({season,...aggregate(results.filter(r=>r.season===season))})),uncertainty:{pointMAE:pairedAllocationBootstrap(pairs),pointBrier:pairedAllocationBootstrap(probabilityPairs)},promotion:{passed:false,reason:'Requires prospective same-input comparisons, no point regression, sufficient independent games and market-family calibration; no automatic promotion.'}};
+output.uncertainty.pointBrier.method='Paired UTC-day bootstrap of game-average fixed-threshold point Brier differences';
+await fs.writeFile(new URL('player-count-research-artifact.json',root),JSON.stringify(output,null,2));
+const final=fitCountModel(input.rateRows,{trainingLastSettledAt:new Date(input.rateRows.reduce((m,r)=>Math.max(m,Date.parse(r.date)),0)+86400000).toISOString()});
+const codeHashes=Object.fromEntries(await Promise.all(['src/count-challenger.js','src/player-count-model.js','scripts/prepare-count-replay.js','scripts/research-count-model.js'].map(async p=>[p,createHash('sha256').update(await read(p)).digest('hex')])));
+await fs.writeFile(new URL('player-count-model.json',root),JSON.stringify({...final,sourceHashes:input.sourceHashes,codeHashes},null,2));
+await fs.writeFile(new URL('data/generated/count-replay-results.json',root),JSON.stringify(results));console.log(JSON.stringify({models:output.models,uncertainty:output.uncertainty,promotion:output.promotion},null,2));

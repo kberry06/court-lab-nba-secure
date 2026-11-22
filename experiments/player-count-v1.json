@@ -1,0 +1,28 @@
+{
+  "version": "player-count-shadow-1",
+  "status": "Research challenger; never automatically promoted",
+  "hypothesis": "Learned joint rate variation plus count noise improves under-dispersed prop probabilities while preserving the incumbent game forecast and improved joint rotation minutes.",
+  "protocol": {
+    "draws": 10000,
+    "rateTraining": "Earlier seasons only; earlier-game rate estimates with 24-hour result embargo; observed target minutes used only as exposure in conditional rate-residual training, never supplied to a forecast",
+    "trainingMinimumMinutes": 5,
+    "minimumTrainingCases": 500,
+    "meanModel": "Existing earlier-season player rate estimator and joint-rotation minute model",
+    "countModel": "Method-of-moments Poisson-lognormal joint rate covariance, diagonal Poisson component removed, off-diagonals shrunk only when required for positive definiteness; global learned rebound/assist rate correction",
+    "gameModel": "Exact linked incumbent team-score draws; no candidate rotation impact added to those scores",
+    "playerPoints": "Multinomial allocation of the incumbent team score using sampled minutes and correlated scoring-rate weights; inactive players get zero",
+    "playerReboundsAssists": "Poisson counts with learned correlated lognormal rate variation",
+    "evaluationGames": 60,
+    "evaluationRoster": "Previous listed roster proxy, same player identities and same 60 deterministically selected games from the previously inspected replay sample",
+    "thresholds": "Fixed diagnostic thresholds; not historical Sportsbet main lines or a profitability test",
+    "prospectiveMinimumGames": 100,
+    "promotion": "No automatic promotion. Require same-case point-error non-regression, minute MAE at most 4.5, distribution reliability by market family and independent forward evidence."
+  },
+  "limitations": [
+    "Historical seasons have already been inspected; these results are development evidence, not a fresh validation set.",
+    "Roster proxies are incomplete and lack verified point-in-time injury or transaction reconstruction.",
+    "Discrete count ranges can cover more than their nominal probability; broader intervals alone are not an accuracy improvement.",
+    "No model changes are fitted to the user's recent 19-game live sample.",
+    "Live player props remain uncalibrated and Low confidence."
+  ]
+}
