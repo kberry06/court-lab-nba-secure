@@ -5,7 +5,10 @@ ENV NODE_ENV=production \
     DATA_DIR=/data/court-nba \
     ODDS_PROVIDER=manual \
     ODDS_FEED_APPROVED=false
-RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-pdfplumber && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv && rm -rf /var/lib/apt/lists/* \
+    && python3 -m venv /opt/injury-parser \
+    && /opt/injury-parser/bin/pip install --no-cache-dir pdfplumber==0.11.9
+ENV PATH="/opt/injury-parser/bin:${PATH}"
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts
