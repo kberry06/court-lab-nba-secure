@@ -1,5 +1,6 @@
 import {availabilityHolds} from './availability.js';
 import {currentQuote,confidence,propReviewReasons,projectionDifference,marketLabels} from './odds-view.js';
+export const SHORTLIST_POLICY='official-injury-review-1-extreme-hold-1';
 
 const mainMarkets={spreads:'spread',totals:'total',player_points:'player_points',player_rebounds:'player_rebounds',player_assists:'player_assists',player_points_rebounds_assists:'player_pra',player_points_assists:'player_pa',player_rebounds_assists:'player_ra',player_points_rebounds:'player_pr'};
 const family=q=>q.market?.startsWith('player_')?'props':q.market;
@@ -10,7 +11,7 @@ const approvedMain=q=>q.source==='the-odds-api'&&q.ingestMethod==='approved-prov
 // Rank individual decisive-outcome probabilities. Do not convert the shortlist
 // into a multi probability: player and game outcomes can be correlated.
 export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),limit=4,marketFamily='all',currentQuotes=quotes}={}){
- const empty=reason=>({selections:[],available:0,target:limit,reason});
+ const empty=reason=>({policy:SHORTLIST_POLICY,selections:[],available:0,target:limit,reason});
  if(scenario?.demo)return empty('Synthetic scenarios are excluded.');
  if(!result||result.propSummaryVersion!==2||result.eventId!==scenario.id||result.asOf!==scenario.asOf)return empty('Refresh the saved projection before ranking selections.');
  if(!Number.isFinite(Date.parse(scenario.start))||now>=Date.parse(scenario.start))return empty('Pregame selections close at tip-off.');
@@ -32,6 +33,9 @@ export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),li
   for(const raw of group.quotes){
    const saved=priced.get(identity(raw));if(!saved)continue;const q=currentQuote(saved,scenario,now);
    if(!q.eligible||q.stale||q.started||q.inputsStale||q.period!=='full_game'||q.includesOvertime!==true||!Number.isFinite(q.line)||!Number.isFinite(q.price)||q.price<=1||!Number.isFinite(q.modelProbability)||q.modelProbability<.5||q.modelProbability>1)continue;
+   // Extreme raw estimates have failed the forward audit. Preserve them in the
+   // quote ledger, but do not feature them as selections without validation.
+   if(Math.round(q.modelProbability*1000)>=900&&q.distributionValidated!==true)continue;
    if(q.market==='spread'?!['home','away'].includes(q.selection):!['over','under'].includes(q.selection))continue;
    if(q.market.startsWith('player_')?(!q.playerId||q.dnpRule!=='void'||q.line<0):(q.playerId||q.market==='total'&&q.line<0))continue;
    const reasons=propReviewReasons(q,result,scenario,now),material=reasons.filter(r=>!r.startsWith('Final player distributions are not calibrated;'));
@@ -49,6 +53,6 @@ export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),li
   if(candidate.playerId&&players.has(candidate.playerId)){players.get(candidate.playerId).relatedProps.push(candidate);continue;}
   const selection={...candidate,relatedProps:[]};distinct.push(selection);if(candidate.playerId)players.set(candidate.playerId,selection);
  }
- return {selections:distinct.slice(0,Math.max(0,Math.min(4,limit))),available:distinct.length,target:limit,reason:distinct.length<limit?'Fewer than four distinct selections qualify (one prop per player). Refresh Sportsbet odds and the projection in this matchup.':null};
+ return {policy:SHORTLIST_POLICY,selections:distinct.slice(0,Math.max(0,Math.min(4,limit))),available:distinct.length,target:limit,reason:distinct.length<limit?'Fewer than four distinct selections qualify (one prop per player). Unvalidated 90%+ estimates are held for calibration review. Refresh Sportsbet odds and the projection in this matchup.':null};
 }
 function compare(a,b){return b.modelProbability-a.modelProbability||(b.expectedReturn??-Infinity)-(a.expectedReturn??-Infinity)||Date.parse(b.observedAt)-Date.parse(a.observedAt)||groupKey(a).localeCompare(groupKey(b))||a.selection.localeCompare(b.selection);}
