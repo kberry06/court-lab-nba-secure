@@ -1,3 +1,4 @@
+import {injuryInput,scenarioAvailability} from './availability-inputs.js';
 import {eligibleFinal,eligibleStat,LIVE_INPUT_VERSION,LIVE_MODEL_VERSION,LIVE_BASELINE_VERSION} from './live-finals.js';
 import {playerWorkload} from './fatigue.js';
 import {assert, timestamp, string, validateScenario} from './validation.js';
@@ -52,8 +53,7 @@ export function buildScenario(bundle,gameId,now=Date.now(),{roleBudget=true}={})
       const rows=[...unique.values()].sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
       for(const r of rows)assert(Number.isFinite(minutes(r.min))&&minutes(r.min)<=80&&['pts','reb','ast'].every(k=>Number.isFinite(r[k])&&r[k]>=0),'Invalid historical player statistics');
       const totalMinutes=rows.reduce((n,r)=>n+minutes(r.min),0);
-      const injury=bundle.injuries.find(i=>i.player?.id===p.id);const status=injury?.status||'Not listed';
-      const availability={out:0,doubtful:.25,questionable:.5,probable:.9,'day-to-day':.5}[status.toLowerCase()]??(injury?.status? .5:1);
+      const injury=injuryInput(bundle,p),status=injury.status,availability=injury.availability;
       const pastRoles=new Map();for(const r of bundle.stats)if(r.player?.id===p.id&&eligibleStat(bundle,r,cutoff)){const old=pastRoles.get(r.game.id);if((!old||r.starterObserved!==undefined)&&r.min!=null&&String(r.min).trim()!==''&&Number.isFinite(minutes(r.min))&&minutes(r.min)>=0&&minutes(r.min)<=80)pastRoles.set(r.game.id,r);}const recentRoles=[...pastRoles.values()].sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,10).map(r=>({gameId:r.game.id,date:r.game.date,minutes:minutes(r.min),didNotPlay:r.didNotPlay===true,started:typeof r.starterObserved==='boolean'?r.starterObserved:null,teamId:r.team?.id??null}));
       const recent=rows.slice(0,10).map(r=>({gameId:r.game.id,date:r.game.date,datetime:r.game.datetime||bundle.games.find(g=>g.id===r.game.id)?.datetime,minutes:minutes(r.min),opponent:r.opponent?.abbreviation||r.opponent?.name||'Opponent',points:r.pts,rebounds:r.reb,assists:r.ast}));
       if(rows.length<3)priorModeled.push(`${p.first_name} ${p.last_name}`);
@@ -62,7 +62,7 @@ export function buildScenario(bundle,gameId,now=Date.now(),{roleBudget=true}={})
       const estimated=playerModelEligible?estimatePlayer(rows.map(r=>({minutes:minutes(r.min),points:r.pts,rebounds:r.reb,assists:r.ast})),playerArtifact.parameters):{minutes:roleMinutes,points:(rows.reduce((n,r)=>n+r.pts,0)+.45*priorPossessions)/denominator,rebounds:(rows.reduce((n,r)=>n+r.reb,0)+.15*priorPossessions)/denominator,assists:(rows.reduce((n,r)=>n+r.ast,0)+.10*priorPossessions)/denominator};
       const {points,rebounds,assists}=estimated;
       const baseSd=roleMinuteSd(rows.map(r=>({minutes:minutes(r.min)}))),fatigue=bundle.liveInputVersion===LIVE_INPUT_VERSION?playerWorkload(recent,g.datetime,baseSd):null;
-      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),roleMinutes:clamp(estimated.minutes,0,48),minuteSd:fatigue?.minuteSd??baseSd,...(fatigue?{fatigue}:{}),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,recent,recentRoles};
+      return {id:id('player',p.id),name:`${p.first_name} ${p.last_name}`,position:p.position,minutes:clamp(estimated.minutes,0,48),roleMinutes:clamp(estimated.minutes,0,48),minuteSd:fatigue?.minuteSd??baseSd,...(fatigue?{fatigue}:{}),availability,impact:clamp((points-.45)*12+(assists-.1)*8,-4,8),points:clamp(points,.01,2),rebounds:clamp(rebounds,0,2),assists:clamp(assists,0,2),sampleGames:rows.length,priorModeled:rows.length<3,injury:status,availabilityEvidence:injury.evidence,recent,recentRoles};
     }).sort((a,b)=>b.minutes-a.minutes).slice(0,20);
     const budget=roleBudget?roleMinuteBudget(players.map(p=>p.roleMinutes)):null,rotation=roleBudget?players.map((p,i)=>({...p,minutes:budget[i]})):normalizeRotation(players);
     assert(rotation.filter(p=>p.availability>0).length>=6,`${name(t)} needs six eligible roster players`);
@@ -76,7 +76,7 @@ export function buildScenario(bundle,gameId,now=Date.now(),{roleBudget=true}={})
   if(gameForecast)warnings[0]='Historically trained opponent/rest game model and recency-weighted player estimates. Live prospective validation is pending. Injury probabilities, player impacts, minute reallocation and player-prop distributions remain assumptions; confirm lineups.';
   else warnings.push('Trained game forecast unavailable for these inputs; the recent-score game baseline is retained.');
   if(roleBudget)warnings.push('Role-based team minute budget with history-based minute uncertainty. Recent allocations improve in reused historical research; live improvement and prop calibration remain unestablished.');
-  return validateScenario({id:id('game',g.id),source:gameForecast?'ESPN public data · trained opponent/rest model':'ESPN public data · recent-game baseline',demo:false,...(bundle.liveInputVersion?{liveInputVersion:bundle.liveInputVersion}:{}),asOf:bundle.fetchedAt,start:g.datetime,teams,warnings,gameForecast,...(roleBudget?{rotationMode:'role-budget-1'}:{}),playerEstimatorVersion:playerModelEligible?playerArtifact.modelVersion:null});
+  return validateScenario({id:id('game',g.id),source:gameForecast?'ESPN public data · trained opponent/rest model':'ESPN public data · recent-game baseline',demo:false,...(bundle.liveInputVersion?{liveInputVersion:bundle.liveInputVersion}:{}),asOf:bundle.fetchedAt,start:g.datetime,teams,availabilityInputVersion:bundle.availabilityPolicy||null,availabilityEvidence:scenarioAvailability(bundle,teams),warnings,gameForecast,...(roleBudget?{rotationMode:'role-budget-1'}:{}),playerEstimatorVersion:playerModelEligible?playerArtifact.modelVersion:null});
 }
 
 export function scheduleView(bundle,store,now=Date.now()) {

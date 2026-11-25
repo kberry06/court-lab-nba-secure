@@ -1,8 +1,9 @@
 // One serial collector on the existing single-instance service. SQLite receipts
 // survive restarts; missed pregame observations are never reconstructed later.
-export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=Date.now,candidateVersion='minute-shadow-balanced-1',additionalCaptureVersions=[]}) {
+export function capturePhase(start,now){const remaining=Date.parse(start)-now;return remaining<=90*60000?'near-tip:'+Math.floor(now/(5*60000)):remaining<=6*3600000?'game-day:'+Math.floor(now/(15*60000)):'early:'+Math.floor(now/3600000);}
+export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=Date.now,candidateVersion='minute-shadow-balanced-1',additionalCaptureVersions=[],captureRevision=''}) {
  let running=false,volatileStatus=null;
- const captureVersion=[candidateVersion,...additionalCaptureVersions].join(':');
+ const captureVersion=[candidateVersion,...additionalCaptureVersions,...(captureRevision?[captureRevision]:[])].join(':');
  const finalKey=(games,target)=>games.filter(g=>g.status_state==='final'&&Date.parse(g.datetime)<clock()&&[g.home_team?.id,g.visitor_team?.id].some(id=>id!=null&&[target.home_team?.id,target.visitor_team?.id].includes(id))).map(g=>g.id).sort((a,b)=>a-b).join(',');
  const key='forecast-collector:v1', status=()=>{try{return volatileStatus||store.cache(key)?.body||{state:'not started'};}catch{return volatileStatus||{state:'failed',reason:'Storage unavailable'};}};
  const save=value=>{volatileStatus=value;return store.saveCache(key,value);};
@@ -12,10 +13,10 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
   try {
    save({...previous,state:'running',startedAt});
    const bundle=await nba.schedule();store.settleGames(bundle.games);
-   const upcoming=bundle.games.filter(g=>g.status_state==='scheduled'&&Date.parse(g.datetime)>clock()+5*60000&&Date.parse(g.datetime)<=clock()+24*3600000).sort((a,b)=>Date.parse(a.datetime)-Date.parse(b.datetime));
+   const upcoming=bundle.games.filter(g=>g.status_state==='scheduled'&&Date.parse(g.datetime)>clock()+90*1000&&Date.parse(g.datetime)<=clock()+24*3600000).sort((a,b)=>Date.parse(a.datetime)-Date.parse(b.datetime));
    const captures=[];
    for(const game of upcoming){
-    const phase=Date.parse(game.datetime)-clock()<=90*60000?'near-tip':'early',receiptKey='auto-capture:v3:'+captureVersion+':'+game.id+':'+phase,receipt=store.cache(receiptKey)?.body;
+    const phase=capturePhase(game.datetime,clock()),receiptKey='auto-capture:v3:'+captureVersion+':'+game.id+':'+phase,receipt=store.cache(receiptKey)?.body;
     const latestFinals=finalKey(bundle.games,game),changed=receipt?.latestFinals!==latestFinals;
     if(receipt?.state==='saved'&&!changed||!changed&&receipt?.lastAttemptAt&&clock()-Date.parse(receipt.lastAttemptAt)<15*60000)continue;
     if(!canPrepare())break;
@@ -28,9 +29,9 @@ export function forecastCollector({store,nba,prepare,canPrepare=()=>true,clock=D
    for(const eventId of ids){const retryKey='auto-settle:v1:'+eventId,last=store.cache(retryKey)?.body;if(last&&clock()-Date.parse(last.at)<30*60000)continue;
     try{await nba.settle(eventId);settlements.push({eventId,state:'settled'});}catch{settlements.push({eventId,state:'unresolved'});}store.saveCache(retryKey,{at:new Date(clock()).toISOString()});
    }
-   const missing=upcoming.filter(g=>store.cache('auto-capture:v3:'+captureVersion+':'+g.id+':'+(Date.parse(g.datetime)-clock()<=90*60000?'near-tip':'early'))?.body.state!=='saved').map(g=>({gameId:g.id,start:g.datetime,reason:Date.parse(g.datetime)-clock()<90*60000?'Pregame comparison missing near tip-off':'Awaiting capture'}));
+   const missing=upcoming.filter(g=>store.cache('auto-capture:v3:'+captureVersion+':'+g.id+':'+capturePhase(g.datetime,clock()))?.body.state!=='saved').map(g=>({gameId:g.id,start:g.datetime,reason:Date.parse(g.datetime)-clock()<90*60000?'Pregame comparison missing near tip-off':'Awaiting capture'}));
    const captured=new Set(store.shadowCapturedEvents(candidateVersion));
-   const missed=bundle.games.filter(g=>Date.parse(g.datetime)<=clock()+5*60000&&Date.parse(g.datetime)>clock()-24*3600000&&!captured.has('espn:game:'+g.id)).map(g=>({gameId:g.id,start:g.datetime,reason:'No saved pregame shadow comparison; will not reconstruct'}));
+   const missed=bundle.games.filter(g=>Date.parse(g.datetime)<=clock()&&Date.parse(g.datetime)>clock()-24*3600000&&!captured.has('espn:game:'+g.id)).map(g=>({gameId:g.id,start:g.datetime,reason:'No saved pregame shadow comparison; will not reconstruct'}));
    const result={state:'complete',missed,startedAt,completedAt:new Date(clock()).toISOString(),lastSuccessAt:new Date(clock()).toISOString(),captures,settlements,missing,upcoming:upcoming.length};save(result);return result;
   }catch(error){const storageError=error.errcode===13||error.code==='ENOSPC'||String(error.code||'').startsWith('ERR_SQLITE');const result={...previous,state:'failed',startedAt,completedAt:new Date(clock()).toISOString(),reason:storageError?'Storage unavailable; collection paused. Saved forecasts retained.':'Public schedule unavailable; saved forecasts retained'};try{save(result);}catch{volatileStatus=result;}return result;}finally{running=false;}
  }

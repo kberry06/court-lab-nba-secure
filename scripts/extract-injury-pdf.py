@@ -10,6 +10,8 @@ rows, headers = [], []
 state = {"gameDate": None, "matchup": None, "teamToken": None}
 statuses = {"Out", "Doubtful", "Questionable", "Probable", "Available"}
 with pdfplumber.open(path) as pdf:
+    if not 1 <= len(pdf.pages) <= 32:
+        raise ValueError("Official report page limit exceeded")
     for page_no, page in enumerate(pdf.pages, 1):
         text = page.extract_text() or ""
         match = re.search(r"Injury\s+Report:\s*(\d\d/\d\d/\d\d)\s+(\d\d:\d\d)\s+(AM|PM)", text)

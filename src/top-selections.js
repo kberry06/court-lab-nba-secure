@@ -3,9 +3,10 @@ export const sydneyDate=value=>new Intl.DateTimeFormat('en-CA',{timeZone:'Austra
 export function selectionSlate(store,{date=sydneyDate(Date.now()),marketFamily='all',now=Date.now()}={}){
  const schedule=store.cache('nba-schedule')?.body;
  const games=(schedule?.games||[]).filter(g=>g.datetime&&sydneyDate(g.datetime)===date).sort((a,b)=>Date.parse(a.datetime)-Date.parse(b.datetime)).map(g=>{
-  const id='espn:game:'+g.id,run=store.latestRun(id),scenario=run?.scenario,result=run?.summary;
+  const id='espn:game:'+g.id,run=store.latestRun(id),scenario=run?.scenario?{...run.scenario,availabilityConfirmation:store.cache('availability-check:'+id)?.body||null}:null,result=run?.summary;
   const shortlist=scenario?mostProbableSelections(run.quotes||[],result,scenario,{now,marketFamily,currentQuotes:store.quotes(id)}):{selections:[],available:0,target:4,reason:'No saved projection yet. Open this matchup to prepare it.'};
   if(g.status_state!=='scheduled'){shortlist.selections=[];shortlist.available=0;shortlist.reason='Only scheduled pregame markets are listed.';}
+  if(shortlist.selections.length)store.freezeSelectionExposure?.({eventId:id,runId:run.id,start:g.datetime,modelVersion:result.modelVersion,policy:'official-injury-review-1',route:'NBA selections slate',inputAt:scenario.asOf,injuryReportAt:scenario.availabilityConfirmation?.evidence?.publishedAt||scenario.availabilityEvidence?.publishedAt||null,injurySourceHash:scenario.availabilityEvidence?.sourceSha256||null,selections:shortlist.selections.map(q=>({playerId:q.playerId||null,market:q.market,selection:q.selection,line:q.line,probability:q.modelProbability,price:q.price,providerMarket:q.providerMarket,quoteObservedAt:q.observedAt,confidence:q.confidence,distributionValidated:q.distributionValidated===true}))},now);
   return {id,start:g.datetime,status:g.status_state,home:g.home_team.full_name||g.home_team.name,away:g.visitor_team.full_name||g.visitor_team.name,projectionAt:result?.generatedAt||null,inputsAt:scenario?.asOf||null,modelVersion:result?.modelVersion||null,...shortlist};
  });
  return {date,timezone:'Australia/Sydney',checkedAt:new Date(now).toISOString(),scheduleAt:schedule?.fetchedAt||null,marketFamily,games};

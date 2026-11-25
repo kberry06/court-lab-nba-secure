@@ -1,0 +1,15 @@
+import {AVAILABILITY_POLICY} from '../public/availability.js';
+import {createHash} from 'node:crypto';
+export function canReuseAvailabilityForecast(previous,receipt,confirmation,finals,versions,now=Date.now()){return !!previous&&receipt?.runId===previous.id&&receipt.fingerprint===confirmation.fingerprint&&receipt.finals===finals&&now-Date.parse(previous.scenario.asOf)<6*3600000&&versions.every(v=>receipt.result?.shadow?.versionsSaved?.includes(v));}
+export function availabilityFingerprint(bundle){return createHash('sha256').update(JSON.stringify({policy:AVAILABILITY_POLICY,players:(bundle.players||[]).map(p=>[p.id,p.team.id]).sort((a,b)=>a[0]-b[0]),rosterInjuries:(bundle.injuries||[]).map(p=>[p.player.id,p.status]).sort((a,b)=>a[0]-b[0]),officialState:bundle.officialInjuries?.state,teamCoverage:bundle.officialInjuries?.teamCoverage,issues:bundle.officialInjuries?.issues,official:bundle.officialInjuries?.injuries?.map(p=>[p.player.id,p.status,p.reason]).sort((a,b)=>a[0]-b[0])})).digest('hex');}
+export function injuryInput(bundle,player){
+ const espn=bundle.injuries.find(i=>i.player?.id===player.id),official=bundle.officialInjuries?.injuries?.find(i=>i.player?.id===player.id),normalize=s=>String(s||'').toLowerCase().replace(/[\s-]/g,'');
+ const comparable=s=>['daytoday','questionable'].includes(normalize(s))?'uncertain':normalize(s),submitted=bundle.officialInjuries?.teamCoverage?.[player.team.id]===true;
+ const conflict=!!espn&&((!!official&&comparable(official.status)!==comparable(espn.status))||(!official&&submitted&&normalize(espn.status)!=='available')),knownOut=[official,espn].some(i=>normalize(i?.status)==='out');
+ const status=knownOut?'Out':official?.status||espn?.status||'Not listed',availability={out:0,doubtful:.25,questionable:.5,probable:.9,daytoday:.5,available:1}[normalize(status)]??((official||espn?.status?.trim()?.length)? .5:1);
+ return {status,availability,evidence:{source:official?'nba-official':espn?'espn-roster':'not-listed',publishedAt:official?.publishedAt||null,receivedAt:official?.receivedAt||bundle.rosterReceivedAt?.[player.team.id]||null,conflict,restriction:/minutes?.*(limit|restrict)|restriction|reconditioning|returntoplay/i.test((official?.reason||'').replace(/\s/g,'')),reason:official?.reason||null}};
+}
+export function scenarioAvailability(bundle,teams){
+ const source=bundle.officialInjuries,issues=[...(source?.issues||[])];for(const t of teams)for(const p of t.players)if(p.availabilityEvidence?.conflict)issues.push(p.name+': official and roster injury statuses conflict');
+ return {policy:AVAILABILITY_POLICY,fingerprint:bundle.availabilityClinicalHash||availabilityFingerprint(bundle),state:source?.state==='verified'&&!issues.length?'verified':'review',publishedAt:source?.publishedAt||null,receivedAt:source?.receivedAt||null,sourceUrl:source?.sourceUrl||null,sourceSha256:source?.sourceSha256||null,teamCoverage:source?.teamCoverage||{},rosterReceivedAt:Object.fromEntries(teams.map(t=>[t.id,bundle.rosterReceivedAt?.[t.id.split(':').at(-1)]||null])),issues};
+}

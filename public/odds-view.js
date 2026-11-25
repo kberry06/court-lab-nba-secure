@@ -1,3 +1,4 @@
+import {availabilityHolds} from './availability.js';
 export const marketLabels={moneyline:'Match winner',spread:'Handicap',total:'Game total',player_points:'Points',player_rebounds:'Rebounds',player_assists:'Assists',player_pra:'PRA',player_pa:'Points + assists',player_ra:'Rebounds + assists',player_pr:'Points + rebounds'};
 export function quoteTeam(q,scenario){
  if(q.playerId)return scenario.teams.find(t=>t.players.some(p=>p.id===q.playerId))?.id||null;
@@ -8,7 +9,7 @@ export function filterQuotes(quotes,scenario,{team='',player='',market='',freshn
 }
 // Display probability bands, not evidence of model accuracy or a betting rating.
 export function confidence(q){
- if(q.market?.startsWith('player_')&&q.distributionValidated!==true)return 'Low';
+ if(q.distributionValidated!==true)return 'Low';
  if(q.reviewReasons?.length||q.stale||q.started||q.inputsStale||!q.eligible||!Number.isFinite(q.modelProbability))return 'Low';
  return q.modelProbability>=.7?'High':q.modelProbability>=.55?'Medium':'Low';
 }
@@ -24,9 +25,10 @@ export function projectionDifference(q,result){
 
 export function currentQuote(q,scenario,now=Date.now()){return {...q,stale:!!q.stale||now-Date.parse(q.observedAt)>15*60000,started:!!q.started||now>=Date.parse(scenario.start),inputsStale:!!q.inputsStale||now-Date.parse(scenario.asOf)>24*3600000};}
 
-export function propReviewReasons(q,result,scenario){
- if(!q.playerId)return [];
- const input=scenario.teams.flatMap(t=>t.players).find(p=>p.id===q.playerId),p=result.players.find(p=>p.id===q.playerId),reasons=[];
+export function propReviewReasons(q,result,scenario,now=Date.now()){
+ const availabilityIssues=availabilityHolds(scenario,now);
+ if(!q.playerId)return availabilityIssues;
+ const input=scenario.teams.flatMap(t=>t.players).find(p=>p.id===q.playerId),p=result.players.find(p=>p.id===q.playerId),reasons=[...availabilityIssues];
  if(!input||!p)return ['Player inputs unavailable'];
  if(q.distributionValidated!==true)reasons.push('Final player distributions are not calibrated; research only');
  if(input.availability<1)reasons.push('Availability uncertain; DNP voids. Projection is if playing');

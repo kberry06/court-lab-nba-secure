@@ -35,8 +35,8 @@ test('fresh forecast includes a six-hour-old reconciled final in game, role, rat
  const changed={...b,games:b.games.map(g=>g.id===99?{...g,visitor_team:{id:3,full_name:'Third team'}}:g)};
  const restedOpponent=buildGameForecast(changed,changed.games.find(g=>g.id===100));assert.equal(restedOpponent.features.backToBack,-1);assert.notEqual(restedOpponent.probability,s.gameForecast.probability);
  const snapshot=compactInputSnapshot(b,100,now);assert.ok(snapshot.payload.priorRoles.some(r=>r.gameId===99));assert.ok(snapshot.payload.verifiedFinals[99]);
- const result=simulate(s);assert.ok([LIVE_MODEL_VERSION,LIVE_BASELINE_VERSION].includes(result.modelVersion));
- const shadow=buildJointMinuteShadow(b,s);assert.equal(shadow.rotationMode,LIVE_JOINT_VERSION);assert.equal(simulate(shadow).modelVersion,LIVE_JOINT_VERSION);
+ const result=simulate(s);assert.ok([LIVE_MODEL_VERSION,LIVE_BASELINE_VERSION].map(v=>v+'-injury-1').includes(result.modelVersion));
+ const shadow=buildJointMinuteShadow(b,s);assert.equal(shadow.rotationMode,LIVE_JOINT_VERSION);assert.equal(simulate(shadow).modelVersion,LIVE_JOINT_VERSION+'-injury-1');
  for(const team of result.samples.minutes)assert.ok(team.every(n=>Math.abs(n-240)<1e-7));
  const old={...b,liveInputVersion:undefined};assert.equal(eligibleFinal(old,b.games.find(g=>g.id===99)),false);assert.notEqual(buildScenario(old,100,now).teams[0].players[0].recent[0].gameId,99);
  const tooLate={...b,verifiedFinals:{99:{...b.verifiedFinals[99],receivedAt:new Date(now+1).toISOString()}}};assert.equal(eligibleFinal(tooLate,b.games.find(g=>g.id===99)),false);

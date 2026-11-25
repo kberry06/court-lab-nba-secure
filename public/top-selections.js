@@ -1,3 +1,4 @@
+import {availabilityHolds} from './availability.js';
 import {currentQuote,confidence,propReviewReasons,projectionDifference,marketLabels} from './odds-view.js';
 
 const mainMarkets={spreads:'spread',totals:'total',player_points:'player_points',player_rebounds:'player_rebounds',player_assists:'player_assists',player_points_rebounds_assists:'player_pra',player_points_assists:'player_pa',player_rebounds_assists:'player_ra',player_points_rebounds:'player_pr'};
@@ -14,6 +15,7 @@ export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),li
  if(!result||result.propSummaryVersion!==2||result.eventId!==scenario.id||result.asOf!==scenario.asOf)return empty('Refresh the saved projection before ranking selections.');
  if(!Number.isFinite(Date.parse(scenario.start))||now>=Date.parse(scenario.start))return empty('Pregame selections close at tip-off.');
  if(!Number.isFinite(Date.parse(scenario.asOf))||Date.parse(scenario.asOf)>now||now-Date.parse(scenario.asOf)>24*3600000)return empty('Refresh projection inputs before ranking selections.');
+ const injuryHolds=availabilityHolds(scenario,now);if(injuryHolds.length)return empty('Selections held: '+injuryHolds.join('; '));
  const groups=new Map();
  for(const q of currentQuotes||[]){
   const at=Date.parse(q.observedAt);
@@ -32,7 +34,7 @@ export function mostProbableSelections(quotes,result,scenario,{now=Date.now(),li
    if(!q.eligible||q.stale||q.started||q.inputsStale||q.period!=='full_game'||q.includesOvertime!==true||!Number.isFinite(q.line)||!Number.isFinite(q.price)||q.price<=1||!Number.isFinite(q.modelProbability)||q.modelProbability<.5||q.modelProbability>1)continue;
    if(q.market==='spread'?!['home','away'].includes(q.selection):!['over','under'].includes(q.selection))continue;
    if(q.market.startsWith('player_')?(!q.playerId||q.dnpRule!=='void'||q.line<0):(q.playerId||q.market==='total'&&q.line<0))continue;
-   const reasons=propReviewReasons(q,result,scenario),material=reasons.filter(r=>!r.startsWith('Final player distributions are not calibrated;'));
+   const reasons=propReviewReasons(q,result,scenario,now),material=reasons.filter(r=>!r.startsWith('Final player distributions are not calibrated;'));
    if(material.length)continue;
    const difference=projectionDifference(q,result);if(!Number.isFinite(difference.projection))continue;
    const team=q.playerId?scenario.teams.find(t=>t.players.some(p=>p.id===q.playerId)):q.market==='spread'?scenario.teams[q.selection==='home'?0:1]:null;

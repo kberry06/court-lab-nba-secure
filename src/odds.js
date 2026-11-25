@@ -1,3 +1,4 @@
+import {availabilityHolds} from '../public/availability.js';
 import {assert,number,string,timestamp} from './validation.js';
 export const markets=['moneyline','spread','total','player_points','player_rebounds','player_assists','player_pra','player_pa','player_ra','player_pr'];
 export function normalizeQuote(q,scenario,now=Date.now()) {
@@ -27,8 +28,8 @@ export function priceQuote(q,sim,scenario,now=Date.now()) {
   const n=values.length,decisive=wins+losses,probability=decisive?wins/decisive:null;
   const stale=now-Date.parse(q.observedAt)>15*60000,started=now>=Date.parse(scenario.start);
   const inputsStale=now-Date.parse(scenario.asOf)>24*3600000;
-  const eligible=!stale&&!started&&!inputsStale&&!scenario.demo;
-  return {...q,distributionValidated:false,stale,started,inputsStale,eligible,modelProbability:probability,fairOdds:wins?decisive/wins:null,pushProbability:pushes/n,voidProbability:voids/n,expectedReturn:(wins*(q.price-1)-losses)/n,edge:probability===null?null:probability-1/q.price};
+  const availabilityReviewReasons=availabilityHolds(scenario,now),eligible=!stale&&!started&&!inputsStale&&!scenario.demo&&!availabilityReviewReasons.length;
+  return {...q,availabilityReviewReasons,distributionValidated:false,stale,started,inputsStale,eligible,modelProbability:probability,fairOdds:wins?decisive/wins:null,pushProbability:pushes/n,voidProbability:voids/n,expectedReturn:(wins*(q.price-1)-losses)/n,edge:probability===null?null:probability-1/q.price};
 }
 export function addNoVig(quotes) {
   return quotes.map(q=>{const opposite=quotes.find(p=>p!==q&&p.source===q.source&&p.snapshotId===q.snapshotId&&p.eventId===q.eventId&&p.bookmaker===q.bookmaker&&p.market===q.market&&p.playerId===q.playerId&&p.observedAt===q.observedAt&&p.selection!==q.selection&&(q.market==='spread'?p.line===-q.line:p.line===q.line));

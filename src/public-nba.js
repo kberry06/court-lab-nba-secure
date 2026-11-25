@@ -1,3 +1,5 @@
+import {availabilityFingerprint} from './availability-inputs.js';
+import {officialInjuries,mapOfficialInjuries} from './official-injuries.js';
 import {LIVE_INPUT_VERSION} from './live-finals.js';
 import {assert} from './validation.js';
 import {validateBundle} from './nba-data.js';
@@ -12,7 +14,7 @@ export function normalizeEvent(e) {
 }
 export function normalizeRoster(body,t) {
   assert(Array.isArray(body.athletes)&&body.athletes.length,'Roster unavailable from public source');
-  return {players:body.athletes.map(p=>({id:Number(p.id),first_name:p.firstName||p.displayName,last_name:p.lastName||'',position:p.position?.abbreviation||'',team:t})),injuries:body.athletes.flatMap(p=>(p.injuries||[]).slice(0,1).map(i=>({player:{id:Number(p.id)},status:i.status||'Unknown',updatedAt:i.date||null})))};
+  return {players:body.athletes.map(p=>({id:Number(p.id),first_name:p.firstName||p.displayName,last_name:p.lastName||'',position:p.position?.abbreviation||'',team:t})),injuries:body.athletes.flatMap(p=>(p.injuries||[]).slice(0,1).map(i=>({player:{id:Number(p.id)},status:i.status||'Unknown',sourceDate:i.date||null,updatedAt:null,source:'espn-roster'})))};
 }
 export function normalizeBox(body,g) {
   const rows=[];assert(Array.isArray(body.boxscore?.players),'Historical box score is unavailable');
@@ -36,6 +38,7 @@ export function normalizePlayerLog(body,playerId,cutoff) {
   return rows.sort((a,b)=>b.game.date.localeCompare(a.game.date)).slice(0,20);
 }
 export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
+  const official=officialInjuries(store,{fetcher,clock});
   async function get(path,ttl) {
     assert(/^(scoreboard\?|teams\/\d+\/(roster|schedule\?)|summary\?event=\d+|athletes\/\d+\/gamelog\?season=\d+)/.test(path),'Unsupported public data endpoint');
     const old=store.cache('espn:'+path);if(old&&clock()-old.savedAt<ttl)return old.body;
@@ -44,7 +47,13 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
     assert(response.ok,`Public NBA source returned HTTP ${response.status}. No access restrictions will be bypassed.`);
     const body=await response.json();store.saveCache('espn:'+path,body);return body;
   }
+  async function availability(game,{force=false}={}){
+   const players=[],injuries=[],rosterReceivedAt={};
+   for(const t of [game.home_team,game.visitor_team]){const path=`teams/${t.id}/roster`,roster=normalizeRoster(await get(path,force?0:5*60000),t);players.push(...roster.players);injuries.push(...roster.injuries);rosterReceivedAt[t.id]=new Date(store.cache('espn:'+path)?.savedAt??clock()).toISOString();}
+   const result={provider:'espn',availabilityPolicy:'official-injury-review-1',fetchedAt:new Date(clock()).toISOString(),rightsBasis:'Private research from public NBA roster and official injury observations',players,injuries,rosterReceivedAt,officialInjuries:mapOfficialInjuries(await official.load(),game,players)};result.availabilityClinicalHash=availabilityFingerprint(result);return result;
+  }
   return {
+    availability,
     async reviewBody(path,force=false){return get(path,force?0:5*60000);},
     async settlementBody(eventId){assert(/^espn:game:\d+$/.test(eventId),'Invalid settlement event');return get('summary?event='+eventId.split(':').at(-1),5*60000);},
     async schedule(force=false) {
@@ -62,11 +71,10 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
     },
     async matchup(game,{force=false}={}) {
       const knownFinals=(store.cache('nba-schedule')?.body.games||[]).filter(g=>g.status_state==='final'&&g.id!==game.id&&Date.parse(g.datetime)<clock()&&[g.home_team.id,g.visitor_team.id].some(id=>[game.home_team.id,game.visitor_team.id].includes(id)));
-      const cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===5&&clock()-cached.savedAt<5*60000&&knownFinals.every(g=>cached.body.games?.some(old=>old.id===g.id&&old.status_state==='final')))return cached.body;
-      const games=new Map(),players=[],injuries=[],stats=[],verifiedFinals={};
+      const availabilityInput=await availability(game,{force}),cached=store.cache('matchup:'+game.id);if(!force&&cached?.body.coverageVersion===5&&cached.body.availabilityPolicy==='official-injury-review-1'&&cached.body.availabilityClinicalHash===availabilityInput.availabilityClinicalHash&&clock()-cached.savedAt<5*60000&&knownFinals.every(g=>cached.body.games?.some(old=>old.id===g.id&&old.status_state==='final')))return cached.body;
+      const games=new Map(),{players,injuries,rosterReceivedAt}=availabilityInput,stats=[],verifiedFinals={};
       const season=game.season||new Date(game.datetime).getUTCFullYear()+(new Date(game.datetime).getUTCMonth()>=8?1:0);
       for(const t of [game.home_team,game.visitor_team]) {
-        const roster=normalizeRoster(await get(`teams/${t.id}/roster`,force?0:30*60000),t);players.push(...roster.players);injuries.push(...roster.injuries);
         let history=[];
         for(const year of [season,season-1]) {
           const raw=await get(`teams/${t.id}/schedule?season=${year}&seasontype=2`,force?0:(year===season?5*60000:6*3600000));
@@ -109,7 +117,9 @@ export function publicNba(store,{fetcher=fetch,clock=Date.now}={}) {
       const leagueKey=`nba-league-results:${season}`,leagueCache=store.cache(leagueKey);let league=leagueCache&&clock()-leagueCache.savedAt<6*3600000?leagueCache.body:null;
       if(!league){const events=new Map();for(let teamId=1;teamId<=30;teamId++){const raw=await get(`teams/${teamId}/schedule?season=${season}&seasontype=2`,6*3600000);assert(Array.isArray(raw.events),'League-wide NBA results unavailable');for(const event of raw.events){if(event.competitions?.[0]?.type?.id==='39')continue;const row=normalizeEvent(event);if(['final','in_progress'].includes(row.status_state)&&row.season===season&&Date.parse(row.datetime)<clock())events.set(row.id,row);}}league={games:[...events.values()]};store.saveCache(leagueKey,league);}
       for(const row of league.games)if(!games.has(row.id))games.set(row.id,row);
-      const bundle=validateBundle({provider:'espn',coverageVersion:5,liveInputVersion:LIVE_INPUT_VERSION,verifiedFinals,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
+      const officialReport=availabilityInput.officialInjuries;
+      console.info('Official injury review',JSON.stringify({eventId:'espn:game:'+game.id,state:officialReport.state,publishedAt:officialReport.publishedAt,designations:officialReport.injuries.length,issues:officialReport.issues.length}));
+      const bundle=validateBundle({provider:'espn',availabilityClinicalHash:availabilityInput.availabilityClinicalHash,availabilityPolicy:'official-injury-review-1',officialInjuries:officialReport,rosterReceivedAt,coverageVersion:5,liveInputVersion:LIVE_INPUT_VERSION,verifiedFinals,leagueHistoryComplete:true,rightsBasis:'User-requested private research from publicly accessible sports data',fetchedAt:new Date(clock()).toISOString(),games:[...games.values(),game],players,injuries,stats},clock());
       store.saveCache('matchup:'+game.id,bundle);return bundle;
     }
   };

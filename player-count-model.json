@@ -48,7 +48,7 @@
     "players": "ab27e678f6e27e07e8e5598c9e5b9d4048661042991e13e9b48ac5d8492904a7"
   },
   "codeHashes": {
-    "src/count-challenger.js": "f244c5ca592516ebdd77b1d9c150384a2cd84db9fc70a9285c5aba12a5165dea",
+    "src/count-challenger.js": "bcb1b87660c4337ede7de63d1ab42b44b3a961a82df6c8288b354080297b0db3",
     "src/player-count-model.js": "d2ba0edb4f5bfb7bcf3dec9261e5abe117c1a6577f0399810292ac304332be43",
     "scripts/prepare-count-replay.js": "aaa0c2ad584e30602914e545300ee53a484baff5d6609ffab10ed3f44de73ea8",
     "scripts/research-count-model.js": "bf7b4dfef1091389d312b70903c0d278265eb5cb2c10e3416854951844a76eaa"
